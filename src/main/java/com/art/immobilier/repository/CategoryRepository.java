@@ -11,7 +11,7 @@ import com.art.immobilier.model.Categoria;
 
 /**
  *
- * @author vitor.sas
+ * @author brunomartinz
  */
 
 //CRIAÇÃO DO REPOSITÓRIO JPA

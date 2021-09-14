@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_categoria")
@@ -20,7 +23,15 @@ public class Categoria implements Serializable {
 	private Long id;
 	private String nome;
 
-	
+	/**
+	 * instanciar para coleçao para n iniciar valendo nula , mas iniciar vazia O set
+	 * representa um conjunto , para garantir que o produto nao tenha a mesma
+	 * categoria mais de uma vez.
+	 */
+	@JsonIgnore
+	@ManyToMany(mappedBy = "categorias")
+	private Set<Produto> produtos = new HashSet<>();
+
 	public Categoria() {
 
 	}
@@ -72,5 +83,8 @@ public class Categoria implements Serializable {
 		return true;
 	}
 
+	public Set<Produto> getProdutos() {
+		return produtos;
+	}
 
 }
