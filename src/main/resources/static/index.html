@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
 <head>
-<title>imMobilier - Controle de Produtos</title>
+<title>imMobilier - Home</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,71 +16,21 @@ and open the template in the editor.
 
 <!-- FONTS-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com">
 <link
 	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
 	rel="stylesheet">
 
 </head>
 <body>
-	<section class="produto-control">
-		<div class="content-product">
-			<h1>Produtos</h1>
-			<div id="divBusca">
-				<img src="./assets/lupa.png" alt="Buscar..." /> <input type="text"
-					id="txtBusca" placeholder="Buscar..." />
-				<button id="btnBusca">Buscar</button>
-				<button id="btnAdicionar">Adicionar</button>
+	<h1>Painel - Immobilier</h1>
+	<form action="">
+		<input type="button" id="consultaP" value="Consuktar Produtos"
+			onclick="consultarProdutos();" />
+	</form>
 
-			</div>
-			<div class="table-produto">
-				<table border="1">
-					<tr class="titulo-td">
-						<td>CodProd</td>
-						<td>Nome</td>
-						<td>Qtd</td>
-						<td>Status</td>
-						<td>Alterar</td>
-						<td>Ativar/Inativar</td>
-						<td>Visualizar</td>
-					</tr>
+	<div id="tabela"></div>
 
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-				</table>
-			</div>
-		</div>
-	</section>
 </body>
 </html>
 
