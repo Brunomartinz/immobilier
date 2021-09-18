@@ -42,5 +42,15 @@ public class ProdutoService {
 		
 	}
 	
+	// Apaga no banco de dados o objeto do tipo produto
+        public void deletProduto(Produto obj){
+        produtoRepository.deleteById(obj.getId());
+        }
+	
+        // Altera no banco de dados o objeto do tipo Produto
+	public Produto editProduto(Produto obj){
+                return produtoRepository.save(obj);
+        }
+	
 }
 	
