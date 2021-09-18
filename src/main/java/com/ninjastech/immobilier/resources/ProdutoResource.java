@@ -52,5 +52,17 @@ public class ProdutoResource {
 		obj = service.insertProduto(obj);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	   @PostMapping(value = "/excluir")
+	public void delete(@Valid @RequestBody Produto obj) {
+                    service.deletProduto(obj);
+
+	}
+        @PostMapping(value = "/editar")
+	public ResponseEntity<Produto> edit(@Valid @RequestBody Produto obj) {
+                   obj = service.editProduto(obj);
+                   return ResponseEntity.ok().body(obj);
+
+	}
 
 }
