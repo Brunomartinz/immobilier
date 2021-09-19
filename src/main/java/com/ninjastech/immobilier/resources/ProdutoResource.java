@@ -38,7 +38,6 @@ public class ProdutoResource {
 	@GetMapping
 	public ResponseEntity<List<Produto>> findAll() {
 		List<Produto> list = service.findAll();
-		;
 		return ResponseEntity.ok().body(list);
 
 	}
@@ -47,6 +46,13 @@ public class ProdutoResource {
 	public ResponseEntity<Produto> findById(@PathVariable Long id) {
 		Produto obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
+	}
+        
+        @GetMapping(value = "/pesquisa/{nome}")
+	public ResponseEntity<List<Produto>> findNome(@PathVariable String nome) {
+		List<Produto> list = service.findNome(nome);
+		return ResponseEntity.ok().body(list);
+
 	}
 	
 	@PostMapping

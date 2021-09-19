@@ -41,6 +41,12 @@ public class ProdutoService {
 		return produtoRepository.save(obj);
 		
 	}
+        //Busca o produto por nome e letra
+        public List<Produto> findNome(String palavra) {
+            String nome = palavra+"%";
+            System.out.println(nome);
+		return produtoRepository.findByNome(nome);
+	}
 	
 	// Apaga no banco de dados o objeto do tipo produto
         public void deletProduto(Produto obj){
