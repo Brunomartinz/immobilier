@@ -20,6 +20,7 @@ import javax.validation.Valid;
 
 import com.ninjastech.immobilier.entities.Produto;
 import com.ninjastech.immobilier.services.ProdutoService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  *

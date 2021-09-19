@@ -20,7 +20,7 @@ public class Categoria implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	 Long id;
 	private String nome;
 
 	/**

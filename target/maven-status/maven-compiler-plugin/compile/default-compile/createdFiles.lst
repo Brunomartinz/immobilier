@@ -1,0 +1,15 @@
+com\ninjastech\immobilier\entities\Produto.class
+com\ninjastech\immobilier\resources\ProdutoResource.class
+com\ninjastech\immobilier\services\CategoryService.class
+com\ninjastech\immobilier\entities\Imagens.class
+com\ninjastech\immobilier\services\ProdutoService.class
+com\ninjastech\immobilier\ImmobilierApplication.class
+com\ninjastech\immobilier\repositories\CategoryRepository.class
+com\ninjastech\immobilier\entities\Categoria.class
+com\ninjastech\immobilier\repositories\ProdutoRepository.class
+com\ninjastech\immobilier\config\TesteConfig.class
+com\ninjastech\immobilier\repositories\ImagensRepository.class
+com\ninjastech\immobilier\entities\enumSc.class
+com\ninjastech\immobilier\resources\ImagensResource.class
+com\ninjastech\immobilier\resources\CategoriaResource.class
+com\ninjastech\immobilier\services\ImagensService.class

@@ -30,7 +30,7 @@ public class Produto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	 long id;
 	private String nome;
 	private String descricao;
 	private Double price;
