@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Visualizar Produto</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="product-content">
+        <div class="product-infos">
+          <div class="product-title">
+            <p>
+              Titulo Produto Titulo Produto Titulo Produto Titulo Produto Titulo
+              Produto Titulo Produto Titulo Produto Titulo Produto
+            </p>
+            <small> R$ 1200,00 </small>
+            <button>Comprar</button>
+
+            <div class="product-description">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
+              totam reprehenderit vel pariatur optio quaerat maiores debitis
+              suscipit doloribus nobis odit deleniti maxime, vitae illo,
+              accusamus voluptatem repudiandae quam quasi.
+            </div>
+          </div>
+          <img src="./testeimg.jpeg" alt="" width="300" />
+        </div>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        var stats;
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:8082/produto/3",
+          mimeType: "json",
+          success: function (data) {
+            console.log(data);
+          },
+          error: function () {
+            alert("Fail!");
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
