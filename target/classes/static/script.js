@@ -8,5 +8,11 @@ $(document).ready(function() {
             data.substr( 0, 120 )+'...'
         );
         return false;
-    } );
+    } 
+
+    
+    
+    );
+
+
 } );
