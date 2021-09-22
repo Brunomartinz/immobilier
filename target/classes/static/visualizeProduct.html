@@ -5,20 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./visualizeProductStyle.css" />
     <title>Visualizar Produto</title>
   </head>
   <body>
     <div class="container">
       <div class="product-content">
         <div class="product-infos">
+          <img src="./testeimg.jpeg" alt="" width="300" class="product-img" id="foto"/>
           <div class="product-title">
-            <p id="title"></p>
-            <small id="price"> pi</small>
-            <button>Comprar</button>
+            <p id="title">Teste Teste Teste</p>
+            <small id="price">R$ 1200</small>
+            <button class="buy-btn">Comprar</button>
 
-            <div class="product-description" id="description"></div>
+            <div class="product-description" id="description">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aperiam molestias laborum, voluptatum ipsam vel rerum? Praesentium perspiciatis, atque beatae amet labore sit et? Libero repudiandae facere eveniet aspernatur ex!
+            </div>
           </div>
-          <img src="./testeimg.jpeg" alt="" width="300" />
+         
         </div>
       </div>
     </div>
@@ -43,6 +47,8 @@
             const price = document.getElementById("price");
             const description = document.getElementById("description");
             const title = document.getElementById("title");
+            const img = document.getElementById("foto");
+            img.src = data.imgUrl;
             price.innerText = "R$ " + data.price;
             title.innerText = data.nome;
             description.innerText = data.descricao;

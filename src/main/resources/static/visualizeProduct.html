@@ -12,7 +12,7 @@
     <div class="container">
       <div class="product-content">
         <div class="product-infos">
-          <img src="./testeimg.jpeg" alt="" width="300" class="product-img" />
+          <img src="./testeimg.jpeg" alt="" width="300" class="product-img" id="foto"/>
           <div class="product-title">
             <p id="title">Teste Teste Teste</p>
             <small id="price">R$ 1200</small>
@@ -47,6 +47,8 @@
             const price = document.getElementById("price");
             const description = document.getElementById("description");
             const title = document.getElementById("title");
+            const img = document.getElementById("foto");
+            img.src = data.imgUrl;
             price.innerText = "R$ " + data.price;
             title.innerText = data.nome;
             description.innerText = data.descricao;

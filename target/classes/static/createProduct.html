@@ -26,7 +26,7 @@
           placeholder="Sobre o produto"></textarea>
 
         <label for="fpreco">Preço:</label>
-        <input type="number" id="fpreco" name="fpreco" step="0.01" required placeholder="Digite o valor">
+        <input type="number" id="fpreco" name="fpreco" step="0.01"min="0 required placeholder="Digite o valor">
 
         <label for="fqtd">Quantidade em estoque:</label>
         <input type="number" id="fqt" name="fqt" min="0" required placeholder="Digite a quantidade">
@@ -34,11 +34,8 @@
         <label for="fnumbero">Avaliação (0-5):</label>
         <input type="number" id="fnumbero" name="fnumbero" min="0" max="5" required placeholder="Digite o valor">
         <label>Imagen principal</label>
-        <input type="file" id="photo" />
+        <input type="file" id="photo"required />
         
-        <label>Outras imagens do produto</label>
-        <label for='files'>Select multiple files: </label>
-        <input id='files' type='file' multiple />
 
         <label>Cadastrar produto</label>
         <button id="butsave">Cadastrar produto</button>
@@ -156,6 +153,7 @@
         
 
         retorno = jsonResponse.id
+        window.open("http://localhost:8082/index.html");
 
       }
 

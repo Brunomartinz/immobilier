@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="createProduct.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+  <title>Editar Produto</title>
+  <h1>Editar Produto</h1>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="create-product" id="formulario">
+      <form onsubmit="return false">
+        <label for="fid">Id do produto</label>
+        <input type="number" id="fid" name="fid" required disabled>
+
+        <label for="flink">Link da imagem principal</label>
+        <input type="text" id="flink" name="flink" required disabled>
+
+        <label for="fnome">Nome do produto</label>
+        <input type="text" id="fnome" name="fnome" maxlength="200" required placeholder="Digite o nome">
+
+        <label for="ftextarea">Descrição do produto:</label>
+        <textarea id="ftextarea" name="ftextarea" rows="4" cols="50" maxlength="2000" required
+          placeholder="Sobre o produto"></textarea>
+
+        <label for="fpreco">Preço:</label>
+        <input type="number" id="fpreco" name="fpreco" step="0.01"min="0" required placeholder= "Digite o valor">
+
+        <label for="fqtd">Quantidade em estoque:</label>
+        <input type="number" id="fqt" name="fqt" min="0" required placeholder="Digite a quantidade">
+
+        <label for="fnumbero">Avaliação (0-5):</label>
+        <input type="number" id="fnumbero" name="fnumbero" min="0" max="5" required placeholder="Digite o valor">
+        <label>Imagen principal</label>
+        <input type="file" id="photo"required />
+        
+
+        <label>Alterar produto</label>
+        <button id="butsave">Alterar produto</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+  <script src="inserfunctions.js"></script>
+<script>
+  $(document).ready(function () {
+
+    const getLocalStorageNumber = localStorage.getItem('productId');
+
+    var linkimg
+    var ids
+        var stats;
+        $.ajax({
+          type: "GET",
+          url: `http://localhost:8082/produto/${getLocalStorageNumber}`,
+          mimeType: "json",
+          success: function (data) {
+            const id = document.getElementById("fid");
+            const img = document.getElementById("flink");
+            const price = document.getElementById("fpreco");
+            const description = document.getElementById("ftextarea");
+            const title = document.getElementById("fnome");
+            const qtd = document.getElementById("fqt");
+            const avl = document.getElementById("fnumbero");
+            
+            
+            price.value = data.price;
+            title.value = data.nome;
+            description.value = data.descricao;
+            qtd.value = data.qtd;
+            avl.value = data.avaliacao;
+            id.value = data.id;
+            img.value = data.imgUrl;
+            linkimg = data.imgUrl;
+            ids = data.id;
+          },
+          error: function () {
+            alert("Fail!");
+          },
+        });
+
+
+
+
+    $('#butsave').on('click', function () {
+      $("#butsave").attr("disabled", "disabled");
+
+
+      
+      if(document.getElementById("photo").value != "") {
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
+        authDomain: "pi4senac-221bd.firebaseapp.com",
+        projectId: "pi4senac-221bd",
+        storageBucket: "pi4senac-221bd.appspot.com",
+        messagingSenderId: "760004051313",
+        appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
+      };
+
+      // Initialize Firebase
+
+      firebase.initializeApp(firebaseConfig);
+      console.log(firebase);
+      
+      const ref = firebase.storage().ref();
+      const file = document.querySelector("#photo").files[0];
+      const name = +new Date() + "-" + file.name;
+
+      const metadata = {
+        contentType: file.type
+      };
+      const task = ref.child(name).put(file, metadata);
+      task
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(url => {
+          console.log(url);
+          linkimg = url;
+        })
+        .catch(console.error);
+      
+    }
+    function delay(n) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, n * 1000);
+        });
+      }
+
+        
+
+      
+
+      async function myAsyncFunction() {
+        //Do what you want here 
+        console.log("Before the delay")
+
+        await delay(2);
+
+        console.log("After the delay")
+        //Do what you want here too
+
+        var names = $('#fnome').val();
+        var desc = $('#ftextarea').val();
+        var preco = $('#fpreco').val();
+        var qtd = $('#fqt').val();
+        var avl = $('#fnumbero').val();
+        var url = "http://localhost:8082/produto/editar";
+        var body = {
+          id: ids,
+          nome: names,
+          descricao: desc,
+          price: preco,
+          imgUrl: linkimg,
+          status: "ativo",
+          avaliacao: avl,
+          qtd: qtd,
+          categorias: []
+        }
+
+
+        var valor = fasPost(url, body);
+
+
+      }
+
+      myAsyncFunction();
+
+      function fasPost(url, body) {
+
+
+      
+
+      var retorno
+      jsonString = JSON.stringify(body)
+      console.log(jsonString)
+
+      let request = new XMLHttpRequest()
+      request.open("POST", url, true)
+      request.setRequestHeader("Content-type", "application/json")
+      request.send(jsonString)
+      request.onload = function () {
+        console.log(this.responseText)
+
+        var data = request.responseText;
+        var jsonResponse = JSON.parse(data);
+        
+
+        retorno = jsonResponse.id
+        window.open("http://localhost:8082/index.html");
+
+      }
+
+      return retorno
+    }
+      
+
+
+
+
+
+});
+
+  });
+</script>
+<script>
+
+  // inserir multiplas imagens
+  function inserirImagens(idProd) {
+    if (window.File && window.FileList && window.FileReader) {
+      var filesInput = document.getElementById("files");
+      filesInput.addEventListener("change", function (event) {
+        var files = event.target.files; //FileList object
+        var output = document.getElementById("result");
+        for (var i = 0; i < files.length; i++) {
+          var file1 = files[i];
+          //Only pics
+          if (!file.type.match('image'))
+            continue;
+
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
+                authDomain: "pi4senac-221bd.firebaseapp.com",
+                projectId: "pi4senac-221bd",
+                storageBucket: "pi4senac-221bd.appspot.com",
+                messagingSenderId: "760004051313",
+                appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
+              };
+        
+              // Initialize Firebase
+        
+              firebase.initializeApp(firebaseConfig);
+              console.log(firebase);
+              var linkimg
+              const ref = firebase.storage().ref();
+              const file = file1;
+              const name = +new Date() + "-" + file.name;
+        
+              const metadata = {
+                contentType: file.type
+              };
+              const task = ref.child(name).put(file, metadata);
+              task
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                  console.log(url);
+                  linkimg = url;
+                })
+                .catch(console.error);
+          
+          
+        }
+      });
+    } else {
+      console.log("Your browser does not support File API");
+    }
+
+
+
+  }
+</script>
+</html>
