@@ -1,0 +1,32 @@
+body {
+  margin: 5%;
+}
+h1 {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+.create-product input {
+  margin: 1em;
+}
+
+.create-product {
+  width: 48em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.create-product input {
+  width: 30em;
+}
+
+.create-product img {
+  width: 4em;
+  margin: 1em;
+}
