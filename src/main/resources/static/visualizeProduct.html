@@ -12,19 +12,11 @@
       <div class="product-content">
         <div class="product-infos">
           <div class="product-title">
-            <p>
-              Titulo Produto Titulo Produto Titulo Produto Titulo Produto Titulo
-              Produto Titulo Produto Titulo Produto Titulo Produto
-            </p>
-            <small> R$ 1200,00 </small>
+            <p id="title"></p>
+            <small id="price"> pi</small>
             <button>Comprar</button>
 
-            <div class="product-description">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-              totam reprehenderit vel pariatur optio quaerat maiores debitis
-              suscipit doloribus nobis odit deleniti maxime, vitae illo,
-              accusamus voluptatem repudiandae quam quasi.
-            </div>
+            <div class="product-description" id="description"></div>
           </div>
           <img src="./testeimg.jpeg" alt="" width="300" />
         </div>
@@ -37,13 +29,23 @@
     ></script>
     <script>
       $(document).ready(function () {
+       
+
+        const getLocalStorageNumber = localStorage.getItem('productId');
+
+
         var stats;
         $.ajax({
           type: "GET",
-          url: "http://localhost:8082/produto/3",
+          url: `http://localhost:8082/produto/${getLocalStorageNumber}`,
           mimeType: "json",
           success: function (data) {
-            console.log(data);
+            const price = document.getElementById("price");
+            const description = document.getElementById("description");
+            const title = document.getElementById("title");
+            price.innerText = "R$ " + data.price;
+            title.innerText = data.nome;
+            description.innerText = data.descricao;
           },
           error: function () {
             alert("Fail!");
