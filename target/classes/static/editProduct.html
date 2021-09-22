@@ -24,6 +24,8 @@
         <label for="flink">Link da imagem principal</label>
         <input type="text" id="flink" name="flink" required disabled>
 
+        <img src="" alt="" width="300" class="product-img" id="fotoss"/>
+
         <label for="fnome">Nome do produto</label>
         <input type="text" id="fnome" name="fnome" maxlength="200" required placeholder="Digite o nome">
 
@@ -71,13 +73,14 @@
           success: function (data) {
             const id = document.getElementById("fid");
             const img = document.getElementById("flink");
+            const imgexibir = document.getElementById("fotoss");
             const price = document.getElementById("fpreco");
             const description = document.getElementById("ftextarea");
             const title = document.getElementById("fnome");
             const qtd = document.getElementById("fqt");
             const avl = document.getElementById("fnumbero");
             
-            
+            imgexibir.src = data.imgUrl;
             price.value = data.price;
             title.value = data.nome;
             description.value = data.descricao;
