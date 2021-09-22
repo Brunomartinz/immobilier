@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Visualizar Produto</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="product-content">
+        <div class="product-infos">
+          <div class="product-title">
+            <p id="title"></p>
+            <small id="price"> pi</small>
+            <button>Comprar</button>
+
+            <div class="product-description" id="description"></div>
+          </div>
+          <img src="./testeimg.jpeg" alt="" width="300" />
+        </div>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+    <script>
+      $(document).ready(function () {
+       
+
+        const getLocalStorageNumber = localStorage.getItem('productId');
+
+
+        var stats;
+        $.ajax({
+          type: "GET",
+          url: `http://localhost:8082/produto/${getLocalStorageNumber}`,
+          mimeType: "json",
+          success: function (data) {
+            const price = document.getElementById("price");
+            const description = document.getElementById("description");
+            const title = document.getElementById("title");
+            price.innerText = "R$ " + data.price;
+            title.innerText = data.nome;
+            description.innerText = data.descricao;
+          },
+          error: function () {
+            alert("Fail!");
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

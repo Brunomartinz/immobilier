@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -32,10 +33,12 @@ public class Produto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     private String nome;
+    @Size(max=2048)
     private String descricao;
     private Double price;
     private String imgUrl;
     private String status;
+    private int avaliacao;
     private int qtd;
 
     /**
@@ -53,7 +56,7 @@ public class Produto implements Serializable {
 
     }
 
-    public Produto(Double price, String nome, String descricao, long id, String imgUrl, String status, int qtd) {
+    public Produto(long id, String nome, String descricao,Double price, String imgUrl, String status,int avaliacao, int qtd ) {
         super();
         this.id = id;
         this.nome = nome;
@@ -61,6 +64,7 @@ public class Produto implements Serializable {
         this.price = price;
         this.imgUrl = imgUrl;
         this.status = status;
+        this.avaliacao = avaliacao;
         this.qtd = qtd;
     }
 
@@ -110,6 +114,13 @@ public class Produto implements Serializable {
 
     public void setQtd(int qtd) {
         this.qtd = qtd;
+    }
+    public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
     }
 
     public String getImgUrl() {

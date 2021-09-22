@@ -30,10 +30,10 @@ public class TesteConfig implements CommandLineRunner {
 		Categoria cat4 = new Categoria(null, "Banheiro");
 
 
-		Produto p1 = new Produto(null, "cama casal", "linda cama casal queen", 1872, "","ativo",20);
-		Produto p2 = new Produto(null, "Armário de Cozinha", "linda cama casal queen", 300, "","Inativo",20);
-		Produto p3 = new Produto(null, "Mesa Gamer", "Mesa gamer black piano", 250, "","ativo",20);
-		Produto p4 = new Produto(null, "Armario Banheiro", "Armario banheiro com espelho", 700, "","ativo",20);
+		Produto p1 = new Produto(1,"cama casal", "linda cama casal queen", 1870.50, "","ativo",5,20);
+		Produto p2 = new Produto(2,"Armário de Cozinha", "linda cama casal queen", 300.25, "","Inativo",4,10);
+		Produto p3 = new Produto(3,"Mesa Gamer", "Mesa gamer black piano", 250.00, "","ativo",2,5);
+		Produto p4 = new Produto(4, "Armario Banheiro", "Armario banheiro com espelho", 700.25, "","ativo",3,9);
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 		
