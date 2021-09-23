@@ -46,9 +46,6 @@
                 <label>Imagen principal</label>
                 <input type="file" id="photo" required />
 
-                <label>Conjunto de imagens</label>
-                <input type="file" id="photos" required multiple />
-
                 <label>Alterar produto</label>
                 <button id="butsave">Alterar produto</button>
             </form>
@@ -179,7 +176,6 @@
                     categorias: []
                 }
 
-                inserirImagens(ids);
                 var valor = fasPost(url, body);
 
 
@@ -209,7 +205,7 @@
 
 
                     retorno = jsonResponse.id
-
+                    window.open("http://localhost:8082/index.html");
 
                 }
 
