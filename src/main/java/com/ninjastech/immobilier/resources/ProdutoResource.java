@@ -20,6 +20,7 @@ import javax.validation.Valid;
 
 import com.ninjastech.immobilier.entities.Produto;
 import com.ninjastech.immobilier.services.ProdutoService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
@@ -56,17 +57,21 @@ public class ProdutoResource {
 	}
 	
 	@PostMapping
+        @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Produto> insert(@RequestBody Produto obj) {
 		obj = service.insertProduto(obj);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	   @PostMapping(value = "/excluir")
+	@PostMapping(value = "/excluir")
+        @PreAuthorize("hasRole('ADMIN')")
 	public void delete(@Valid @RequestBody Produto obj) {
                     service.deletProduto(obj);
 
 	}
+        
         @PostMapping(value = "/editar")
+        @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Produto> edit(@Valid @RequestBody Produto obj) {
                    obj = service.editProduto(obj);
                    return ResponseEntity.ok().body(obj);

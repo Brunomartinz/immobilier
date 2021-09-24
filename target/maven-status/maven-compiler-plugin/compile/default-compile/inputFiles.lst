@@ -1,15 +1,18 @@
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\repositories\CategoryRepository.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\entities\Imagens.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\config\TesteConfig.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\resources\ProdutoResource.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\entities\Produto.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\entities\Categoria.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\services\ProdutoService.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\entities\enumSc.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\services\CategoryService.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\repositories\ImagensRepository.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\ImmobilierApplication.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\repositories\ProdutoRepository.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\resources\CategoriaResource.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\resources\ImagensResource.java
-C:\Users\Arnaldo\Desktop\projeto nb\immobilier\src\main\java\com\ninjastech\immobilier\services\ImagensService.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/ImmobilierApplication.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/resources/ImagensResource.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/security/Role.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/repositories/ProdutoRepository.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/resources/CategoriaResource.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/resources/ProdutoResource.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/services/ProdutoService.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/entities/enumSc.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/entities/Usuario.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/security/SecurityConfig.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/entities/Categoria.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/repositories/ImagensRepository.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/services/CategoryService.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/repositories/CategoryRepository.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/entities/Imagens.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/config/TesteConfig.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/services/ImagensService.java
+/Users/Novo/NetBeansProjects/immobilier/src/main/java/com/ninjastech/immobilier/entities/Produto.java
