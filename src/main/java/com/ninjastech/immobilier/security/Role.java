@@ -10,5 +10,10 @@ package com.ninjastech.immobilier.security;
  * @author vitor.sas
  */
 public enum Role {
-    USER, ADMIN, SUPER_ADMIN
+    USER, ADMIN, SUPER_ADMIN;
+
+    Role() {
+    }
+
+
 }

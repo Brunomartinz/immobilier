@@ -57,21 +57,21 @@ public class ProdutoResource {
 	}
 	
 	@PostMapping
-        @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Produto> insert(@RequestBody Produto obj) {
 		obj = service.insertProduto(obj);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping(value = "/excluir")
-        @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void delete(@Valid @RequestBody Produto obj) {
                     service.deletProduto(obj);
 
 	}
         
-        @PostMapping(value = "/editar")
-        @PreAuthorize("hasRole('ADMIN')")
+	@PostMapping(value = "/editar")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Produto> edit(@Valid @RequestBody Produto obj) {
                    obj = service.editProduto(obj);
                    return ResponseEntity.ok().body(obj);

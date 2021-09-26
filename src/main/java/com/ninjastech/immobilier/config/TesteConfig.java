@@ -1,7 +1,15 @@
 package com.ninjastech.immobilier.config;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
 
+import com.ninjastech.immobilier.entities.Usuario;
+import com.ninjastech.immobilier.repositories.UsuarioRepository;
+import com.ninjastech.immobilier.security.ImplementsUserDetailsService;
+import com.ninjastech.immobilier.security.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +27,9 @@ public class TesteConfig implements CommandLineRunner {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
+
+	@Autowired
+	private UsuarioRepository usuarioRep;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -46,9 +57,36 @@ public class TesteConfig implements CommandLineRunner {
 		p4.getCategorias().add(cat4);
 
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
-		
-	
-			
+
+		//CRIAR UMA DATA
+		final String dateStr = "02-17-2001";
+		final DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+		final Date date = df.parse(dateStr);
+
+
+
+		//CRIAR UM USUARIO
+		Usuario user = new Usuario();
+		user.setNomeCompleto("SENAC PI");
+		user.setNomeUsuario("SENAC");
+		user.setCpf("47983653867");
+		user.setSenha("SENAC");
+	    user.setTipoUsuario(Role.SUPER_ADMIN);
+		user.setEmail("vitoramaral2001.bkbd@gmail.com");
+		user.setEndereco("Rua Gilda Dispa ");
+		user.setDataNascimento(date);
+
+		usuarioRep.save(user);
+
+		//System.out.println(usuarioRep.findBynomeUsuario("SENAC").getUsername());
+
+		ImplementsUserDetailsService uds = ImplementsUserDetailsService.getInstance();
+		uds.setRepositoryUser(usuarioRep);
+		System.out.println(uds.loadUserByUsername("SENAC").getUsername());
+
+
+
+
 		}
 		
 

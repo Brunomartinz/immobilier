@@ -5,12 +5,15 @@
  */
 
 package com.ninjastech.immobilier.security;
+import com.ninjastech.immobilier.entities.Usuario;
+import com.ninjastech.immobilier.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -24,9 +27,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-    
-    @Override
+    @Autowired
+    private UsuarioRepository userRepository;
 
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
            
            http.authorizeRequests()
@@ -36,6 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
           .permitAll()
           .and()
           .httpBasic();
+
+          http.authorizeRequests()
+          .antMatchers("/h2-console/**").hasRole("ADMIN")//allow h2 console access to admins only
+          .anyRequest().authenticated()//all other urls can be access by any authenticated role
+          //.and().formLogin()//enable form login instead of basic login
+          .and().csrf().ignoringAntMatchers("/h2-console/**")//don't apply CSRF protection to /h2-console
+          .and().headers().frameOptions().sameOrigin();//allow use of frame to same origin urls
  
     }
     
@@ -43,15 +55,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) 
             throws Exception{
-        
+
+        /*
+        ImplementsUserDetailsService uds = ImplementsUserDetailsService.getInstance();
+        uds.setRepositoryUser(userRepository);
+        uds.loadUserByUsername("SENAC");
+         */
+
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         auth.inMemoryAuthentication()
-                
-                .withUser("vitor").password(encoder.encode("123")).roles("USER","ADMIN")
+                .withUser("sa").password(encoder.encode("sa")).roles("USER","ADMIN");
+                /*
                 .and()
-                .withUser("bruno").password(encoder.encode("123")).roles("USER","ADMIN")  
+                .withUser("bruno").password(encoder.encode("123")).roles("USER","ADMIN")
                 .and()
-                .withUser("arnaldo").password(encoder.encode("123")).roles("USER","ADMIN");  
+                .withUser("arnaldo").password(encoder.encode("123")).roles("USER","ADMIN")
+                .and()
+                .withUser("gaby").password(encoder.encode("123")).roles("USER","ADMIN");
+                 */
+
     }
     
 
