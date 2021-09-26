@@ -7,7 +7,7 @@ package com.ninjastech.immobilier.security;
 
 /**
  *
- * @author Novo
+ * @author vitor.sas
  */
 public enum Role {
     USER, ADMIN, SUPER_ADMIN
