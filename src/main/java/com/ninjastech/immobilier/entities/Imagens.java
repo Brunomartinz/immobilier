@@ -29,7 +29,8 @@ public class Imagens implements Serializable{
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-    
+        @Size(max=1024)
+        private String nome;
         @Size(max=1024)
 	private String webUrl;
 	private long idProd;
@@ -42,9 +43,10 @@ public class Imagens implements Serializable{
         
     }
 
-    public Imagens(long id, String webUrl, long idProd) {
+    public Imagens(long id, String nome, String webUrl, long idProd) {
         super();
         this.id = id;
+        this.nome = nome;
         this.webUrl = webUrl;
         this.idProd = idProd;
     }
@@ -58,6 +60,15 @@ public class Imagens implements Serializable{
     public void setId(long id) {
         this.id = id;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
 
     public String getWebUrl() {
         return webUrl;

@@ -8,16 +8,25 @@
     <link rel="stylesheet" href="createProduct.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="preview.css">
 
     <title>Editar Produto</title>
     <h1>Editar Produto</h1>
 
 </head>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+<script src="preview.js"></script>
+<script src="inserfunctions.js"></script>
 
 <body>
     <div class="container">
         <div class="create-product" id="formulario">
-            <form onsubmit="return false">
+            <form onsubmit="return false" name="statusForm" id="statusForm">
                 <label for="fid">Id do produto</label>
                 <input type="number" id="fid" name="fid" required disabled>
 
@@ -44,26 +53,64 @@
                 <input type="number" id="fnumbero" name="fnumbero" min="0" max="5" required
                     placeholder="Digite o valor">
                 <label>Imagen principal</label>
-                <input type="file" id="photo" required />
+                <input type="file" id="photo" required class="form-control" />
+
+                <div class="form-group">
+                    <label>Outras fotos do produto</label>
+                    <input name="pictures" type="file" class="form-control" id="pictures" accept="image/*" multiple>
+                    <p id="uploading"></p>
+                    <progress value="0" max="100" id="progress"></progress>
+                    <div class="img-preview" id="form-image-preview"></div>
+                </div>
+
+
+
+
+
 
                 <label>Alterar produto</label>
                 <button id="butsave">Alterar produto</button>
             </form>
+            <div id="Testeimagens">
+                <img src="" alt="">
+
+
+            </div>
+
+
+            <script>
+                const getLocalStorageNumber = localStorage.getItem('productId');
+
+                $(document).ready(function () {
+                    var stats;
+                    $.ajax({
+                        type: "GET",
+                        url: `http://localhost:8082/imagens/${getLocalStorageNumber}`,
+                        mimeType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, data) {
+                                var id = data.id;
+                                var nome = data.nome;
+                                var webUrl = data.webUrl;
+                                var idProd = data.idProd;
+                                var body = "<button onclick='DeleteImg(" + id + ",`" + nome + "`,`" + webUrl + "`," + idProd + ")' id='deletImgProd'><img src='" + webUrl + "' alt='' id='ImagensProd'> </button>";
+
+                                $("#Testeimagens").append(body);
+                            });
+                        }
+                    })
+                })
+
+            </script>
         </div>
     </div>
 
 </body>
-<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-    crossorigin="anonymous"></script>
-<script src="inserfunctions.js"></script>
+
 <script>
     $(document).ready(function () {
 
-        const getLocalStorageNumber = localStorage.getItem('productId');
+
 
         var linkimg
         var ids
@@ -103,27 +150,28 @@
 
         $('#butsave').on('click', function () {
             $("#butsave").attr("disabled", "disabled");
-
-
+            const firebaseConfig = {
+                apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
+                authDomain: "pi4senac-221bd.firebaseapp.com",
+                projectId: "pi4senac-221bd",
+                storageBucket: "pi4senac-221bd.appspot.com",
+                messagingSenderId: "760004051313",
+                appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
+            };
+            firebase.initializeApp(firebaseConfig);
+            console.log(firebase);
+            const ref = firebase.storage().ref();
+            const file = document.querySelector("#photo").files[0];
 
             if (document.getElementById("photo").value != "") {
 
-                const firebaseConfig = {
-                    apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
-                    authDomain: "pi4senac-221bd.firebaseapp.com",
-                    projectId: "pi4senac-221bd",
-                    storageBucket: "pi4senac-221bd.appspot.com",
-                    messagingSenderId: "760004051313",
-                    appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
-                };
+
 
                 // Initialize Firebase
 
-                firebase.initializeApp(firebaseConfig);
-                console.log(firebase);
 
-                const ref = firebase.storage().ref();
-                const file = document.querySelector("#photo").files[0];
+
+
                 const name = +new Date() + "-" + file.name;
 
                 const metadata = {
@@ -176,20 +224,29 @@
                     categorias: []
                 }
 
+
+
+
+
+
                 var valor = fasPost(url, body);
 
 
             }
 
             myAsyncFunction();
-            
 
+            const ret = null
+
+            if (document.getElementById("pictures").value != "") {
+                multImg()
+            } else {
+
+            }
             function fasPost(url, body) {
 
 
 
-
-                var retorno
                 jsonString = JSON.stringify(body)
                 console.log(jsonString)
 
@@ -204,42 +261,181 @@
                     var jsonResponse = JSON.parse(data);
 
 
-                    retorno = jsonResponse.id
-                    window.open("http://localhost:8082/index.html");
+
 
                 }
 
-                return retorno
             }
-
-            // inserir multiplas imagens
-            function inserirImagens(idProd) {
-                if (window.File && window.FileList && window.FileReader) {
-                    var filesInput = document.getElementById("photos");
-                    filesInput.addEventListener("butsave", function (event) {
-                        var files = event.target.files; //FileList object
-                        for (var i = 0; i < files.length; i++) {
-                            console.log(idProd);
-
-
-                        }
-                    });
-                } else {
-                    console.log("Your browser does not support File API");
-                }
-
-
-
-            }
-
-
-
-
-
-
         });
+
 
     });
 </script>
+
+<script>
+    function uploadMultImg(url, body) {
+        jsonString = JSON.stringify(body)
+
+        let request = new XMLHttpRequest()
+        request.open("POST", url, true)
+        request.setRequestHeader("Content-type", "application/json")
+        request.send(jsonString)
+        request.onload = function () {
+            console.log(this.responseText)
+
+            var data = request.responseText;
+            var jsonResponse = JSON.parse(data);
+
+        }
+
+    }
+</script>
+
+
+<script>
+    function DeleteMultImg(url, body) {
+        jsonString = JSON.stringify(body)
+
+        let request = new XMLHttpRequest()
+        request.open("POST", url, true)
+        request.setRequestHeader("Content-type", "application/json")
+        request.send(jsonString)
+        request.onload = function () {
+            console.log(this.responseText)
+
+            var data = request.responseText;
+            var jsonResponse = JSON.parse(data);
+
+        }
+
+    }
+</script>
+
+
+
+<script>
+    var files = [];
+    const chaves = +new Date() + "-";
+    document.getElementById("pictures").addEventListener("change", function (e) {
+        files = e.target.files;
+    });
+</script>
+
+<script>
+    function multImg() {
+        event.preventDefault()
+        //checks if files are selected
+        if (files.length != 0) {
+
+            //Loops through all the selected files
+            for (let i = 0; i < files.length; i++) {
+
+
+                //create a storage reference
+                var storage = firebase.storage().ref(chaves + files[i].name);
+
+                //upload file
+                var upload = storage.put(files[i]);
+
+                //update progress bar
+                upload.on(
+                    "state_changed",
+                    function progress(snapshot) {
+                        var percentage =
+                            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        document.getElementById("progress").value = percentage;
+                    },
+
+                    function error() {
+                        alert("error uploading file");
+                    },
+
+                    function complete() {
+                        document.getElementById(
+                            "uploading"
+                        ).innerHTML += `${chaves + files[i].name} Enviado! <br />`;
+                        getFileUrl(chaves + files[i].name);
+                    }
+                );
+
+            }
+        } else {
+            alert("No file chosen");
+        }
+        setTimeout(function () {
+            window.location.reload(1);
+        }, 2000);
+
+
+
+    }
+
+</script>
+
+<script>
+    function getFileUrl(filename) {
+        //create a storage reference
+        var storage = firebase.storage().ref(filename);
+
+        //get file url
+        storage
+            .getDownloadURL()
+            .then(function (url) {
+
+
+                var link = "http://localhost:8082/imagens";
+                var body = {
+                    nome: filename,
+                    webUrl: url,
+                    idProd: getLocalStorageNumber
+                }
+                console.log(body)
+                uploadMultImg(link, body)
+            })
+            .catch(function (error) {
+                console.log("error encountered");
+            });
+    }
+</script>
+<script>
+    function DeleteImg() {
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
+            authDomain: "pi4senac-221bd.firebaseapp.com",
+            projectId: "pi4senac-221bd",
+            storageBucket: "pi4senac-221bd.appspot.com",
+            messagingSenderId: "760004051313",
+            appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+
+
+        var url = "http://localhost:8082/imagens/excluir/";
+        console.log()
+        var body = {
+            id: arguments[0],
+            nome: arguments[1],
+            webUrl: arguments[2],
+            idProd: arguments[3]
+        }
+        firebase.storage().ref().child("/" + arguments[1]).delete();
+        console.log(body)
+
+        DeleteMultImg(url, body)
+
+        setTimeout(function () {
+            window.location.reload(1);
+        }, 2000);
+
+
+
+
+    }
+</script>
+
+
+
 
 </html>
