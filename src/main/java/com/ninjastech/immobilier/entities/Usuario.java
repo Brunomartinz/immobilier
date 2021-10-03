@@ -5,25 +5,29 @@
  */
 package com.ninjastech.immobilier.entities;
 
-import com.ninjastech.immobilier.security.Role;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+import com.ninjastech.immobilier.security.Role;
+
 
 /**
  *
@@ -64,6 +68,11 @@ public class Usuario implements Serializable, UserDetails {
     private String email;
     @NotBlank
     private String endereco;
+    
+    // associação com a classe pedidos
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos = new ArrayList<>();
+    
 
     public Usuario() {
     }
@@ -173,6 +182,9 @@ public class Usuario implements Serializable, UserDetails {
         return this.nomeUsuario;
     }
 
+    public List<Pedido> getPedidos() {
+    	return pedidos;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -192,4 +204,5 @@ public class Usuario implements Serializable, UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
