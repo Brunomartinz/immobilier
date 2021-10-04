@@ -89,6 +89,14 @@
             btn.addEventListener("click", () => {
                 menu.classList.toggle("hidden");
             });
+
+            function comprar(id){
+                console.log('oiii')
+
+                localStorage.setItem('productId', id)
+
+                window.location = "comprar.html?produtoId=" + id;
+            }
         </script>
     </nav>
     <!-- follow me on twitter @asad_codes -->
@@ -130,7 +138,6 @@
                     var nota = data.avaliacao;
                     var body = "";
                     body += "<div class='overflow-hidden shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-5 hover:shadow-2xl rounded-lg h-90 w-60 md:w-80 cursor-pointer m-auto '>";
-                    body += "<a href='#' class='w-full block h-full'>";
                     body += "<img alt='blog photo' src='" + imgUrl + "' class='max-h-40 w-full object-cover' />";
                     body += "<div class='bg-white w-full p-4'>";
                     body += "<p class='text-black text-2xl font-medium text-center mt-8'>" + nome + "</p>";
@@ -146,12 +153,11 @@
                     body += "</div>";
                     body += "<div class=' font-medium  space-y-4 content-center'>";
                     body += "<div class='flow-root'></div>";
-                    body += "<p class='font-medium text-white bg-black rounded w-32 text-center mx-auto'>";
-                    body += "<a class=' ' href='#'>Saiba mais</a>";
+                    body += "<p class='font-medium text-white rounded w-32 text-center mx-auto'>";
+                    body += "<button class='btn btn-outline' onclick='comprar("+id+")' >Saiba mais</button>";
                     body += "</p>";
                     body += "</div>";
                     body += "</div>";
-                    body += "</a>";
                     body += "</div>";
                     $("#teste").append(body);
                 });
