@@ -41,10 +41,10 @@ public class TesteConfig implements CommandLineRunner {
 		Categoria cat4 = new Categoria(null, "Banheiro");
 
 
-		Produto p1 = new Produto(1,"cama casal", "linda cama casal queen", 1870.50, "","ativo",5,20);
-		Produto p2 = new Produto(2,"Armário de Cozinha", "linda cama casal queen", 300.25, "","Inativo",4,10);
-		Produto p3 = new Produto(3,"Mesa Gamer", "Mesa gamer black piano", 250.00, "","ativo",2,5);
-		Produto p4 = new Produto(4, "Armario Banheiro", "Armario banheiro com espelho", 700.25, "","ativo",3,9);
+		Produto p1 = new Produto(1,"cama casal", "linda cama casal queen", 1870.50, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",5,20);
+		Produto p2 = new Produto(2,"Armário de Cozinha", "linda cama casal queen", 300.25, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","Inativo",4,10);
+		Produto p3 = new Produto(3,"Mesa Gamer", "Mesa gamer black piano", 250.00, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",2,5);
+		Produto p4 = new Produto(4, "Armario Banheiro", "Armario banheiro com espelho", 700.25, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",3,9);
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 		

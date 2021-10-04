@@ -21,3 +21,4 @@ com\ninjastech\immobilier\security\ImplementsUserDetailsService.class
 com\ninjastech\immobilier\services\UsuarioService.class
 com\ninjastech\immobilier\entities\Usuario.class
 com\ninjastech\immobilier\services\ProdutoService.class
+com\ninjastech\immobilier\entities\Pedido.class
