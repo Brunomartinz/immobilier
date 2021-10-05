@@ -1,4 +1,12 @@
 function alterarStatus(){
+
+
+
+
+
+
+    
+    console.log("até aqui ok")
     console.log(arguments[0]);
     if(arguments[5] == "ativo"){
         var prod = {
@@ -8,7 +16,8 @@ function alterarStatus(){
             price: arguments[3],
             imgUrl: arguments[4],
             status: "inativo",
-            qtd: arguments[6],
+            avaliacao: arguments[6],
+            qtd: arguments[7],
             categorias: []
 
         }
@@ -20,7 +29,8 @@ function alterarStatus(){
             price: arguments[3],
             imgUrl: arguments[4],
             status: "ativo",
-            qtd: arguments[6],
+            avaliacao: arguments[6],
+            qtd: arguments[7],
             categorias: []
 
 
