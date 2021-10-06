@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.2/dist/full.css" rel="stylesheet" type="text/css" />
     <title>Immobiler</title>
@@ -91,7 +90,7 @@
             });
 
             function comprar(id){
-                console.log('oiii')
+            
 
                 localStorage.setItem('productId', id)
 
@@ -104,7 +103,7 @@
 
 
 
-    <div class="lg:grid flex flex-wrap place-items-center h-screen space-x-4 grid-cols-1 gap-4 w-3/5 mx-auto lg:grid-cols-3"
+    <div class="lg:grid flex flex-wrap place-items-center pb-3 space-x-4 grid-cols-1 gap-4 w-3/5 mx-auto lg:grid-cols-3"
         id="teste">
         <!-- card -->
 
@@ -137,7 +136,7 @@
                     var categorias = data.categoria;
                     var nota = data.avaliacao;
                     var body = "";
-                    body += "<div class='overflow-hidden shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-5 hover:shadow-2xl rounded-lg h-90 w-60 md:w-80 cursor-pointer m-auto '>";
+                    body += "<div class='mt-8 overflow-hidden shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-5 hover:shadow-2xl rounded-lg  w-full md:w-full cursor-pointer m-auto '>";
                     body += "<img alt='blog photo' src='" + imgUrl + "' class='max-h-40 w-full object-cover' />";
                     body += "<div class='bg-white w-full p-4'>";
                     body += "<p class='text-black text-2xl font-medium text-center mt-8'>" + nome + "</p>";
