@@ -20,11 +20,13 @@ public class UsuarioResource {
     @Autowired
     private UsuarioService usuarioService;
 
-//    @GetMapping
-//    public Usuario buscarUsuario(String email){
-//        return usuarioService.findUser(email);
-//    }
-
+   
+   @GetMapping(value = "/pesquisa/{email}")
+	public ResponseEntity<List<Usuario>> findEmail(@PathVariable String email) {
+		List<Usuario> list = usuarioService.findEmail(email);
+		return ResponseEntity.ok().body(list);
+   }
+   
     @GetMapping
     public ResponseEntity<List<Usuario>> findAll() {
         List<Usuario> list = usuarioService.listAll();

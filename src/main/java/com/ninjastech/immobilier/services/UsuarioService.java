@@ -24,6 +24,13 @@ public class UsuarioService {
 //    public Usuario findUser(String email){
 //        return usuarioRepository.findByemail(email);
 //    }
+    
+    //Busca o usuario por Email
+    public List<Usuario> findEmail(String palavra) {
+        String email = palavra+"%";
+        System.out.println(email);
+	return usuarioRepository.findByEmail(email);
+}
 
     // Insere no banco de dados um novo objeto do tipo Usuário
     public Usuario insertUsuario(Usuario obj) {
