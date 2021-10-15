@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="createProduct.css" />
+    <link rel="stylesheet" href="preview.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+    <h1 class="mt-3">Novo Produto</h1>
+
+    <div class="container">
+        <div class="create-product" id="formulario">
+            <form onsubmit="return false" name="statusForm" id="statusForm">
+                <label for="fnome">Nome do usuário:</label>
+                <input type="text" id="fnome" name="fnome" maxlength="200" required placeholder="Digite o nome">
+
+                <label for="fcpf">CPF do usuário:</label>
+                <input type="text" id="fcpf" name="fcpf" maxlength="200" required placeholder="Digite o cpf">
+
+                <label for="femail">Email:</label>
+                <input type="email" id="femail" name="femail" required placeholder="Digite o email">
+
+                <label for="fgrupo">Grupo:</label>
+                <input type="text" id="fgrupo" name="fgrupo" required placeholder="Digite o grupo">
+
+                <label for="fsenha">Senha:</label>
+                <input type="text" id="fsenha" name="fsenha" required placeholder="Digite a senha">
+
+                <label for="fconfirmsenha">Confirme a senha:</label>
+                <input type="text" id="fconfirmsenha" name="fconfirmsenha" required placeholder="Digite a senha novamente">
+
+                <label>Cadastrar Usuário</label>
+                <button id="butsave">Cadastrar usuário</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="preview.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $('#butsave').on('click', function () {
+          $("#butsave").attr("disabled", "disabled");
+          const firebaseConfig = {
+            apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
+            authDomain: "pi4senac-221bd.firebaseapp.com",
+            projectId: "pi4senac-221bd",
+            storageBucket: "pi4senac-221bd.appspot.com",
+            messagingSenderId: "760004051313",
+            appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+          console.log(firebase);
+          var linkimg
+          const ref = firebase.storage().ref();
+
+          function delay(n) {
+            return new Promise(function (resolve) {
+              setTimeout(resolve, n * 1000);
+            });
+          }
+
+          async function myAsyncFunction() {
+            //Do what you want here
+            console.log("Before the delay")
+
+            await delay(2);
+
+            console.log("After the delay")
+            //Do what you want here too
+
+            var nome = $('#fnome').val();
+            var cpf = $('#fcpf').val();
+            var email = $('#femail').val();
+            var grupo = $('#fgrupo').val();
+            var senha = $('#fsenha').val();
+            var confirmSenha = $('#fconfirmsenha').val();
+            var status = "ativo";
+            var url = "http://localhost:8082/user";
+            var body = {
+              nome: nome,
+              cpf: cpf,
+              email: email,
+              grupo: grupo,
+              senha: "senha",
+              confirmSenha: confirmSenha,
+              status: status
+            }
+
+            const ret = null
+            var valor = fasPost(url, body);
+          }
+          myAsyncFunction();
+        });
+          function fasPost(url, body) {
+          jsonString = JSON.stringify(body)
+
+          let request = new XMLHttpRequest()
+          request.open("POST", url, true)
+          request.setRequestHeader("Content-type", "application/json")
+          request.send(jsonString)
+          request.onload = function () {
+            console.log(this.responseText)
+
+            var data = request.responseText;
+            var jsonResponse = JSON.parse(data);
+
+            ret = jsonResponse.id
+          }
+        }
+      });
+    </script>
+</body>
+</html>
