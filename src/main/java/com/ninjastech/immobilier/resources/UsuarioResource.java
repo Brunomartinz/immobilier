@@ -8,6 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -35,6 +39,15 @@ public class UsuarioResource {
 
     @PostMapping
     public ResponseEntity<Usuario> insert(@RequestBody Usuario obj) {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        BigInteger hash = new BigInteger(1, md.digest(obj.getSenha().getBytes()));
+        obj.setSenha(hash.toString(16));
+
         obj = usuarioService.insertUsuario(obj);
         return ResponseEntity.ok().body(obj);
     }

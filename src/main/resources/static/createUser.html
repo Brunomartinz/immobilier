@@ -26,7 +26,10 @@
                 <input type="email" id="femail" name="femail" required placeholder="Digite o email">
 
                 <label for="fgrupo">Grupo:</label>
-                <input type="text" id="fgrupo" name="fgrupo" required placeholder="Digite o grupo">
+                <select id="fgrupo" name="fgrupo" required>
+                    <option value="admin">Admin</option>
+                    <option value="estoquista">Estoquista</option>
+                </select>
 
                 <label for="fsenha">Senha:</label>
                 <input type="text" id="fsenha" name="fsenha" required placeholder="Digite a senha">
@@ -99,7 +102,12 @@
             }
 
             const ret = null
-            var valor = fasPost(url, body);
+            if(senha === confirmSenha){
+                var valor = fasPost(url, body);
+            } else {
+                alert("As senhas devem ser iguais!");
+                setTimeout(function(){ window.location.href = "createUser.html" }, 3000);
+            }
           }
           myAsyncFunction();
         });
