@@ -1,13 +1,13 @@
 package com.ninjastech.immobilier.services;
 
-import com.ninjastech.immobilier.entities.Produto;
-import com.ninjastech.immobilier.entities.Usuario;
-import com.ninjastech.immobilier.repositories.UsuarioRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ninjastech.immobilier.entities.Produto;
+import com.ninjastech.immobilier.entities.Usuario;
+import com.ninjastech.immobilier.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioService {
@@ -29,4 +29,15 @@ public class UsuarioService {
     public Usuario insertUsuario(Usuario obj) {
         return usuarioRepository.save(obj);
     }
+    
+    
+    //Deleção de usuário por id
+    public void deletUser(Usuario obj){
+        usuarioRepository.deleteById(obj.getId());
+        }
+    //Alteração Users
+    public Usuario editUsuario(Usuario obj){
+        return usuarioRepository.save(obj);
+}
+    
 }

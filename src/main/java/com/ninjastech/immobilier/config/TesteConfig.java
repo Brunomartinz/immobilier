@@ -2,18 +2,19 @@ package com.ninjastech.immobilier.config;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
-import com.ninjastech.immobilier.repositories.UsuarioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+
 import com.ninjastech.immobilier.entities.Categoria;
 import com.ninjastech.immobilier.entities.Produto;
 import com.ninjastech.immobilier.entities.Usuario;
 import com.ninjastech.immobilier.repositories.CategoryRepository;
 import com.ninjastech.immobilier.repositories.ProdutoRepository;
+import com.ninjastech.immobilier.repositories.UsuarioRepository;
 
 @Configuration
 public class TesteConfig implements CommandLineRunner {
@@ -43,6 +44,7 @@ public class TesteConfig implements CommandLineRunner {
 		Produto p4 = new Produto(4, "Armario Banheiro", "Armario banheiro com espelho", 700.25, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",3,9);
 
 		Usuario user1 = new Usuario(1, "admin@email.com", "admin", "admin", "32389493300", "admin", "admin", "ativo");
+		Usuario user2 = new Usuario(2, "bruno@gmail.com","user","user","8872389432","user","user","ativo");
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 		

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/user")
 @ComponentScan(basePackages = { "com.*" })
@@ -34,4 +36,16 @@ public class UsuarioResource {
         obj = usuarioService.insertUsuario(obj);
         return ResponseEntity.ok().body(obj);
     }
+    
+	@PostMapping(value = "/excluir")
+	public void deleteUser(@Valid @RequestBody Usuario obj) {
+                    usuarioService.deletUser(obj);
+	}
+	
+	@PostMapping(value = "/editar")
+	public ResponseEntity<Usuario> edit(@Valid @RequestBody Usuario obj) {
+                   obj = usuarioService.editUsuario(obj);
+                   return ResponseEntity.ok().body(obj);
+        
+}
 }

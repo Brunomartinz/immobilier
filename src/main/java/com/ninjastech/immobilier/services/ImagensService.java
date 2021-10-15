@@ -34,7 +34,7 @@ public class ImagensService {
 	public void deletImagen(Imagens obj){
         imagensRepository.deleteById(obj.getId());
         }
-	// Insere no banco de dados um novo objeto do tipo Produto
+	// Insere no banco de dados um novo objeto do tipo Imagem
 	public Imagens insertImagen(Imagens obj) {
 		return imagensRepository.save(obj);
 		
