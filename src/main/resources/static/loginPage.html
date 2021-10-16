@@ -1,87 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="Tailwind.css" />
-    <title>Fazer login</title>
-  </head>
-  <style>
-    .i {
-      color: #d9d9d9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
 
-    .i i {
-      transition: 0.3s;
-    }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="Tailwind.css" />
+  <title>Fazer login</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="jquery.session.js"></script>
+  <script src="jquery.md5.js"></script>
+</head>
+<style>
+  .i {
+    color: #d9d9d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .input-div > div {
-      position: relative;
-      height: 45px;
-    }
+  .i i {
+    transition: 0.3s;
+  }
 
-    .input-div > div > h5 {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #999;
-      font-size: 18px;
-      transition: 0.3s;
-    }
+  .input-div>div {
+    position: relative;
+    height: 45px;
+  }
 
-    .input-div:before,
-    .input-div:after {
-      content: "";
-      position: absolute;
-      bottom: -2px;
-      width: 0%;
-      height: 2px;
-      background-color: #38d39f;
-      transition: 0.4s;
-    }
+  .input-div>div>h5 {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 18px;
+    transition: 0.3s;
+  }
 
-    .input-div:before {
-      right: 50%;
-    }
+  .input-div:before,
+  .input-div:after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background-color: #38d39f;
+    transition: 0.4s;
+  }
 
-    .input-div:after {
-      left: 50%;
-    }
+  .input-div:before {
+    right: 50%;
+  }
 
-    .input-div.focus:before,
-    .input-div.focus:after {
-      width: 50%;
-    }
+  .input-div:after {
+    left: 50%;
+  }
 
-    .input-div.focus > div > h5 {
-      top: -5px;
-      font-size: 15px;
-    }
+  .input-div.focus:before,
+  .input-div.focus:after {
+    width: 50%;
+  }
 
-    .input-div.focus > .i > i {
-      color: #38d39f;
-    }
-  </style>
-  <body class="bg-gray-300" style="font-family: Roboto">
-    <div class="h-screen flex justify-center items-center w-full">
-      <div class="bg-white rounded-lg w-4/5 md:w-3/5 xl:w-2/5 px-6 md:px-10 lg:px-16 py-16">
-        <form>
-          <div class="flex font-bold justify-center">
-            <img
-              class="h-20 w-20"
-              src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/avatar.svg"
-            />
-          </div>
-          <h2 class="text-3xl text-center text-gray-700 mb-4 pt-3">
-            Bem-vindo!
-          </h2>
-          <div
-            class="
+  .input-div.focus>div>h5 {
+    top: -5px;
+    font-size: 15px;
+  }
+
+  .input-div.focus>.i>i {
+    color: #38d39f;
+  }
+</style>
+
+<body class="bg-gray-300" style="font-family: Roboto">
+  <div class="h-screen flex justify-center items-center w-full">
+    <div class="bg-white rounded-lg w-4/5 md:w-3/5 xl:w-2/5 px-6 md:px-10 lg:px-16 py-16">
+      <form onsubmit="return false">
+        <div class="flex font-bold justify-center">
+          <img class="h-20 w-20"
+            src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/avatar.svg" />
+        </div>
+        <h2 class="text-3xl text-center text-gray-700 mb-4 pt-3">
+          Bem-vindo!
+        </h2>
+        <div class="
               input-div
               border-b-2
               relative
@@ -89,17 +91,13 @@
               my-5
               py-1
               focus:outline-none
-            "
-            style="grid-template-columns: 7% 93%"
-          >
-            <div class="i">
-              <i class="fas fa-user"></i>
-            </div>
-            <div class="div">
-              <h5>Username</h5>
-              <input
-                type="text"
-                class="
+            " style="grid-template-columns: 7% 93%">
+          <div class="i">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="div">
+            <h5>E-mail</h5>
+            <input type="text" class="
                   absolute
                   w-full
                   h-full
@@ -108,13 +106,10 @@
                   outline-none
                   inset-0
                   text-gray-700
-                "
-                style="background: none"
-              />
-            </div>
+                " id="nome" style="background: none" />
           </div>
-          <div
-            class="
+        </div>
+        <div class="
               input-div
               border-b-2
               relative
@@ -122,17 +117,13 @@
               my-5
               py-1
               focus:outline-none
-            "
-            style="grid-template-columns: 7% 93%"
-          >
-            <div class="i">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="div">
-              <h5>Password</h5>
-              <input
-                type="password"
-                class="
+            " style="grid-template-columns: 7% 93%">
+          <div class="i">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="div">
+            <h5>Password</h5>
+            <input type="password" class="
                   absolute
                   w-full
                   h-full
@@ -141,47 +132,83 @@
                   outline-none
                   inset-0
                   text-gray-700
-                "
-                style="background: none"
-              />
-            </div>
+                " id="senha" style="background: none" />
           </div>
+        </div>
 
-          <button
-            type="submit"
-            class="
+        <button type="submit" id="logar" class="
               w-full
               py-2
               rounded-full
               bg-green-600
               text-gray-100
               focus:outline-none
-            "
-          >
-            Fazer Login
-          </button>
-        </form>
-      </div>
+            ">
+          Fazer Login
+        </button>
+      </form>
     </div>
-    <script>
-      const inputs = document.querySelectorAll("input");
+  </div>
+  <script>
+    const inputs = document.querySelectorAll("input");
 
-      function addEffect() {
-        let parent = this.parentNode.parentNode;
-        parent.classList.add("focus");
+    function addEffect() {
+      let parent = this.parentNode.parentNode;
+      parent.classList.add("focus");
+    }
+
+    function removeEffect() {
+      let parent = this.parentNode.parentNode;
+      if (this.value == "") {
+        parent.classList.remove("focus");
       }
+    }
 
-      function removeEffect() {
-        let parent = this.parentNode.parentNode;
-        if (this.value == "") {
-          parent.classList.remove("focus");
+
+
+    inputs.forEach((input) => {
+      input.addEventListener("focus", addEffect);
+      input.addEventListener("blur", removeEffect);
+    });
+  </script>
+
+  <script>
+    $("#logar").click(function () {
+      var nome = $('#nome').val();
+      var senha = $('#senha').val();
+      console.log(nome)
+      console.log(senha)
+
+
+      $.ajax({
+        type: "GET",
+        url: `http://localhost:8082/user/pesquisa/${nome}`,
+        mimeType: "json",
+        success: function (data) {
+          var usrnome = data[0].nome;
+          var grupo = data[0].grupo;
+          var senhaconferir = $.md5(senha);
+
+          console.log(senhaconferir)
+
+          
+          $.session.set('username', usrnome);
+          $.session.set('grupo', grupo);
+
+          console.log($.session.get('username'))
+          console.log($.session.get('grupo'))
+          
+
+
+        },
+        error: function () {
+          alert("Fail!");
         }
-      }
+      })
 
-      inputs.forEach((input) => {
-        input.addEventListener("focus", addEffect);
-        input.addEventListener("blur", removeEffect);
-      });
-    </script>
-  </body>
+
+    })
+  </script>
+</body>
+
 </html>

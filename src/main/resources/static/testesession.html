@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="jquery.session.js"></script>
+</head>
+
+<body>
+    <h1 id="nome"></h1>
+    <h2 id="senha"></h2>
+
+    <button id="remove">remover session</button>
+</body>
+<script>
+    $(document).ready(function () {
+        var nome = document.getElementById("nome");
+        var senha = document.getElementById("senha");
+
+        var sessionusr = $.session.get('username');
+        var sessionsenh = $.session.get('grupo');
+
+
+        console.log(sessionusr)
+        console.log(sessionsenh)
+
+        nome.innerText = sessionusr
+        senha.innerText = sessionsenh
+
+    })
+
+
+    $("#remove").click(function () {
+        $.session.clear();
+
+        var sessionusr = $.session.get('username');
+        var sessionsenh = $.session.get('grupo');
+
+
+        console.log(sessionusr)
+        console.log(sessionsenh)
+
+    })
+</script>
+
+</html>
