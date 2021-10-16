@@ -48,6 +48,9 @@
                         var email = data.email;
                         var grupo = data.grupo;
                         var status = data.status;
+                        var senha = data.senha;
+                        var confirmSenha = data.confirmSenha;
+                        var cpf = data.cpf;
                         var body = "<tr>";
                         body += "<td>" + data.id + "</td>";
                         body += "<td>" + data.nome + "</td>";
@@ -58,11 +61,11 @@
                         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
                         </svg></button></td>`;
                         if (data.status == "ativo") {
-                          stats = `<td><button onclick="alterarStatus(${id},'${nome}',${email},'${grupo}','${status}')" id="botao"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16">
+                          stats = `<td><button onclick="mudarStatus('${id}','${nome}','${email}','${grupo}','${status}','${senha}','${confirmSenha}','${cpf}')" id="botao"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16">
                         <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
                         </svg></button></td>`;
                         } else {
-                          stats = `<td><button onclick="alterarStatus(${id},'${nome}',${email},'${grupo}','${status}')" id="botao"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-toggle-off" viewBox="0 0 16 16">
+                          stats = `<td><button onclick="mudarStatus('${id}','${nome}','${email}','${grupo}','${status}','${senha}','${confirmSenha}','${cpf}')" id="botao"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-toggle-off" viewBox="0 0 16 16">
                         <path d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/>
                         </svg></button></td>`;
                         }
@@ -124,15 +127,54 @@
                     window.location = "visualizeProduct.html?produtoId=" + id;
                 }
 
+                function mudarStatus(id, nome, email, grupo, status, senha, confirmSenha, cpf){
+                    console.log("até aqui ok")
+                    console.log(arguments[0]);
+                    if(status == "ativo"){
+                        var prod = {
+                            id: id,
+                            nome: nome,
+                            email: email,
+                            grupo: grupo,
+                            status: "inativo",
+                            senha: senha,
+                            confirmSenha: confirmSenha,
+                            cpf: cpf
+                        }
+                    }else{
+                        var prod = {
+                            id: id,
+                            nome: nome,
+                            email: email,
+                            grupo: grupo,
+                            status: "ativo",
+                            senha: senha,
+                            confirmSenha: confirmSenha,
+                            cpf: cpf
+                        }
+                    }
+                    console.log(prod);
+                    $.ajax({
+                        url: 'http://localhost:8082/user/editar',
+                        type: 'post',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $('#target').html(data.msg);
+
+                        },
+                        data: JSON.stringify(prod)
+                    });
+                    window.location.reload();
+                }
 
                 function editar(id){
                     console.log('oiii')
 
-                    localStorage.setItem('productId', id)
+                    localStorage.setItem('userId', id)
 
-                    window.location = "editProduct.html?produtoId=" + id;
+                    window.location = "editUser.html?userId=" + id;
                 }
-
               </script>
             </tbody>
             <tfoot>
@@ -155,7 +197,6 @@
     </div>
 
     <script type="text/javascript" src="script.js"></script>
-    <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript" src="DataTables/datatables.min.js"></script>
 </body>
 </html>

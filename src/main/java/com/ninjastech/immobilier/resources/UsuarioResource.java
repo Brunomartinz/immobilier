@@ -47,6 +47,7 @@ public class UsuarioResource {
         }
         BigInteger hash = new BigInteger(1, md.digest(obj.getSenha().getBytes()));
         obj.setSenha(hash.toString(16));
+        obj.setConfirmSenha(hash.toString(16));
 
         obj = usuarioService.insertUsuario(obj);
         return ResponseEntity.ok().body(obj);
@@ -56,11 +57,26 @@ public class UsuarioResource {
 	public void deleteUser(@Valid @RequestBody Usuario obj) {
                     usuarioService.deletUser(obj);
 	}
-	
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+        Usuario obj = usuarioService.findById(id);
+        return ResponseEntity.ok().body(obj);
+    }
+
 	@PostMapping(value = "/editar")
 	public ResponseEntity<Usuario> edit(@Valid @RequestBody Usuario obj) {
-                   obj = usuarioService.editUsuario(obj);
-                   return ResponseEntity.ok().body(obj);
-        
-}
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        BigInteger hash = new BigInteger(1, md.digest(obj.getSenha().getBytes()));
+        obj.setSenha(hash.toString(16));
+        obj.setConfirmSenha(hash.toString(16));
+
+        obj = usuarioService.editUsuario(obj);
+        return ResponseEntity.ok().body(obj);
+    }
 }
