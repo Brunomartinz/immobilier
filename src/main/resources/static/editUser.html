@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="createProduct.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="preview.css">
+
+    <title>Editar Usuário</title>
+</head>
+<body>
+    <h1 class="mt-3">Editar Usuário</h1>
+
+    <div class="container">
+        <div class="create-product" id="formulario">
+            <form onsubmit="return false" name="statusForm" id="statusForm">
+                <label for="fnome">Nome do usuário:</label>
+                <input type="text" id="fnome" name="fnome" maxlength="200" required placeholder="Digite o nome">
+
+                <label for="fcpf">CPF do usuário:</label>
+                <input type="text" id="fcpf" name="fcpf" maxlength="200" required placeholder="Digite o cpf">
+
+                <input type="email" id="femail" name="femail" style="display: none;">
+
+                <select id="fgrupo" name="fgrupo" style="display: none;">
+                    <option value="admin">Admin</option>
+                    <option value="estoquista">Estoquista</option>
+                </select>
+
+                <label for="fsenha">Senha:</label>
+                <input type="text" id="fsenha" name="fsenha" required placeholder="Digite a senha">
+
+                <label for="fconfirmsenha">Confirme a senha:</label>
+                <input type="text" id="fconfirmsenha" name="fconfirmsenha" required placeholder="Digite a senha novamente">
+
+                <input type="text" id="fstatus" name="fstatus" style="display: none;">
+                <input type="text" id="fid" name="fid" style="display: none;">
+                <label>Salvar Usuário</label>
+                <button id="butsave">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"></script>
+    <script src="preview.js"></script>
+    <script src="inserfunctions.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var linkimg
+            var ids
+            var stats;
+            $.ajax({
+                type: "GET",
+                url: `http://localhost:8082/user/${localStorage.getItem('userId')}`,
+                mimeType: "json",
+                success: function (data) {
+                    const nome = document.getElementById("fnome");
+                    const cpf = document.getElementById("fcpf");
+                    const email = document.getElementById("femail");
+                    const grupo = document.getElementById("fgrupo");
+                    const senha = document.getElementById("fsenha");
+                    const confirmsenha = document.getElementById("fconfirmsenha");
+                    const status = document.getElementById("fstatus");
+                    const id = document.getElementById("fid");
+
+                    nome.value = data.nome;
+                    cpf.value = data.cpf;
+                    email.value = data.email;
+                    grupo.value = data.grupo;
+                    senha.value = data.senha;
+                    confirmsenha.value = data.confirmSenha;
+                    status.value = data.status;
+                    id.value = data.id;
+                },
+                error: function () {
+                    alert("Fail!");
+                },
+            });
+
+            $('#butsave').on('click', function () {
+                $("#butsave").attr("disabled", "disabled");
+                const firebaseConfig = {
+                    apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
+                    authDomain: "pi4senac-221bd.firebaseapp.com",
+                    projectId: "pi4senac-221bd",
+                    storageBucket: "pi4senac-221bd.appspot.com",
+                    messagingSenderId: "760004051313",
+                    appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
+                };
+                firebase.initializeApp(firebaseConfig);
+                console.log(firebase);
+                const ref = firebase.storage().ref();
+
+                function delay(n) {
+                    return new Promise(function (resolve) {
+                        setTimeout(resolve, n * 1000);
+                    });
+                }
+
+                async function myAsyncFunction() {
+                    //Do what you want here
+                    console.log("Before the delay")
+
+                    await delay(2);
+
+                    console.log("After the delay")
+                    //Do what you want here too
+
+                    var id = $('#fid').val();
+                    var nome = $('#fnome').val();
+                    var cpf = $('#fcpf').val();
+                    var email = $('#femail').val();
+                    var grupo = $('#fgrupo').val();
+                    var senha = $('#fsenha').val();
+                    var status = $('#fstatus').val();
+                    var confirmSenha = $('#fconfirmsenha').val();
+                    var url = "http://localhost:8082/user/editar";
+                    var body = {
+                      id: id,
+                      nome: nome,
+                      cpf: cpf,
+                      email: email,
+                      grupo: grupo,
+                      senha: "senha",
+                      confirmSenha: confirmSenha,
+                      status: status
+                    }
+                    if(senha === confirmSenha){
+                        var valor = fasPost(url, body);
+                    } else {
+                        alert("As senhas devem ser iguais!");
+                        setTimeout(function(){
+                            window.location = "editUser.html?userId=" + id;
+                        }, 3000);
+                    }
+                }
+                myAsyncFunction();
+                const ret = null
+
+                function fasPost(url, body) {
+                    jsonString = JSON.stringify(body)
+                    console.log(jsonString)
+
+                    let request = new XMLHttpRequest()
+                    request.open("POST", url, true)
+                    request.setRequestHeader("Content-type", "application/json")
+                    request.send(jsonString)
+                    request.onload = function () {
+                        console.log(this.responseText)
+                        var data = request.responseText;
+                        var jsonResponse = JSON.parse(data);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
