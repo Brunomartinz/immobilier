@@ -34,7 +34,7 @@
 
     $("#remove").click(function () {
         $.session.clear();
-
+        localStorage.clear();
         var sessionusr = $.session.get('token');
         var sessionsenh = $.session.get('grupo');
 

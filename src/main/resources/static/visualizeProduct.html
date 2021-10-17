@@ -1,104 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="./visualizeProductStyle.css" />
-    <link rel="stylesheet" href="carrosel.css">
-    <title>Visualizar Produto</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="product-content">
-        <div class="product-infos">
-          
-          <img src="https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/5362ff70a80af1ed27361b34b6071decc668baf9a3014dca7c2c3974c9887350.jpg?alt=media&token=b493172f-2b9c-4574-b331-d355de411a57" alt="" width="300" class="product-img" id="foto"/>
-          
-          <div class="product-title">
-            <div class="carousel" style="width: 320px; height: 180px; "id="imagens">         
-            </div>
-            <p id="title">Teste Teste Teste</p>
-            <small id="price">R$ 1200</small>
-            <button class="buy-btn">Comprar</button>
 
-            <div class="product-description" id="description">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aperiam molestias laborum, voluptatum ipsam vel rerum? Praesentium perspiciatis, atque beatae amet labore sit et? Libero repudiandae facere eveniet aspernatur ex!
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./visualizeProductStyle.css" />
+  <link rel="stylesheet" href="carrosel.css">
+  <title>Visualizar Produto</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="product-content">
+      <div class="product-infos">
+
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/5362ff70a80af1ed27361b34b6071decc668baf9a3014dca7c2c3974c9887350.jpg?alt=media&token=b493172f-2b9c-4574-b331-d355de411a57"
+          alt="" width="300" class="product-img" id="foto" />
+
+        <div class="product-title">
+          <div class="carousel" style="width: 320px; height: 180px; " id="imagens">
           </div>
-         
-         
+          <p id="title">Teste Teste Teste</p>
+          <small id="price">R$ 1200</small>
+          <button class="buy-btn">Comprar</button>
+
+          <div class="product-description" id="description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aperiam molestias laborum, voluptatum
+            ipsam vel rerum? Praesentium perspiciatis, atque beatae amet labore sit et? Libero repudiandae facere
+            eveniet aspernatur ex!
+          </div>
         </div>
 
-        
+
       </div>
 
-      
-      
+
     </div>
 
-    <script
-      type="text/javascript"
-      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    ></script>
-    <script>
-      $(document).ready(function () {
-       
-
-        const getLocalStorageNumber = localStorage.getItem('productId');
 
 
-        var stats;
-        $.ajax({
-          type: "GET",
-          url: `http://localhost:8082/produto/${getLocalStorageNumber}`,
-          mimeType: "json",
-          success: function (data) {
-            const price = document.getElementById("price");
-            const description = document.getElementById("description");
-            const title = document.getElementById("title");
-            const img = document.getElementById("foto");
-            img.src = data.imgUrl;
-            price.innerText = "R$ " + data.price;
-            title.innerText = data.nome;
-            description.innerText = data.descricao;
-          },
-          error: function () {
-            alert("Fail!");
-          },
-        });
-      });
-    </script>
+  </div>
 
-<script>
-  $(document).ready(function () {
-    const getLocalStorageNumber = localStorage.getItem('productId');
-    var stats;
-    $.ajax({
-      type: "GET",
-      url: `http://localhost:8082/imagens/${getLocalStorageNumber}`,
-      mimeType: "json",
-      success: function (data) {
-        $.each(data, function (i, data) {
-          var id = data.id;
-          var nome = data.nome;
-          var webUrl = data.webUrl;
-          var idProd = data.idProd;
-          var body = "";
-          body += "<input type='checkbox' class='faux-ui-facia' >";
-          body += "<div class='slide' slide='" + i + "' annot='This is the fifth slide title. Photo by David Marcu.'>";
-          body += "<img src='"+webUrl+"'alt='Slide "+i+"' style='width: 320px; height: 180px; margin-left:-280px '>";
-          body += "  </div>";
-          $("#imagens").append(body);
-        });
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      if (localStorage.getItem('token') == null) {
+        document.location.href = "http://localhost:8082/loginpage.html";
       }
+
+
+      const getLocalStorageNumber = localStorage.getItem('productId');
+
+
+      var stats;
+      $.ajax({
+        type: "GET",
+        url: `http://localhost:8082/produto/${getLocalStorageNumber}`,
+        mimeType: "json",
+        success: function (data) {
+          const price = document.getElementById("price");
+          const description = document.getElementById("description");
+          const title = document.getElementById("title");
+          const img = document.getElementById("foto");
+          img.src = data.imgUrl;
+          price.innerText = "R$ " + data.price;
+          title.innerText = data.nome;
+          description.innerText = data.descricao;
+        },
+        error: function () {
+          alert("Fail!");
+        },
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      const getLocalStorageNumber = localStorage.getItem('productId');
+      var stats;
+      $.ajax({
+        type: "GET",
+        url: `http://localhost:8082/imagens/${getLocalStorageNumber}`,
+        mimeType: "json",
+        success: function (data) {
+          $.each(data, function (i, data) {
+            var id = data.id;
+            var nome = data.nome;
+            var webUrl = data.webUrl;
+            var idProd = data.idProd;
+            var body = "";
+            body += "<input type='checkbox' class='faux-ui-facia' >";
+            body += "<div class='slide' slide='" + i + "' annot='This is the fifth slide title. Photo by David Marcu.'>";
+            body += "<img src='" + webUrl + "'alt='Slide " + i + "' style='width: 320px; height: 180px; margin-left:-280px '>";
+            body += "  </div>";
+            $("#imagens").append(body);
+          });
+        }
+      })
     })
-  })
 
 
 
 
-</script>
-  </body>
+  </script>
+</body>
+
 </html>

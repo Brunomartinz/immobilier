@@ -82,6 +82,10 @@
                 const getLocalStorageNumber = localStorage.getItem('productId');
 
                 $(document).ready(function () {
+
+                    if (localStorage.getItem('token') == null) {
+                        document.location.href = "http://localhost:8082/loginpage.html";
+                    }
                     var stats;
                     $.ajax({
                         type: "GET",
@@ -109,6 +113,10 @@
 
 <script>
     $(document).ready(function () {
+
+        if (localStorage.getItem('token') == null) {
+        document.location.href = "http://localhost:8082/loginpage.html";
+      }
 
 
 

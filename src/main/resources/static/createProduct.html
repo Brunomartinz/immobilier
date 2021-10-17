@@ -67,7 +67,13 @@
   
 <script>
   $(document).ready(function () {
+
+    if (localStorage.getItem('token') == null) {
+        document.location.href = "http://localhost:8082/loginpage.html";
+      }
+    
     $('#butsave').on('click', function () {
+      
       $("#butsave").attr("disabled", "disabled");
       const firebaseConfig = {
         apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",

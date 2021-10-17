@@ -85,4 +85,7 @@ public class UsuarioResource {
         obj = usuarioService.editUsuario(obj);
         return ResponseEntity.ok().body(obj);
     }
+
+
+
 }
