@@ -97,7 +97,7 @@
           </div>
           <div class="div">
             <h5>E-mail</h5>
-            <input type="text" class="
+            <input type="text" autocomplete="on" class="
                   absolute
                   w-full
                   h-full
@@ -106,7 +106,7 @@
                   outline-none
                   inset-0
                   text-gray-700
-                " id="nome" style="background: none" />
+                " id="email" style="background: none" />
           </div>
         </div>
         <div class="
@@ -123,7 +123,7 @@
           </div>
           <div class="div">
             <h5>Password</h5>
-            <input type="password" class="
+            <input type="password" autocomplete="on" class="
                   absolute
                   w-full
                   h-full
@@ -174,38 +174,55 @@
 
   <script>
     $("#logar").click(function () {
-      var nome = $('#nome').val();
+
+
+      var email = $('#email').val();
       var senha = $('#senha').val();
-      console.log(nome)
-      console.log(senha)
+      var url = "http://localhost:8082/login";
+      var body = {
+        email: email,
+        senha: senha
+      }
+      console.log(body)
+      var token
 
 
-      $.ajax({
-        type: "GET",
-        url: `http://localhost:8082/user/pesquisa/${nome}`,
-        mimeType: "json",
-        success: function (data) {
-          var usrnome = data[0].nome;
-          var grupo = data[0].grupo;
-          var senhaconferir = $.md5(senha);
 
-          console.log(senhaconferir)
+      const request = new XMLHttpRequest();
 
-          
-          $.session.set('username', usrnome);
-          $.session.set('grupo', grupo);
+      request.open('POST', url);
 
-          console.log($.session.get('username'))
-          console.log($.session.get('grupo'))
-          
+      request.setRequestHeader('Content-Type', 'application/json');
 
-
-        },
-        error: function () {
-          alert("Fail!");
+      request.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          console.log('Status:', this.status);
+          token = this.getResponseHeader('Authorization');
+          console.log(token)
+          console.log('Body:', this.responseText);
         }
-      })
+      };
+      request.send(JSON.stringify(body));
 
+      function delay(n) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, n * 1000);
+        });
+      }
+
+      async function myAsyncFunction() {
+        //Do what you want here
+        console.log("Before the delay")
+
+        await delay(1);
+        $.session.set('token', token);
+
+        console.log($.session.get('token'))
+        localStorage.setItem('token',token)
+
+
+      }
+      myAsyncFunction();
 
     })
   </script>

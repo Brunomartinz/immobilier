@@ -21,15 +21,13 @@
         var nome = document.getElementById("nome");
         var senha = document.getElementById("senha");
 
-        var sessionusr = $.session.get('username');
-        var sessionsenh = $.session.get('grupo');
+        var token = localStorage.getItem('token')
 
 
-        console.log(sessionusr)
-        console.log(sessionsenh)
 
-        nome.innerText = sessionusr
-        senha.innerText = sessionsenh
+        console.log(token)
+
+        nome.innerText = token
 
     })
 
@@ -37,7 +35,7 @@
     $("#remove").click(function () {
         $.session.clear();
 
-        var sessionusr = $.session.get('username');
+        var sessionusr = $.session.get('token');
         var sessionsenh = $.session.get('grupo');
 
 

@@ -42,7 +42,9 @@ public class TokenAuthenticationService {
                     .getSubject();
 
             if (user != null) {
+
                 return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+
             }
         }
         return null;
