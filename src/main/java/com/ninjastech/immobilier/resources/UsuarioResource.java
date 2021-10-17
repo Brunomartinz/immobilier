@@ -24,6 +24,12 @@ public class UsuarioResource {
     @Autowired
     private UsuarioService usuarioService;
 
+    @RequestMapping("/allUsers")
+    @ResponseBody
+    public String getUsers() {
+        return "{\"users\":[{\"name\":\"Lucas\", \"country\":\"Brazil\"}," +
+                "{\"name\":\"Jackie\",\"country\":\"China\"}]}";
+    }
    
    @GetMapping(value = "/pesquisa/{email}")
 	public ResponseEntity<List<Usuario>> findEmail(@PathVariable String email) {

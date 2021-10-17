@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -56,8 +55,7 @@ public class Usuario implements Serializable{
     @NotBlank
     @CPF
     private String cpf;
-    @NotBlank
-    private String grupo;
+    private Enum grupo;
     private String status;
 
     //construtores
@@ -65,15 +63,14 @@ public class Usuario implements Serializable{
 
     }
 
-    public Usuario(long id, String email, String senha, String nome, String cpf, String grupo, String confirmSenha, String status) {
-        super();
+    public Usuario(long id, String email, String senha, String confirmSenha, String nome, String cpf, Enum grupo, String status) {
         this.id = id;
         this.email = email;
         this.senha = senha;
-        this.cpf = cpf;
-        this.nome = nome;
-        this.grupo = grupo;
         this.confirmSenha = confirmSenha;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.grupo = grupo;
         this.status = status;
     }
 
@@ -101,6 +98,14 @@ public class Usuario implements Serializable{
         this.senha = senha;
     }
 
+    public String getConfirmSenha() {
+        return confirmSenha;
+    }
+
+    public void setConfirmSenha(String confirmSenha) {
+        this.confirmSenha = confirmSenha;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -117,20 +122,12 @@ public class Usuario implements Serializable{
         this.cpf = cpf;
     }
 
-    public String getGrupo() {
+    public Enum getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(String grupo) {
+    public void setGrupo(Enum grupo) {
         this.grupo = grupo;
-    }
-
-    public String getConfirmSenha() {
-        return confirmSenha;
-    }
-
-    public void setConfirmSenha(String confirmSenha) {
-        this.confirmSenha = confirmSenha;
     }
 
     public String getStatus() {

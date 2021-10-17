@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
+import com.ninjastech.immobilier.entities.Grupo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -43,8 +44,7 @@ public class TesteConfig implements CommandLineRunner {
 		Produto p3 = new Produto(3,"Mesa Gamer", "Mesa gamer black piano", 250.00, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",2,5);
 		Produto p4 = new Produto(4, "Armario Banheiro", "Armario banheiro com espelho", 700.25, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",3,9);
 
-		Usuario user1 = new Usuario(1, "admin@email.com", "admin", "admin", "32389493300", "admin", "admin", "ativo");
-		Usuario user2 = new Usuario(2, "bruno@gmail.com","user","user","8872389432","user","user","ativo");
+		Usuario user1 = new Usuario(1, "admin@email.com", "admin", "admin", "admin souza", "47983653867", Grupo.ADMIN, "ativo");
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 		
