@@ -45,16 +45,6 @@ public class UsuarioResource {
 
     @PostMapping
     public ResponseEntity<Usuario> insert(@RequestBody Usuario obj) {
-        MessageDigest md;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        BigInteger hash = new BigInteger(1, md.digest(obj.getSenha().getBytes()));
-        obj.setSenha(hash.toString(16));
-        obj.setConfirmSenha(hash.toString(16));
-
         obj = usuarioService.insertUsuario(obj);
         return ResponseEntity.ok().body(obj);
     }
@@ -72,16 +62,6 @@ public class UsuarioResource {
 
 	@PostMapping(value = "/editar")
 	public ResponseEntity<Usuario> edit(@Valid @RequestBody Usuario obj) {
-        MessageDigest md;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        BigInteger hash = new BigInteger(1, md.digest(obj.getSenha().getBytes()));
-        obj.setSenha(hash.toString(16));
-        obj.setConfirmSenha(hash.toString(16));
-
         obj = usuarioService.editUsuario(obj);
         return ResponseEntity.ok().body(obj);
     }
