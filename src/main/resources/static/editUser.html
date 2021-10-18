@@ -30,6 +30,7 @@
                 <select id="fgrupo" name="fgrupo" style="display: none;">
                     <option value="admin">Admin</option>
                     <option value="estoquista">Estoquista</option>
+                    <option value="cliente">Cliente</option>
                 </select>
 
                 <label for="fsenha">Senha:</label>
@@ -83,6 +84,7 @@
                     cpf.value = data.cpf;
                     email.value = data.email;
                     grupo.value = data.grupo;
+                    console.log('grupooooooooooooooooo',data.grupo)
                     senha.value = data.senha;
                     confirmsenha.value = data.confirmSenha;
                     status.value = data.status;

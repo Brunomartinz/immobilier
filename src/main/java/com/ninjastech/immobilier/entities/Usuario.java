@@ -55,7 +55,7 @@ public class Usuario implements Serializable{
     @NotBlank
     @CPF
     private String cpf;
-    private Enum grupo;
+    private String grupo;
     private String status;
 
     //construtores
@@ -63,7 +63,7 @@ public class Usuario implements Serializable{
 
     }
 
-    public Usuario(long id, String email, String senha, String confirmSenha, String nome, String cpf, Enum grupo, String status) {
+    public Usuario(long id, String email, String senha, String confirmSenha, String nome, String cpf, String grupo, String status) {
         this.id = id;
         this.email = email;
         this.senha = senha;
@@ -122,11 +122,11 @@ public class Usuario implements Serializable{
         this.cpf = cpf;
     }
 
-    public Enum getGrupo() {
+    public String getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Enum grupo) {
+    public void setGrupo(String grupo) {
         this.grupo = grupo;
     }
 
