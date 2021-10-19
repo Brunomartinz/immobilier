@@ -226,21 +226,21 @@
         if (pswd == confirmsenha) {
 
           if(grupo == "cliente"){
-            alert("Credenciais insuficientes, contate o administrador do sistema")
+            alert("Credenciais insuficientes, contate o administrador do sistema. Você não tem acesso ao backoffice!!!")
           }else{
             localStorage.setItem('grupo', grupo);
             localStorage.setItem('email', email);
             localStorage.setItem('status', status);
             localStorage.setItem('id', id);
             localStorage.setItem('token', confirmsenha);
-            document.location.href = "http://localhost:8082/testesession.html"
+            document.location.href = "http://localhost:8082/backoffice.html"
           }
 
         } else {
           console.log(pswd);
           console.log(confirmsenha);
-          alert("Usuário ou senha incorreto")
-
+          alert("Usuário ou senha incorreto");
+          document.location.href = "http://localhost:8082/loginPage.html"
         }
 
           }

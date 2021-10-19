@@ -136,7 +136,7 @@
                 mimeType: "json",
                 success: function (data) {
 
-                  if (data !== 'undefined' && data !== '') {
+                  if (data[0]) {
                     $("#butsave").removeAttr("disabled");
                     alert("Já existe um usuário com esse e-mail")
                   } else {
@@ -171,6 +171,7 @@
               var jsonResponse = JSON.parse(data);
 
               ret = jsonResponse.id
+              document.location.href = "http://localhost:8082/users.html"
 
             }
           }
