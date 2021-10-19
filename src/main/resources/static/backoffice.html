@@ -31,6 +31,13 @@
       <tbody id="teste">
         <script>
           $(document).ready(function () {
+            if(localStorage.getItem('grupo')=="cliente"){
+              document.location.href = "http://localhost:8082/loginpage.html";
+            }
+
+            if(localStorage.getItem('grupo')=="estoquista"){
+              $("#adduser").hide();
+            }
 
             if (localStorage.getItem('token') == null) {
 
@@ -164,7 +171,7 @@
 
     </a>
 
-    <a href="createUser.html" id="botao" class="add-new-product mt-3">
+    <a href="createUser.html" id="adduser" class="add-new-product mt-3 botao">
       Adicionar novo usuário
     </a>
 

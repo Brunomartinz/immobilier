@@ -6,8 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="createProduct.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="preview.css">
 
     <title>Editar Usuário</title>
@@ -34,12 +38,11 @@
                 </select>
 
                 <label for="fsenha">Senha:</label>
-                <input type="password" id="fsenha" name="fsenha" required placeholder="Digite a senha">
-
+                <input type="password" id="password" name="fsenha" required placeholder="Digite a senha">
+                <p id="msgsenha"></p>
                 <label for="fconfirmsenha">Confirme a senha:</label>
-                <input type="password" id="fconfirmsenha" name="fconfirmsenha" required
-                    placeholder="Digite a senha novamente">
-
+                <input type="password" id="password2" name="fconfirmsenha" required
+                    placeholder="Digite a senha novamente" class="">
                 <input type="text" id="fstatus" name="fstatus" style="display: none;">
                 <input type="text" id="fid" name="fid" style="display: none;">
                 <label>Salvar Usuário</label>
@@ -54,14 +57,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"></script>
-    <script src="preview.js"></script>
-    <script src="inserfunctions.js"></script>
-
+    <script src="jquery.md5.js"></script>
     <script>
         $(document).ready(function () {
             if (localStorage.getItem('token') == null) {
                 document.location.href = "http://localhost:8082/loginpage.html";
             }
+
+            $("#password").on("focusout", function () {
+                if ($(this).val() != $("#password2").val()) {
+                    $("#msgsenha").text('As senhas não batem');
+                } else {
+                    $("#msgsenha").text('');
+                }
+            });
+
+            $("#password2").on("keyup", function () {
+                if ($("#password").val() != $(this).val()) {
+                    $("#msgsenha").text('As senhas não batem');
+                } else {
+                    $("#msgsenha").text('');
+                }
+            });
             var linkimg
             var ids
             var stats;
@@ -74,8 +91,8 @@
                     const cpf = document.getElementById("fcpf");
                     const email = document.getElementById("femail");
                     const grupo = document.getElementById("fgrupo");
-                    const senha = document.getElementById("fsenha");
-                    const confirmsenha = document.getElementById("fconfirmsenha");
+                    const senha = data.senha;
+                    const confirmsenha = data.confirmSenha;
                     const status = document.getElementById("fstatus");
                     const id = document.getElementById("fid");
 
@@ -83,30 +100,18 @@
                     cpf.value = data.cpf;
                     email.value = data.email;
                     grupo.value = data.grupo;
-                    console.log('grupooooooooooooooooo',data.grupo)
-                    senha.value = data.senha;
-                    confirmsenha.value = data.confirmSenha;
                     status.value = data.status;
                     id.value = data.id;
+                    
                 },
                 error: function () {
                     alert("Fail!");
                 },
             });
-
-            $('#butsave').on('click', function () {
+            $("#statusForm").submit(function (e) {
+          e.preventDefault();
                 $("#butsave").attr("disabled", "disabled");
-                const firebaseConfig = {
-                    apiKey: "AIzaSyAX_XtQWruP2MXlIE9mDJAY0sBE2WuVHj0",
-                    authDomain: "pi4senac-221bd.firebaseapp.com",
-                    projectId: "pi4senac-221bd",
-                    storageBucket: "pi4senac-221bd.appspot.com",
-                    messagingSenderId: "760004051313",
-                    appId: "1:760004051313:web:599d5eb10bc7410404b6d0"
-                };
-                firebase.initializeApp(firebaseConfig);
-                console.log(firebase);
-                const ref = firebase.storage().ref();
+            
 
                 function delay(n) {
                     return new Promise(function (resolve) {
@@ -128,9 +133,9 @@
                     var cpf = $('#fcpf').val();
                     var email = $('#femail').val();
                     var grupo = $('#fgrupo').val();
-                    var senha = $('#fsenha').val();
+                    var senha = $.md5($('#password').val());
                     var status = $('#fstatus').val();
-                    var confirmSenha = $('#fconfirmsenha').val();
+                    var confirmSenha = $.md5($('#password2').val());
                     var url = "http://localhost:8082/user/editar";
                     var body = {
                         id: id,
@@ -138,11 +143,12 @@
                         cpf: cpf,
                         email: email,
                         grupo: grupo,
-                        senha: "senha",
+                        senha: senha,
                         confirmSenha: confirmSenha,
                         status: status
                     }
                     if (senha === confirmSenha) {
+                        console.log(body)
                         var valor = fasPost(url, body);
                     } else {
                         alert("As senhas devem ser iguais!");
