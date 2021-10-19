@@ -173,59 +173,85 @@
   </script>
 
   <script>
-    $("#logar").click(function () {
-
-
-      var email = $('#email').val();
-      var senha = $('#senha').val();
-      var url = "http://localhost:8082/login";
-      var body = {
-        email: email,
-        senha: senha
-      }
-      console.log(body)
-      var token
-
-
-
-      const request = new XMLHttpRequest();
-
-      request.open('POST', url);
-
-      request.setRequestHeader('Content-Type', 'application/json');
-
-      request.onreadystatechange = function () {
-        if (this.readyState === 4) {
-          console.log('Status:', this.status);
-          token = this.getResponseHeader('Authorization');
-          console.log(token)
-          console.log('Body:', this.responseText);
-        }
-      };
-      request.send(JSON.stringify(body));
-
-      function delay(n) {
-        return new Promise(function (resolve) {
-          setTimeout(resolve, n * 1000);
-        });
-      }
-
-      async function myAsyncFunction() {
-        //Do what you want here
-        console.log("Before the delay")
-
-        await delay(1);
-        $.session.set('token', token);
-
-        console.log($.session.get('token'))
-        localStorage.setItem('token',token)
-        document.location.href = "http://localhost:8082/backoffice.html";
-
-      }
-      myAsyncFunction();
-
-    })
+    function delay(n) {
+      return new Promise(function (resolve) {
+        setTimeout(resolve, n * 1000);
+      });
+    }
   </script>
+
+  <script>
+    $("#logar").click(function () {
+      var emailconf = $('#email').val();
+      var pswd = $.md5($('#senha').val());
+      var id
+      var email
+      var senha
+      var confirmsenha
+      var nome
+      var cpf
+      var grupo
+      var status
+   
+      
+      function delay(n) {
+            return new Promise(function (resolve) {
+              setTimeout(resolve, n * 1000);
+            });
+          }
+
+          async function myAsyncFunction() {
+        $.ajax({
+        type: "GET",
+        url: `http://localhost:8082/user/pesquisa/`+emailconf,
+        mimeType: "json",
+        success: function (data) {
+         confirmsenha = data[0].senha;
+         id = data[0].id
+         grupo = data[0].grupo
+         status = data[0].status
+         email = data[0].email
+        }
+        ,
+        error: function () {
+          alert("Usuário não encontrado");
+        },
+      });
+
+      await delay(2);
+
+
+
+        if (pswd == confirmsenha) {
+
+          if(grupo == "cliente"){
+            alert("Credenciais insuficientes, contate o administrador do sistema")
+          }else{
+            localStorage.setItem('grupo', grupo);
+            localStorage.setItem('email', email);
+            localStorage.setItem('status', status);
+            localStorage.setItem('id', id);
+            localStorage.setItem('token', confirmsenha);
+            document.location.href = "http://localhost:8082/testesession.html"
+          }
+
+        } else {
+          console.log(pswd);
+          console.log(confirmsenha);
+          alert("Senha incorreta")
+
+        }
+
+          }
+
+        myAsyncFunction();
+
+
+    }
+
+    )
+  </script>
+
 </body>
 
 </html>

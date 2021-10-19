@@ -68,7 +68,6 @@
             $.ajax({
                 type: "GET",
                 url: `http://localhost:8082/user/${localStorage.getItem('userId')}`,
-                headers: { "Authorization": localStorage.getItem('token') },
                 mimeType: "json",
                 success: function (data) {
                     const nome = document.getElementById("fnome");

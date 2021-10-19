@@ -11,36 +11,31 @@
 </head>
 
 <body>
-    <h1 id="nome"></h1>
-    <h2 id="senha"></h2>
+    <h1 id="dados1"></h1>
+    <h2 id="dados2"></h2>
+    <h2 id="dados3"></h2>
+    <h2 id="dados4"></h2>
 
     <button id="remove">remover session</button>
 </body>
 <script>
     $(document).ready(function () {
-        var nome = document.getElementById("nome");
-        var senha = document.getElementById("senha");
+        var dados1 = document.getElementById("dados1");
+        var dados2 = document.getElementById("dados2");
+        var dados3 = document.getElementById("dados3");
+        var dados4 = document.getElementById("dados4");
 
-        var token = localStorage.getItem('token')
-
-
-
-        console.log(token)
-
-        nome.innerText = token
+        dados1.innerText = localStorage.getItem('grupo');
+        dados2.innerText = localStorage.getItem('status');
+        dados3.innerText = localStorage.getItem('id');
+        dados4.innerText = localStorage.getItem('token');
 
     })
 
 
     $("#remove").click(function () {
-        $.session.clear();
         localStorage.clear();
-        var sessionusr = $.session.get('token');
-        var sessionsenh = $.session.get('grupo');
 
-
-        console.log(sessionusr)
-        console.log(sessionsenh)
 
     })
 </script>

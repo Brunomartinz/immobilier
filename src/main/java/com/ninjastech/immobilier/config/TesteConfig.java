@@ -44,7 +44,7 @@ public class TesteConfig implements CommandLineRunner {
 		Produto p3 = new Produto(3,"Mesa Gamer", "Mesa gamer black piano", 250.00, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",2,5);
 		Produto p4 = new Produto(4, "Armario Banheiro", "Armario banheiro com espelho", 700.25, "https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633197339914-images.jpg?alt=media&token=57ec7f09-fc0b-4511-b5f9-01740966d568","ativo",3,9);
 
-		Usuario user1 = new Usuario(1, "admin@email.com", "admin", "admin", "admin souza", "47983653867", "admin", "ativo");
+		Usuario user1 = new Usuario(1, "admin@email.com", "21232f297a57a5a743894a0e4a801fc3", "21232f297a57a5a743894a0e4a801fc3", "admin souza", "47983653867", "admin", "ativo");
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4));
 		

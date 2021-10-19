@@ -40,7 +40,6 @@
             $.ajax({
               type: "GET",
               url: "http://localhost:8082/produto",
-              headers: {"Authorization": localStorage.getItem('token')},
               mimeType: "json",
               success: function (data) {
                 $.each(data, function (i, data) {
