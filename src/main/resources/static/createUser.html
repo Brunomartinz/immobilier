@@ -70,20 +70,20 @@
 
 
         $("#password").on("focusout", function () {
-              if ($(this).val() != $("#password2").val()) {
-                $("#msgsenha").text('As senhas não batem');
-              } else {
-                $("#msgsenha").text('');
-              }
-            });
+          if ($(this).val() != $("#password2").val()) {
+            $("#msgsenha").text('As senhas não batem');
+          } else {
+            $("#msgsenha").text('');
+          }
+        });
 
-            $("#password2").on("keyup", function () {
-              if ($("#password").val() != $(this).val()) {
-                $("#msgsenha").text('As senhas não batem');
-              } else {
-                $("#msgsenha").text('');
-              }
-            });          
+        $("#password2").on("keyup", function () {
+          if ($("#password").val() != $(this).val()) {
+            $("#msgsenha").text('As senhas não batem');
+          } else {
+            $("#msgsenha").text('');
+          }
+        });
 
         $("#statusForm").submit(function (e) {
           e.preventDefault();
@@ -124,13 +124,32 @@
               status: status
             }
 
-            
+
 
             const ret = null
 
-            if(senha == confirmSenha){
-              fasPost(url, body);
-            }else{
+            if (senha == confirmSenha) {
+
+              $.ajax({
+                type: "GET",
+                url: `http://localhost:8082/user/pesquisa/` + email,
+                mimeType: "json",
+                success: function (data) {
+
+                  if (data !== 'undefined' && data !== '') {
+                    $("#butsave").removeAttr("disabled");
+                    alert("Já existe um usuário com esse e-mail")
+                  } else {
+                    fasPost(url, body);
+                  }
+                }
+                ,
+                error: function () {
+
+                },
+              });
+
+            } else {
               $("#butsave").removeAttr("disabled");
               alert("As senhas não batem");
             }
