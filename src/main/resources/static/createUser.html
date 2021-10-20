@@ -128,8 +128,6 @@
 
             const ret = null
 
-            if (senha == confirmSenha) {
-
               $.ajax({
                 type: "GET",
                 url: `http://localhost:8082/user/pesquisa/` + email,
@@ -139,6 +137,9 @@
                   if (data[0]) {
                     $("#butsave").removeAttr("disabled");
                     alert("Já existe um usuário com esse e-mail")
+                  } else if (senha != confirmSenha) {
+                    $("#butsave").removeAttr("disabled");
+                    alert("As senhas não batem");
                   } else {
                     fasPost(url, body);
                   }
@@ -148,11 +149,6 @@
 
                 },
               });
-
-            } else {
-              $("#butsave").removeAttr("disabled");
-              alert("As senhas não batem");
-            }
 
           }
 

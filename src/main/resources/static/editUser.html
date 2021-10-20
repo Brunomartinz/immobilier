@@ -31,17 +31,18 @@
 
                 <input type="email" id="femail" name="femail" style="display: none;">
 
-                <select id="fgrupo" name="fgrupo" style="display: none;">
+                <label for="fgrupo">Grupo:</label>
+                <select id="fgrupo" name="fgrupo" class="mt-3">
                     <option value="admin">Admin</option>
                     <option value="estoquista">Estoquista</option>
                     <option value="cliente">Cliente</option>
                 </select>
 
                 <label for="fsenha">Senha:</label>
-                <input type="password" id="password" name="fsenha" required placeholder="Digite a senha">
+                <input type="text" id="password" name="fsenha" required placeholder="Digite a senha">
                 <p id="msgsenha"></p>
                 <label for="fconfirmsenha">Confirme a senha:</label>
-                <input type="password" id="password2" name="fconfirmsenha" required
+                <input type="text" id="password2" name="fconfirmsenha" required
                     placeholder="Digite a senha novamente" class="">
                 <input type="text" id="fstatus" name="fstatus" style="display: none;">
                 <input type="text" id="fid" name="fid" style="display: none;">
@@ -91,8 +92,8 @@
                     const cpf = document.getElementById("fcpf");
                     const email = document.getElementById("femail");
                     const grupo = document.getElementById("fgrupo");
-                    const senha = data.senha;
-                    const confirmsenha = data.confirmSenha;
+                    const senha = document.getElementById("password");
+                    const confirmsenha = document.getElementById("password2");
                     const status = document.getElementById("fstatus");
                     const id = document.getElementById("fid");
 
@@ -102,6 +103,8 @@
                     grupo.value = data.grupo;
                     status.value = data.status;
                     id.value = data.id;
+                    senha.value = $.md5(data.senha);
+                    confirmsenha.value = $.md5(data.confirmsenha);
                     
                 },
                 error: function () {

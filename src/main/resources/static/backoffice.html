@@ -10,7 +10,7 @@
       type="text/css"
       href="DataTables/datatables.min.css"
     />
-
+    <link rel="stylesheet" href="Tailwind.css">
     <title>Document</title>
   </head>
 
@@ -107,19 +107,34 @@
       <!-- mobile menu -->
       <div class="hidden mobile-menu">
         <ul class="">
-          <li class="active">
+          <li class="">
             <a
-              href="index.html"
-              class="
+                    href="backoffice.html"
+                    class="
                 block
                 text-sm
                 px-2
                 py-4
-                text-white
-                bg-red-500
+                text-black
+                bg-gray-100
                 font-semibold
               "
-              >Home</a
+            >Listar Produtos</a
+            >
+          </li>
+          <li class="">
+            <a
+                    href="users.html"
+                    class="
+                block
+                text-sm
+                px-2
+                py-4
+                text-black
+                bg-gray-100
+                font-semibold
+              "
+            >Listar Usuários</a
             >
           </li>
         </ul>
@@ -310,14 +325,6 @@
         </svg>
 
         Adicionar novo produto
-      </a>
-
-      <a href="createUser.html" id="adduser" class="add-new-product mt-3 botao">
-        Adicionar novo usuário
-      </a>
-
-      <a href="users.html" id="botao" class="add-new-product mt-3">
-        Listar usuários
       </a>
     </div>
   </body>

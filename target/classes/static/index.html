@@ -74,6 +74,18 @@
                 </div>
             </div>
         </div>
+
+            <!-- logout menu -->
+            <div class="hidden loggout-menu max-w-6xl m-auto bg-grey-800">
+                <ul class="">
+                    <li class="active"><a href="loginPage.html"
+                            class="block text-sm px-2 py-4 hover:bg-gray-700  hover:text-white text-gray-800 bg-white font-semibold">Minha conta</a></li>
+                            <li class="active"><a href=""
+                                class="block text-sm px-2 hover:bg-gray-700 hover:text-white py-4 text-gray-800 bg-white font-semibold">Logout</a></li>
+                </ul>
+            </div>
+
+
         <!-- mobile menu -->
         <div class="hidden mobile-menu">
             <ul class="">
@@ -82,13 +94,20 @@
             </ul>
         </div>
         <script>
-            const btn = document.querySelector("button.mobile-menu-button");
+        const btn = document.querySelector("button.mobile-menu-button");
             const menu = document.querySelector(".mobile-menu");
+
+            const loggoutMenu = document.getElementById("user-icon");
+            const loggoutDiv = document.querySelector(".loggout-menu");
 
             btn.addEventListener("click", () => {
                 menu.classList.toggle("hidden");
             });
 
+            loggoutMenu.addEventListener("click", () => {
+                loggoutDiv.classList.toggle("hidden");
+            });
+            
             function comprar(id){
             
 
