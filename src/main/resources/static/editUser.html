@@ -39,12 +39,16 @@
                 </select>
 
                 <label for="fsenha">Senha:</label>
-                <input type="text" id="password" name="fsenha" required placeholder="Digite a senha">
+                <input type="password" id="password" name="fsenha" placeholder="Digite a senha">
                 <p id="msgsenha"></p>
                 <label for="fconfirmsenha">Confirme a senha:</label>
-                <input type="text" id="password2" name="fconfirmsenha" required
-                    placeholder="Digite a senha novamente" class="">
+                <input type="password" id="password2" name="fconfirmsenha" placeholder="Digite a senha novamente"
+                    class="">
                 <input type="text" id="fstatus" name="fstatus" style="display: none;">
+
+                <input type="text" id="fsenha1" name="fsenha1" style="display: none;">
+                <input type="text" id="fsenha2" name="fsenha2" style="display: none;">
+
                 <input type="text" id="fid" name="fid" style="display: none;">
                 <label>Salvar Usuário</label>
                 <button id="butsave">Salvar</button>
@@ -60,10 +64,33 @@
         crossorigin="anonymous"></script>
     <script src="jquery.md5.js"></script>
     <script>
+        function TestaCPF(strCPF) {
+            var Soma;
+            var Resto;
+            Soma = 0;
+            if (strCPF == "00000000000") return false;
+
+            for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+            Soma = 0;
+            for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+            return true;
+        }
+    </script>
+    <script>
         $(document).ready(function () {
             if (localStorage.getItem('token') == null) {
                 document.location.href = "http://localhost:8082/loginpage.html";
             }
+            
 
             $("#password").on("focusout", function () {
                 if ($(this).val() != $("#password2").val()) {
@@ -92,8 +119,8 @@
                     const cpf = document.getElementById("fcpf");
                     const email = document.getElementById("femail");
                     const grupo = document.getElementById("fgrupo");
-                    const senha = document.getElementById("password");
-                    const confirmsenha = document.getElementById("password2");
+                    const senha = document.getElementById("fsenha1");
+                    const confirmsenha = document.getElementById("fsenha2");
                     const status = document.getElementById("fstatus");
                     const id = document.getElementById("fid");
 
@@ -103,18 +130,18 @@
                     grupo.value = data.grupo;
                     status.value = data.status;
                     id.value = data.id;
-                    senha.value = $.md5(data.senha);
-                    confirmsenha.value = $.md5(data.confirmsenha);
-                    
+                    senha.value = data.senha;
+                    confirmsenha.value = data.confirmSenha;
+
                 },
                 error: function () {
                     alert("Fail!");
                 },
             });
             $("#statusForm").submit(function (e) {
-          e.preventDefault();
+                e.preventDefault();
                 $("#butsave").attr("disabled", "disabled");
-            
+
 
                 function delay(n) {
                     return new Promise(function (resolve) {
@@ -129,16 +156,32 @@
                     await delay(2);
 
                     console.log("After the delay")
+
                     //Do what you want here too
+
+                    if( ($('#password').val()) == "" & ($('#password2').val()=="")){
+                        var senha = $('#fsenha1').val();
+                        var confirmSenha = $('#fsenha2').val();
+                        console.log($('#fsenha1').val())
+                        console.log($('#fsenha1').val())
+
+                    }else{
+
+                        var senha = $.md5($('#password').val());
+                        var confirmSenha = $.md5($('#password2').val());
+                    }
+
 
                     var id = $('#fid').val();
                     var nome = $('#fnome').val();
                     var cpf = $('#fcpf').val();
                     var email = $('#femail').val();
                     var grupo = $('#fgrupo').val();
-                    var senha = $.md5($('#password').val());
+                    
                     var status = $('#fstatus').val();
-                    var confirmSenha = $.md5($('#password2').val());
+                    
+
+                    
                     var url = "http://localhost:8082/user/editar";
                     var body = {
                         id: id,
@@ -151,8 +194,14 @@
                         status: status
                     }
                     if (senha === confirmSenha) {
-                        console.log(body)
-                        var valor = fasPost(url, body);
+                        if (TestaCPF($('#fcpf').val())) {
+                            console.log(body);
+                            fasPost(url, body);
+                            ;
+                        } else {
+                            $("#butsave").removeAttr("disabled");
+                            alert("CPF Invalido")
+                        }
                     } else {
                         alert("As senhas devem ser iguais!");
                         setTimeout(function () {

@@ -62,11 +62,36 @@
   <script src="preview.js"></script>
   <script src="jquery.md5.js"></script>
   <script>
+    function TestaCPF(strCPF) {
+      var Soma;
+      var Resto;
+      Soma = 0;
+      if (strCPF == "00000000000") return false;
+
+      for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+      Resto = (Soma * 10) % 11;
+
+      if ((Resto == 10) || (Resto == 11)) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+      Soma = 0;
+      for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+      Resto = (Soma * 10) % 11;
+
+      if ((Resto == 10) || (Resto == 11)) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+      return true;
+    }
+  </script>
+  <script>
     $(document).ready(function () {
       if (localStorage.getItem('token') == null) {
         document.location.href = "http://localhost:8082/loginpage.html";
-
-      } else {
+      } else if (localStorage.getItem("grupo") == "estoquista") {
+        document.location.href = "http://localhost:8082/backoffice.html";
+        
+      }
+      else {
 
 
         $("#password").on("focusout", function () {
@@ -128,27 +153,34 @@
 
             const ret = null
 
-              $.ajax({
-                type: "GET",
-                url: `http://localhost:8082/user/pesquisa/` + email,
-                mimeType: "json",
-                success: function (data) {
+            $.ajax({
+              type: "GET",
+              url: `http://localhost:8082/user/pesquisa/` + email,
+              mimeType: "json",
+              success: function (data) {
 
-                  if (data[0]) {
-                    $("#butsave").removeAttr("disabled");
-                    alert("Já existe um usuário com esse e-mail")
-                  } else if (senha != confirmSenha) {
-                    $("#butsave").removeAttr("disabled");
-                    alert("As senhas não batem");
-                  } else {
+                if (data[0]) {
+                  $("#butsave").removeAttr("disabled");
+                  alert("Já existe um usuário com esse e-mail")
+                } else if (senha != confirmSenha) {
+                  $("#butsave").removeAttr("disabled");
+                  alert("As senhas não batem");
+                } else {
+
+                  if (TestaCPF($('#fcpf').val())) {
                     fasPost(url, body);
+                  } else {
+                    $("#butsave").removeAttr("disabled");
+                    alert("CPF Invalido")
                   }
-                }
-                ,
-                error: function () {
 
-                },
-              });
+                }
+              }
+              ,
+              error: function () {
+
+              },
+            });
 
           }
 
