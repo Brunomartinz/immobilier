@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Tailwind.css" />
+    <title>Fazer login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="jquery.session.js"></script>
+    <script src="jquery.md5.js"></script>
+</head>
+<style>
+  .i {
+    color: #d9d9d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .i i {
+    transition: 0.3s;
+  }
+
+  .input-div>div {
+    position: relative;
+    height: 45px;
+  }
+
+  .input-div>div>h5 {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 18px;
+    transition: 0.3s;
+  }
+
+  .input-div:before,
+  .input-div:after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background-color: #38d39f;
+    transition: 0.4s;
+  }
+
+  .input-div:before {
+    right: 50%;
+  }
+
+  .input-div:after {
+    left: 50%;
+  }
+
+  .input-div.focus:before,
+  .input-div.focus:after {
+    width: 50%;
+  }
+
+  .input-div.focus>div>h5 {
+    top: -5px;
+    font-size: 15px;
+  }
+
+  .input-div.focus>.i>i {
+    color: #38d39f;
+  }
+</style>
+
+<body class="bg-gray-300" style="font-family: Roboto">
+    <div class="h-screen flex justify-center items-center w-full">
+        <div class="bg-white rounded-lg w-4/5 md:w-3/5 xl:w-2/5 px-6 md:px-10 lg:px-16 py-16">
+            <form onsubmit="return false">
+                <div class="flex font-bold justify-center">
+                    <img class="h-20 w-20"
+                         src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/avatar.svg" />
+                </div>
+                <h2 class="text-3xl text-center text-gray-700 mb-4 pt-3">
+                    Bem-vindo!
+                </h2>
+                <div class="
+                  input-div
+                  border-b-2
+                  relative
+                  grid
+                  my-5
+                  py-1
+                  focus:outline-none
+                " style="grid-template-columns: 7% 93%">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="div">
+                        <h5>E-mail</h5>
+                        <input type="text" autocomplete="on" class="
+                      absolute
+                      w-full
+                      h-full
+                      py-2
+                      px-3
+                      outline-none
+                      inset-0
+                      text-gray-700
+                    " id="email" style="background: none" />
+                    </div>
+                </div>
+                <div class="
+                  input-div
+                  border-b-2
+                  relative
+                  grid
+                  my-5
+                  py-1
+                  focus:outline-none
+                " style="grid-template-columns: 7% 93%">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        <h5>Senha</h5>
+                        <input type="password" autocomplete="on" class="
+                      absolute
+                      w-full
+                      h-full
+                      py-2
+                      px-3
+                      outline-none
+                      inset-0
+                      text-gray-700
+                    " id="senha" style="background: none" />
+                    </div>
+                </div>
+
+                <button type="submit" id="logar" class="
+                  w-full
+                  py-2
+                  rounded-full
+                  bg-green-600
+                  text-gray-100
+                  focus:outline-none
+                ">
+                    Fazer Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll("input");
+
+        function addEffect() {
+          let parent = this.parentNode.parentNode;
+          parent.classList.add("focus");
+        }
+
+        function removeEffect() {
+          let parent = this.parentNode.parentNode;
+          if (this.value == "") {
+            parent.classList.remove("focus");
+          }
+        }
+
+        inputs.forEach((input) => {
+          input.addEventListener("focus", addEffect);
+          input.addEventListener("blur", removeEffect);
+        });
+      </script>
+
+    <script>
+        function delay(n) {
+          return new Promise(function (resolve) {
+            setTimeout(resolve, n * 1000);
+          });
+        }
+     </script>
+
+    <script>
+        $("#logar").click(function () {
+          var emailconf = $('#email').val();
+          var pswd = $.md5($('#senha').val());
+          var id
+          var email
+          var senha
+          var confirmsenha
+          var nome
+          var cpf
+          var grupo
+          var status
+
+          function delay(n) {
+                return new Promise(function (resolve) {
+                  setTimeout(resolve, n * 1000);
+                });
+              }
+
+              async function myAsyncFunction() {
+            $.ajax({
+            type: "GET",
+            url: `http://localhost:8082/user/pesquisa/`+emailconf,
+            mimeType: "json",
+            success: function (data) {
+             confirmsenha = data[0].senha;
+             id = data[0].id
+             grupo = data[0].grupo
+             status = data[0].status
+             email = data[0].email
+            }
+            ,
+            error: function () {
+              alert("Usuário não encontrado");
+            },
+          });
+
+          await delay(2);
+
+            if (pswd == confirmsenha) {
+
+              if(grupo == "cliente"){
+                alert("Credenciais insuficientes, contate o administrador do sistema. Você não tem acesso ao backoffice!!!")
+              }else{
+                localStorage.setItem('grupo', grupo);
+                localStorage.setItem('email', email);
+                localStorage.setItem('status', status);
+                localStorage.setItem('id', id);
+                localStorage.setItem('token', confirmsenha);
+                document.location.href = "http://localhost:8082/backoffice.html"
+              }
+
+            } else {
+              console.log(pswd);
+              console.log(confirmsenha);
+              alert("Usuário ou senha incorreto");
+              document.location.href = "http://localhost:8082/loginPage.html"
+            }
+              }
+            myAsyncFunction();
+            }
+        )
+      </script>
+</body>
+</html>
