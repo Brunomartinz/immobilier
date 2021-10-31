@@ -93,7 +93,7 @@ public class ClienteEndereco {
         this.uf = uf;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 

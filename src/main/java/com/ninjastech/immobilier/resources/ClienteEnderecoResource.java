@@ -3,7 +3,6 @@ package com.ninjastech.immobilier.resources;
 import com.ninjastech.immobilier.entities.ClienteEndereco;
 import com.ninjastech.immobilier.services.ClienteEnderecoService;
 import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -41,17 +40,6 @@ public class ClienteEnderecoResource {
     @PostMapping
     public ResponseEntity<ClienteEndereco> insert(@RequestBody ClienteEndereco obj) {
         obj = service.insertEndereco(obj);
-        return ResponseEntity.ok().body(obj);
-    }
-
-    @PostMapping(value = "/excluir")
-    public void delete(@Valid @RequestBody ClienteEndereco obj) {
-        service.deletEndereco(obj);
-    }
-
-    @PostMapping(value = "/editar")
-    public ResponseEntity<ClienteEndereco> edit(@Valid @RequestBody ClienteEndereco obj) {
-        obj = service.editEndereco(obj);
         return ResponseEntity.ok().body(obj);
     }
 }

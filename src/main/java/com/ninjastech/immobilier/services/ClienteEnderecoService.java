@@ -29,12 +29,4 @@ public class ClienteEnderecoService {
     public ClienteEndereco insertEndereco(ClienteEndereco obj) {
         return clienteEnderecoRepository.save(obj);
     }
-
-    public void deletEndereco(ClienteEndereco obj) {
-        clienteEnderecoRepository.deleteById(obj.getId());
-    }
-
-    public ClienteEndereco editEndereco(ClienteEndereco obj) {
-        return clienteEnderecoRepository.save(obj);
-    }
 }
