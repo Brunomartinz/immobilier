@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="clientecss.css" />
+  <title>Fazer login</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="jquery.session.js"></script>
+  <script src="jquery.md5.js"></script>
+</head>
+
+
+<body>
+  <div class="container" id="container">
+    <nav class="sidebar-navigation">
+      <ul>
+        <li class="active">
+          <i class="fa fa-share-alt"></i>
+          <span class="tooltip">Connections</span>
+        </li>
+        <li>
+          <i class="fa fa-hdd-o"></i>
+          <span class="tooltip">Devices</span>
+        </li>
+        <li>
+          <i class="fa fa-newspaper-o"></i>
+          <span class="tooltip">Contacts</span>
+        </li>
+        <li>
+          <i class="fa fa-print"></i>
+          <span class="tooltip">Fax</span>
+        </li>
+        <li>
+          <i class="fa fa-sliders"></i>
+          <span class="tooltip">Settings</span>
+        </li>
+      </ul>
+    </nav>
+    <div class="form-container ">
+      <form onsubmit="return false" name="statusForm" id="statusForm">
+        <h1>Criar uma conta</h1>
+        <input type="text" placeholder="Nome" required id="nome" />
+        <input type="email" placeholder="Email" required id="email" />
+        <input type="text" placeholder="CPF" required id="cpf" />
+        <input type="text" placeholder="CEP" required id="cep" />
+        <input type="text" placeholder="logradouro" disabled id="logradouro" />
+        <input style="display: none;" type="text" placeholder="bairro" id="bairro" disabled />
+        <input style="display: none;" type="text" placeholder="cidade" id="cidade" disabled />
+        <input style="display: none;" type="text" placeholder="uf" id="uf" disabled />
+        <input type="text" placeholder="Número" id="numero" required />
+        <select id="genero" placeholder="Genero" required>
+          <option value="maculino">maculino</option>
+          <option value="Feminino">Feminino</option>
+          <option value="Outro">Outro</option>
+        </select>
+        <input type="text" placeholder="Data de nascimento" id="nasc" onfocus="(this.type = 'date')" />
+
+        <input type="password" placeholder="Senha" id="password" />
+        <input type="password" placeholder="Confirme a senha" id="password2" />
+        <p id="msgsenha"></p>
+        <button id="cadastrar">Cadastrar</button>
+      </form>
+    </div>
+  <script>
+  </script>
+
+</body>
+
+</html>
