@@ -37,11 +37,15 @@ public class ClienteService {
 	}
 
 	public List<Cliente> findEmail(String palavra) {
-        String email = palavra+"%";
+        String email = palavra;
         System.out.println(email);
 		return clienteRepository.findByEmail(email);
 	}
-	
+	public List<Cliente> findCPF(String palavra) {
+        String cpf = palavra;
+        System.out.println(cpf);
+		return clienteRepository.findByCPF(cpf);
+	}
 	public void deletCliente(Cliente obj){
 			clienteRepository.deleteById(obj.getId());
         }

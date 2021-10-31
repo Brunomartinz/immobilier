@@ -11,11 +11,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.ninjastech.immobilier.entities.Categoria;
+import com.ninjastech.immobilier.entities.Cliente;
 import com.ninjastech.immobilier.entities.Produto;
 import com.ninjastech.immobilier.entities.Usuario;
 import com.ninjastech.immobilier.repositories.CategoryRepository;
+import com.ninjastech.immobilier.repositories.ClienteRepository;
 import com.ninjastech.immobilier.repositories.ProdutoRepository;
 import com.ninjastech.immobilier.repositories.UsuarioRepository;
+import java.time.LocalDate;
 
 @Configuration
 public class TesteConfig implements CommandLineRunner {
@@ -28,7 +31,9 @@ public class TesteConfig implements CommandLineRunner {
 
 	@Autowired
 	private UsuarioRepository usuarioRep;
-
+        
+        @Autowired
+	private ClienteRepository clientRep;
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -64,9 +69,10 @@ public class TesteConfig implements CommandLineRunner {
 		final String dateStr = "02-17-2001";
 		final DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 		final Date date = df.parse(dateStr);
-
-
-		}
+                LocalDate localDate = LocalDate.parse("2000-04-08");
+                Cliente cli1 = new Cliente(null,"Arnaldo Victor Yamawaki Alves","arnaldo@mail.com" ,"51325677892" ,"03945120" , "masculino", localDate, "202cb962ac59075b964b07152d234b70", "202cb962ac59075b964b07152d234b70", "Joao gomes pereira","298", "Jardim Tiete", "São Paulo", "SP");
+                clientRep.saveAll(Arrays.asList(cli1));
+		}   
 
 
 	}

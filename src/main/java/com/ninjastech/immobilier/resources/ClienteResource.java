@@ -39,9 +39,14 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);
 	}
         
-	@GetMapping(value = "/pesquisa/{nome}")
+	@GetMapping(value = "/pesquisa/{email}")
 	public ResponseEntity<List<Cliente>> findNome(@PathVariable String email) {
 		List<Cliente> list = service.findEmail(email);
+		return ResponseEntity.ok().body(list);
+	}
+        @GetMapping(value = "/pesquisa/cpf/{cpf}")
+	public ResponseEntity<List<Cliente>> findCpf(@PathVariable String cpf) {
+		List<Cliente> list = service.findCPF(cpf);
 		return ResponseEntity.ok().body(list);
 	}
 	

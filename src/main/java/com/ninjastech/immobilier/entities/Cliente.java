@@ -30,14 +30,21 @@ public class Cliente {
     private String confirmSenha;
 
     private String logradouro;
-
+    
+    private String numero;
+    
     private String bairro;
 
     private String cidade;
 
     private String uf;
 
-    public Cliente(Long id, String nome, String email, String cpf, String cep, String genero, LocalDate dataNascimento, String senha, String confirmSenha, String logradouro, String bairro, String cidade, String uf) {
+    public Cliente() {
+    }
+    
+    
+
+    public Cliente(Long id, String nome, String email, String cpf, String cep, String genero, LocalDate dataNascimento, String senha, String confirmSenha, String logradouro, String numero, String bairro, String cidade, String uf) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -48,6 +55,7 @@ public class Cliente {
         this.senha = senha;
         this.confirmSenha = confirmSenha;
         this.logradouro = logradouro;
+        this.numero = numero;
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
@@ -133,6 +141,15 @@ public class Cliente {
         this.logradouro = logradouro;
     }
 
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    
     public String getBairro() {
         return bairro;
     }

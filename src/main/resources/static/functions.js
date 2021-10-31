@@ -1,10 +1,4 @@
 function alterarStatus(){
-
-
-
-
-
-
     
     console.log("até aqui ok")
     console.log(arguments[0]);
