@@ -16,41 +16,34 @@
 <body>
   <div class="container" id="container">
     <nav class="sidebar-navigation">
-      <ul>
-        <li class="active">
-          <i class="fa fa-share-alt"></i>
-          <span class="tooltip">Connections</span>
+      <ul style="list-style-type: none;">
+        <li class="active" style="margin-left: -40px;" id="altdados">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+            <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
+          </svg>
+          <span class="tooltip">Meus dados</span>
         </li>
-        <li>
-          <i class="fa fa-hdd-o"></i>
-          <span class="tooltip">Devices</span>
+        <li style="margin-left: -40px;" id="altend">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          </svg>
+          <span class="tooltip">Endereços</span>
         </li>
-        <li>
-          <i class="fa fa-newspaper-o"></i>
-          <span class="tooltip">Contacts</span>
+
+        <li style="margin-left: -40px;" id="altend">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+          </svg>
+          <span class="tooltip">Faturamento</span>
         </li>
-        <li>
-          <i class="fa fa-print"></i>
-          <span class="tooltip">Fax</span>
-        </li>
-        <li>
-          <i class="fa fa-sliders"></i>
-          <span class="tooltip">Settings</span>
-        </li>
+
       </ul>
     </nav>
-    <div class="form-container ">
+    <div class="form-container " id="altdadsf">
       <form onsubmit="return false" name="statusForm" id="statusForm">
-        <h1>Criar uma conta</h1>
+        <h1>Alterar dados</h1>
         <input type="text" placeholder="Nome" required id="nome" />
-        <input type="email" placeholder="Email" required id="email" />
-        <input type="text" placeholder="CPF" required id="cpf" />
-        <input type="text" placeholder="CEP" required id="cep" />
-        <input type="text" placeholder="logradouro" disabled id="logradouro" />
-        <input style="display: none;" type="text" placeholder="bairro" id="bairro" disabled />
-        <input style="display: none;" type="text" placeholder="cidade" id="cidade" disabled />
-        <input style="display: none;" type="text" placeholder="uf" id="uf" disabled />
-        <input type="text" placeholder="Número" id="numero" required />
         <select id="genero" placeholder="Genero" required>
           <option value="maculino">maculino</option>
           <option value="Feminino">Feminino</option>
@@ -64,7 +57,46 @@
         <button id="cadastrar">Cadastrar</button>
       </form>
     </div>
+
+    <div class="table-container" style="display: none;" id="contTabela">
+      <h2>Endereços de entrega</h2>
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">Logradouro</div>
+          <div class="col col-2">Cidade</div>
+          <div class="col col-3">UF</div>
+          <div class="col col-4">Número</div>
+          <div class="col col-5">Status</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Logradouro">João gomes pereira</div>
+          <div class="col col-2" data-label="Cidade">São Paulo</div>
+          <div class="col col-3" data-label="UF">SP</div>
+          <div class="col col-4" data-label="Número">298</div>
+          <div class="col col-5" data-label="Status">Inativo</div>
+        </li>
+      </ul>
+    </div>
   <script>
+    $('ul li').on('click', function() {
+	$('li').removeClass('active');
+	$(this).addClass('active');
+});
+  </script>
+  <script>
+    $(document).ready(function () {
+     $("#altdados").on('click', function(){
+      $('#altdadsf').show();
+      $('#contTabela').hide();
+      console.log("dados")
+     })
+     $("#altend").on('click', function(){
+       console.log("enderecos")
+       $('#altdadsf').hide();
+       $('#contTabela').show();
+      })
+
+    })
   </script>
 
 </body>
