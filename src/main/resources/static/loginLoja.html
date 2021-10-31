@@ -41,10 +41,10 @@
       </form>
     </div>
     <div class="form-container sign-in-container">
-      <form onsubmit="return false">
+      <form onsubmit="return false" id="formlogar">
         <h1>Logar</h1>
         <input type="email" placeholder="Email" id="logaremail" />
-        <input type="password" placeholder="Password" id="logarsenha" />
+        <input type="password" placeholder="Password" id="logarsenha" required />
         <a href="#">Esqueceu a senha ?</a>
         <p id="msgusuario"></p>
         <button id="logar">Logar</button>
@@ -130,26 +130,37 @@
         })
 
       })
-      $('#logar').on('click', function () {
-
+      $('#formlogar').submit(function (e) {
+        e.preventDefault();
         $.ajax({
           type: "GET",
           url: `http://localhost:8082/cliente/pesquisa/` + $("#logaremail").val(),
           mimeType: "json",
           success: function (data) {
             if (data[0]) {
-              $("#msgusuario").text('tudo certo');
-            }else{
-              
+              loginpasswd = data[0].senha;
+              senhalof = $.md5($("#logarsenha").val())
+
+              if (loginpasswd == senhalof) {
+
+                $("#msgusuario").text('tudo certo');
+
+              } else {
+                $("#msgusuario").text('senha incorreta');
+                console.log(loginpasswd)
+                console.log(senhalof)
+              }
+            } else {
+
               $("#msgusuario").text('Usuário náo encontrado');
             }
-            
+
 
           }
           ,
           error: function () {
-            
-            
+
+
           },
         });
 
@@ -212,19 +223,43 @@
                     $("#cpf").val('')
                     $("#cadastrar").removeAttr("disabled");
                   } else {
-                    $("#msgsenha").text('');
-                    $.ajax({
-                      type: 'POST',
-                      url: url,
-                      data: JSON.stringify(body),
-                      success: function (data) {
-                        alert("Cadastro efetuado com sucesso!, logue com os dados");
-                        console.log(body);
-                        location.reload();
-                      },
-                      contentType: "application/json",
-                      dataType: 'json'
-                    });
+
+                    if ((nome.split(" ").length) <= 1) {
+                      $("#msgsenha").text('Nome invalido');
+                      $("#nome").val('')
+                      $("#cadastrar").removeAttr("disabled");
+                    }
+
+                    else {
+
+                      var minimo3 = nome.trim().split(/\s+/).every(function (e) {
+                        return e.length >= 3;
+                      });
+
+                      if (minimo3) {
+                        $("#msgsenha").text('');
+                        $.ajax({
+                          type: 'POST',
+                          url: url,
+                          data: JSON.stringify(body),
+                          success: function (data) {
+                            alert("Cadastro efetuado com sucesso!, logue com os dados");
+                            console.log(body);
+                            location.reload();
+                          },
+                          contentType: "application/json",
+                          dataType: 'json'
+                        });
+                      } else {
+                        $("#msgsenha").text('Nome invalido');
+                        $("#nome").val('')
+                        $("#cadastrar").removeAttr("disabled");
+
+                      }
+
+
+
+                    }
 
 
                   }
