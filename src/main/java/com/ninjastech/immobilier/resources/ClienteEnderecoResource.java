@@ -48,4 +48,11 @@ public class ClienteEnderecoResource {
     public ResponseEntity<ClienteEndereco> edit(@Valid @RequestBody ClienteEndereco obj) {
 		obj = service.editCliente(obj);
         return ResponseEntity.ok().body(obj);
-}}
+    }
+    
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<ClienteEndereco> editPrincipal(@Valid @RequestBody ClienteEndereco obj) {
+		obj = service.editCliente(obj);
+        return ResponseEntity.ok().body(obj);
+    }
+}
