@@ -25,7 +25,7 @@ public class ClienteEnderecoResource {
 
     @Autowired
     private ClienteEnderecoService service;
-
+    
     @GetMapping
     public ResponseEntity<List<ClienteEndereco>> findAll() {
         List<ClienteEndereco> list = service.findAll();
@@ -51,8 +51,10 @@ public class ClienteEnderecoResource {
     }
     
     @PostMapping(value = "/{id}")
-    public ResponseEntity<ClienteEndereco> editPrincipal(@Valid @RequestBody ClienteEndereco obj) {
-		obj = service.editCliente(obj);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<ClienteEndereco> editPrincipal(@PathVariable String id) {
+        ClienteEndereco cliente = service.findById(Long.parseLong(id));
+        cliente.setPrincipal(false);
+        ClienteEndereco end = service.editPrincipal(cliente);
+        return ResponseEntity.ok().body(end);
     }
 }

@@ -497,50 +497,89 @@
       }
     </script>
     <script>
-      function alterarStatuspad(id, cep, logradouro, numero, bairro, cidade, uf, status, principal, i) {
-        console.log("até aqui ok")
+      async function alterarStatuspad(id, cep, logradouro, numero, bairro, cidade, uf, status, principal, i) {
+          console.log("até aqui ok")
+          let idPrincipalTrue = undefined
+          let dados = undefined
+          await $.ajax({
+            type: "GET",
+            url: "http://localhost:8082/endereco/" + localStorage.getItem('id'),
+            mimeType: "json",
+            cache: false,
+            success: function (data) {
+                $.each(data, function (i, data) {
+                    if (data.principal == true) {
+                      idPrincipalTrue = data.id
+                    }
+                });
+            },
+            error: function () {
+                alert("Fail!");
+            },
+          });
           if (principal == "true") {
-            
-            var prod = {
-              id: id,
-              cep: cep,
-              logradouro: logradouro,
-              numero: numero,
-              bairro: bairro,
-              cidade: cidade,
-              uf: uf,
-              status: status,
-              idcliente: localStorage.getItem('id'),
-              principal: false
-            }
+              var prod = {
+                  id: id,
+                  cep: cep,
+                  logradouro: logradouro,
+                  numero: numero,
+                  bairro: bairro,
+                  cidade: cidade,
+                  uf: uf,
+                  status: status,
+                  idcliente: localStorage.getItem('id'),
+                  principal: false
+              }
           } else {
-            var prod = {
-              id: id,
-              cep: cep,
-              logradouro: logradouro,
-              numero: numero,
-              bairro: bairro,
-              cidade: cidade,
-              uf: uf,
-              status: status,
-              idcliente: localStorage.getItem('id'),
-              principal: true
-            }
+              var prod = {
+                  id: id,
+                  cep: cep,
+                  logradouro: logradouro,
+                  numero: numero,
+                  bairro: bairro,
+                  cidade: cidade,
+                  uf: uf,
+                  status: status,
+                  idcliente: localStorage.getItem('id'),
+                  principal: true
+              }
           }
           console.log(prod);
-          $.ajax({
-            type: 'POST',
-            url: "http://localhost:8082/endereco/editar",
-            data: JSON.stringify(prod),
-            success: function (data) {
+          if(idPrincipalTrue != undefined) {
+            await $.ajax({
+              type: 'POST',
+              url: "http://localhost:8082/endereco/" + idPrincipalTrue,
+              success: function (data) {
+                /* window.location.reload(); */
+              },
+              contentType: "application/json",
+              dataType: 'json'
+            })
 
-              window.location.reload();
-
-
-            },
-            contentType: "application/json",
-            dataType: 'json'
-          })
+            $.ajax({
+              type: 'POST',
+              url: "http://localhost:8082/endereco/editar",
+              data: JSON.stringify(prod),
+              success: function (data) {
+                window.location.reload();
+              },
+              contentType: "application/json",
+              dataType: 'json'
+            })
+            console.log('editado')
+          } else {
+            console.log('não tinha nenhum principal')
+            $.ajax({
+              type: 'POST',
+              url: "http://localhost:8082/endereco/editar",
+              data: JSON.stringify(prod),
+              success: function (data) {
+                window.location.reload();
+              },
+              contentType: "application/json",
+              dataType: 'json'
+            })
+          }
       }
     </script>
 </body>
