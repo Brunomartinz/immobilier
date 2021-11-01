@@ -89,8 +89,10 @@
 
     <div class="table-container" style="display: none;" id="contTabela">
 
-      <h2>Endereços de entrega</h2>
-      <button id="myBtn">Cadastrar endereço</button>
+      <div class="div-cadastro">
+        <h2>Endereços de entrega</h2>
+        <button id="myBtn">Cadastrar endereço</button>
+      </div>
       <ul class="responsive-table" id="dadso">
         <li class="table-header">
           <div class="col col-1">Logradouro</div>
@@ -98,6 +100,7 @@
           <div class="col col-3">UF</div>
           <div class="col col-4">Número</div>
           <div class="col col-5">Status</div>
+          <div class="col col-7">Manutenção</div>
           <div class="col col-6">Principal</div>
         </li>
 
@@ -120,12 +123,12 @@
                   var idClientne = data.Idcliente;
                   var status = data.status;
                   var principal = data.principal;
-                  if(status == true){
                   var body = "<li class='table-row' >";
                   body += "<div class='col col-1' data-label='Logradouro'>" + data.logradouro + "</div>";
                   body += "<div class='col col-2' data-label='Cidade'>" + data.cidade + "</div>";
                   body += "<div class='col col-3' data-label='UF'>" + data.uf + "</div>";
                   body += "<div class='col col-4' data-label='Número'>" + data.numero + "</div>";
+                  body += "<div class='col col-7' data-label='Status'>" + data.status + "</div>";
                   if (data.status == true) {
                     stats = `<div class='col col-5' data-label='Status'><button onclick="alterarStatus('${id}', '${cep}', '${logradouro}','${numero}', '${bairro}', '${cidade}', '${uf}', '${status}', '${principal}','${i}')" id="botaos"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16">
                     <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
@@ -135,7 +138,6 @@
                     <path d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/>
                     </svg></button></div>`;
                   }
-
 
                   if (data.principal == true) {
                     stats2 = `<div class='col col-6' data-label='Status'><button onclick="alterarStatuspad('${id}', '${cep}', '${logradouro}','${numero}', '${bairro}', '${cidade}', '${uf}', '${status}', '${principal}', '${i}')" id="botaos"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16">
@@ -151,10 +153,6 @@
                   body+= stats2;
                   body += "</li>";
                   $("#dadso").append(body);
-                }else{
-
-                }
-              
               
               });
 
@@ -164,12 +162,8 @@
               },
             });
           })
-
-
         </script>
       </ul>
-
-
     </div>
 
     <div id="myModal" class="modal">
@@ -331,7 +325,6 @@
           url: "http://localhost:8082/endereco",
           data: JSON.stringify(bodyfat),
           success: function (data) {
-            alert("Cadastro efetuado com sucesso!, logue com os dados");
             location.reload();
           },
           contentType: "application/json",
@@ -506,54 +499,49 @@
     <script>
       function alterarStatuspad(id, cep, logradouro, numero, bairro, cidade, uf, status, principal, i) {
         console.log("até aqui ok")
-        if(i==0){
-          alert("É necessário ter mais de um endereço para ser o padrão")
-
-        }else{
-        if (principal == "true") {
-          
-          var prod = {
-            id: id,
-            cep: cep,
-            logradouro: logradouro,
-            numero: numero,
-            bairro: bairro,
-            cidade: cidade,
-            uf: uf,
-            status: status,
-            idcliente: localStorage.getItem('id'),
-            principal: false
+          if (principal == "true") {
+            
+            var prod = {
+              id: id,
+              cep: cep,
+              logradouro: logradouro,
+              numero: numero,
+              bairro: bairro,
+              cidade: cidade,
+              uf: uf,
+              status: status,
+              idcliente: localStorage.getItem('id'),
+              principal: false
+            }
+          } else {
+            var prod = {
+              id: id,
+              cep: cep,
+              logradouro: logradouro,
+              numero: numero,
+              bairro: bairro,
+              cidade: cidade,
+              uf: uf,
+              status: status,
+              idcliente: localStorage.getItem('id'),
+              principal: true
+            }
           }
-        } else {
-          var prod = {
-            id: id,
-            cep: cep,
-            logradouro: logradouro,
-            numero: numero,
-            bairro: bairro,
-            cidade: cidade,
-            uf: uf,
-            status: status,
-            idcliente: localStorage.getItem('id'),
-            principal: true
-          }
-        }
-        console.log(prod);
-        $.ajax({
-          type: 'POST',
-          url: "http://localhost:8082/endereco",
-          data: JSON.stringify(prod),
-          success: function (data) {
+          console.log(prod);
+          $.ajax({
+            type: 'POST',
+            url: "http://localhost:8082/endereco/editar",
+            data: JSON.stringify(prod),
+            success: function (data) {
 
-            window.location.reload();
+              window.location.reload();
 
 
-          },
-          contentType: "application/json",
-          dataType: 'json'
-        })
-
-      }}
+            },
+            contentType: "application/json",
+            dataType: 'json'
+          })
+      }
     </script>
 </body>
 
