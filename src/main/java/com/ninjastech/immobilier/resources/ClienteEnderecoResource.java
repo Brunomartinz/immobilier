@@ -3,6 +3,7 @@ package com.ninjastech.immobilier.resources;
 import com.ninjastech.immobilier.entities.ClienteEndereco;
 import com.ninjastech.immobilier.services.ClienteEnderecoService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,9 @@ public class ClienteEnderecoResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ClienteEndereco> findById(@PathVariable Long id) {
-        ClienteEndereco obj = service.findById(id);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<List<ClienteEndereco>> findById(@PathVariable String id) {
+        List<ClienteEndereco> list = service.findByClienteEndereco(id);
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping
@@ -42,4 +43,9 @@ public class ClienteEnderecoResource {
         obj = service.insertEndereco(obj);
         return ResponseEntity.ok().body(obj);
     }
-}
+    
+    @PostMapping(value = "/editar")
+    public ResponseEntity<ClienteEndereco> edit(@Valid @RequestBody ClienteEndereco obj) {
+		obj = service.editCliente(obj);
+        return ResponseEntity.ok().body(obj);
+}}

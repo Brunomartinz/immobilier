@@ -22,7 +22,10 @@ public class ClienteEndereco {
 
     @NotBlank(message = "O campo logradouro não pode estar vazio!")
     private String logradouro;
-
+    
+    @NotBlank(message = "O campo logradouro não pode estar vazio!")
+    private String numero;
+    
     @NotBlank(message = "O campo bairro não pode estar vazio!")
     private String bairro;
 
@@ -31,18 +34,26 @@ public class ClienteEndereco {
 
     @NotBlank(message = "O campo uf não pode estar vazio!")
     private String uf;
+    
+    @NotBlank(message = "O campo id cliennte não pode estar vazio!")
+    private String idcliente;
+    
+    private boolean principal;
 
     private boolean status;
 
     public ClienteEndereco() {}
 	
-    public ClienteEndereco(String cep, String logradouro, String bairro, String cidade, String uf, boolean status) {
+    public ClienteEndereco(String cep, String logradouro,String numero, String bairro, String cidade, String uf, boolean status, String idcliente, boolean principal) {
         this.cep = cep;
         this.logradouro = logradouro;
+        this.numero = numero;
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
         this.status = status;
+        this.idcliente = idcliente;
+        this.principal = principal;
     }
 
     public Long getId() {
@@ -68,6 +79,16 @@ public class ClienteEndereco {
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+    
+    
 
     public String getBairro() {
         return bairro;
@@ -100,4 +121,24 @@ public class ClienteEndereco {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    public String getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(String idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
+    }
+    
+    
+    
+    
 }

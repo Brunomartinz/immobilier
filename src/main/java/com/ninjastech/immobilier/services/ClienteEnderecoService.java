@@ -21,12 +21,17 @@ public class ClienteEnderecoService {
         return clienteEnderecoRepository.findAll();
     }
 
-    public ClienteEndereco findById(Long id) {
-        Optional<ClienteEndereco> obj = clienteEnderecoRepository.findById(id);
-        return obj.get();
+    public List<ClienteEndereco> findByClienteEndereco(String id) {
+        return clienteEnderecoRepository.findByIdcliente(id);
+       
     }
 
     public ClienteEndereco insertEndereco(ClienteEndereco obj) {
         return clienteEnderecoRepository.save(obj);
+        
+        
     }
+    public ClienteEndereco editCliente(ClienteEndereco obj){
+                return clienteEnderecoRepository.save(obj);
+        }
 }

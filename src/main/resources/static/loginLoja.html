@@ -140,11 +140,16 @@
             if (data[0]) {
               loginpasswd = data[0].senha;
               senhalof = $.md5($("#logarsenha").val())
+              email = data[0].email;
+              id = data[0].id;
+              confirmsenha = data[0].senha;
 
               if (loginpasswd == senhalof) {
 
-                $("#msgusuario").text('tudo certo');
-
+                localStorage.setItem('email', email);
+                localStorage.setItem('id', id)
+                localStorage.setItem('token', confirmsenha);
+                document.location.href = "http://localhost:8082"
               } else {
                 $("#msgusuario").text('senha incorreta');
                 console.log(loginpasswd)
@@ -201,6 +206,7 @@
           uf: uf
         }
 
+
         if (senha != confirmSenha) {
           $("#msgsenha").text('As senhas não batem');
           $("#cadastrar").removeAttr("disabled");
@@ -243,9 +249,33 @@
                           url: url,
                           data: JSON.stringify(body),
                           success: function (data) {
-                            alert("Cadastro efetuado com sucesso!, logue com os dados");
-                            console.log(body);
-                            location.reload();
+                            
+                            console.log(data.id);
+
+                            var bodyfat = {
+                              cep: cep,
+                              logradouro: logradouro,
+                              numero: numero,
+                              bairro: bairro,
+                              cidade: cidade,
+                              uf: uf,
+                              status: true,
+                              idcliente: data.id,
+                              principal: true
+                            }
+                            console.log(bodyfat)
+
+                            $.ajax({
+                              type: 'POST',
+                              url: "http://localhost:8082/endereco",
+                              data: JSON.stringify(bodyfat),
+                              success: function (data) {
+                                alert("Cadastro efetuado com sucesso!, logue com os dados");
+                                location.reload();
+                              },
+                              contentType: "application/json",
+                              dataType: 'json'
+                            })
                           },
                           contentType: "application/json",
                           dataType: 'json'
