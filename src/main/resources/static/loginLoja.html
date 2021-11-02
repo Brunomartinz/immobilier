@@ -27,16 +27,20 @@
         <input style="display: none;" type="text" placeholder="cidade" id="cidade" disabled />
         <input style="display: none;" type="text" placeholder="uf" id="uf" disabled />
         <input type="text" placeholder="Número" id="numero" required />
+        <div>
+          <input type="checkbox" name="checkboxId" class="inline checkbox" id="checkboxId" value="true" />
+          <label for="checkboxId">Endereço de entrega?</label>
+        </div>
         <select id="genero" placeholder="Genero" required>
           <option value="maculino">maculino</option>
           <option value="Feminino">Feminino</option>
           <option value="Outro">Outro</option>
         </select>
         <input type="text" placeholder="Data de nascimento" id="nasc" onfocus="(this.type = 'date')" />
-
         <input type="password" placeholder="Senha" id="password" />
         <input type="password" placeholder="Confirme a senha" id="password2" />
         <p id="msgsenha"></p>
+
         <button id="cadastrar">Cadastrar</button>
       </form>
     </div>
@@ -175,7 +179,7 @@
         e.preventDefault();
         $("#cadastrar").attr("disabled", "disabled");
 
-
+        let checkState = $("#checkboxId").is(":checked")
         var nome = $('#nome').val();
         var email = $('#email').val();
         var cpf = $('#cpf').val();
@@ -205,7 +209,6 @@
           cidade: cidade,
           uf: uf
         }
-
 
         if (senha != confirmSenha) {
           $("#msgsenha").text('As senhas não batem');
@@ -249,7 +252,6 @@
                           url: url,
                           data: JSON.stringify(body),
                           success: function (data) {
-                            
                             console.log(data.id);
 
                             var bodyfat = {
@@ -261,21 +263,25 @@
                               uf: uf,
                               status: true,
                               idcliente: data.id,
-                              principal: true
+                              principal: false
                             }
                             console.log(bodyfat)
 
-                            $.ajax({
-                              type: 'POST',
-                              url: "http://localhost:8082/endereco",
-                              data: JSON.stringify(bodyfat),
-                              success: function (data) {
-                                alert("Cadastro efetuado com sucesso!, logue com os dados");
-                                location.reload();
-                              },
-                              contentType: "application/json",
-                              dataType: 'json'
-                            })
+                            if(checkState) {
+                              $.ajax({
+                                type: 'POST',
+                                url: "http://localhost:8082/endereco",
+                                data: JSON.stringify(bodyfat),
+                                success: function (data) {
+                                  
+                                },
+                                contentType: "application/json",
+                                dataType: 'json'
+                              })
+                            }
+
+                            alert("Cadastro efetuado com sucesso!, logue com os dados");
+                            location.reload();
                           },
                           contentType: "application/json",
                           dataType: 'json'
@@ -286,12 +292,7 @@
                         $("#cadastrar").removeAttr("disabled");
 
                       }
-
-
-
                     }
-
-
                   }
                 })
 
@@ -300,26 +301,11 @@
                 $("#cpf").val('')
                 $("#cadastrar").removeAttr("disabled");
               }
-
             }
-
           })
-
         }
-
-
-
-
       })
-
-
     })
-
-
-
-
-
-
   </script>
   <script>
     $(document).ready(function () {
