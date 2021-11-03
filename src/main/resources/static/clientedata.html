@@ -55,7 +55,7 @@
     </nav>
     <div class="form-container " id="altdadsf">
       <form onsubmit="return false" name="statusForm" id="editardadosusr">
-        <h1>Alterar dados</h1>
+        <h1 class="tituloresponsivo">Alterar dados</h1>
         <input type="text" id="nome" placeholder="Nome" required  />
         <select id="genero" placeholder="Genero" required>
           <option value="maculino">maculino</option>
@@ -69,14 +69,14 @@
         <input type="text" id="fsenha1" name="fsenha1" style="display: none;">
         <input type="text" id="fsenha2" name="fsenha2" style="display: none;">
         <p id="msgsenha"></p>
-        <button id="alterar">Alterar</button>
+        <button id="alterar" class="tituloresponsivo">Alterar</button>
       </form>
     </div>
 
     <div class="form-container " id="ednfaturamentos" style="display: none;">
       
       <form onsubmit="return false" id="formcadend2">
-        <h1>Dados da fatura</h1>
+        <h1 class="tituloresponsivo">Dados da fatura</h1>
         <input type="text" placeholder="CEP" required id="cep1" />
         <input type="text" placeholder="logradouro" disabled id="logradouro1" />
         <input type="text" placeholder="bairro" id="bairro1" disabled />
@@ -158,7 +158,6 @@
 
               },
               error: function () {
-                alert("Fail!");
               },
             });
           })
@@ -285,7 +284,6 @@
 
         },
         error: function () {
-          alert("Fail!");
         },
       });
 

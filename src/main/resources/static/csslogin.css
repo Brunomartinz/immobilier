@@ -102,7 +102,9 @@ date{
 	margin: 8px 0;
 	width: 100%;
 }
-
+#checkboxId{
+	width: 24px;
+}
 .container {
 	background-color: #fff;
 	border-radius: 10px;
@@ -264,3 +266,4 @@ footer a {
     color: #3c97bf;
     text-decoration: none;
 }
+
