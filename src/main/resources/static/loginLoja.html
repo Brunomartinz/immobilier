@@ -261,27 +261,28 @@
                               bairro: bairro,
                               cidade: cidade,
                               uf: uf,
-                              status: true,
                               idcliente: data.id,
-                              principal: false
+                              principal: false,
+                              status: true
+                              
                             }
                             console.log(bodyfat)
 
-                            if(checkState) {
+                            if (checkState) {
                               $.ajax({
                                 type: 'POST',
                                 url: "http://localhost:8082/endereco",
                                 data: JSON.stringify(bodyfat),
                                 success: function (data) {
-                                  
+                                  alert("Cadastro efetuado com sucesso!, logue com os dados");
+                                  location.reload();
                                 },
                                 contentType: "application/json",
                                 dataType: 'json'
                               })
                             }
 
-                            alert("Cadastro efetuado com sucesso!, logue com os dados");
-                            location.reload();
+
                           },
                           contentType: "application/json",
                           dataType: 'json'
