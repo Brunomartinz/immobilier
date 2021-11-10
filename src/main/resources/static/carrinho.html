@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="Tailwind.css">
+  <style>
+    #summary {
+      background-color: #f6f6f6;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <div class="xl:container md:mx-4 lg:mx-7 xl:mx-auto mt-10">
+    <div class="md:flex shadow-md my-10">
+      <div class="md:w-3/4 lg:w-3/4 bg-white px-10 py-10">
+        <div class="flex justify-between border-b pb-8">
+          <h1 class="font-semibold text-2xl">Seu carrinho</h1>
+          <h2 class="font-semibold text-2xl" id="itens-cart"></h2>
+        </div>
+        <div class="flex justify-between mt-10 mb-5">
+          <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Detalhes do produto</h3>
+          <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantidade</h3>
+          <h3
+            class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center hidden lg:inline-block">
+            Preço</h3>
+          <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+        </div>
+
+        <div id="div-produtos">
+
+        </div>
+
+        <a href="/" class="flex font-semibold text-indigo-600 text-sm mt-10">
+
+          <svg class="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512">
+            <path
+              d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
+          </svg>
+          Continue Shopping
+        </a>
+      </div>
+
+      <div id="summary" class="md:w-2/5 lg:w-1/4 px-8 py-10">
+        <h1 class="font-semibold text-2xl border-b pb-8">Resumo do pedido</h1>
+        <div class="flex justify-between mt-10 mb-5">
+          <span class="font-semibold text-sm uppercase">Subtotal</span>
+          <span class="font-semibold text-sm" id="subtotal">590$</span>
+        </div>
+        <div>
+          <label class="font-medium inline-block mb-3 text-sm uppercase">Frete</label>
+          <select class="block p-2 text-gray-600 w-full text-sm">
+            <option>Standard shipping - $10.00</option>
+          </select>
+        </div>
+        <div class="border-t mt-8">
+          <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+            <span>Total</span>
+            <span id="total">$600</span>
+          </div>
+          <button
+            class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Checkout</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="DataTables/js/index.js"></script>
+  <script>
+    function Delete(e) {
+      let items = [];
+      JSON.parse(localStorage.getItem('produtos')).map(data => {
+        console.log(e.parentElement.parentElement.parentElement.children[0].innerHTML)
+        if (data.id != e.parentElement.parentElement.parentElement.children[0].innerHTML) {
+          items.push(data);
+        }
+      });
+      localStorage.setItem('produtos', JSON.stringify(items));
+      window.location.reload();
+    };
+
+    function reduzir(e) {
+      items = []
+      let item = {
+        id: e.parentElement.parentElement.children[0].textContent,
+        nome: e.parentElement.parentElement.children[1].textContent,
+        descricao: null,
+        preco: e.parentElement.parentElement.children[4].textContent,
+        imgUrl:null,
+        status:null,
+        avaliacao:null,
+        qtd: e.parentElement.children[1].value
+      };
+      if (item.qtd == 1) {
+        JSON.parse(localStorage.getItem('produtos')).map(data => {
+          if (data.id != e.parentElement.parentElement.children[0].textContent) {
+
+            items.push(data);
+
+          }
+        });
+        localStorage.setItem('produtos', JSON.stringify(items));
+        window.location.reload();
+      } else {
+        console.log(item)
+        const localItems = JSON.parse(localStorage.getItem("produtos"));
+        localItems.map(data => {
+          if (item.id == data.id) {
+            item.id = data.id
+            item.descricao = data.descricao
+            item.imgUrl = data.imgUrl
+            item.status = data.status
+            item.avaliacao = data.avaliacao
+            item.qtd = data.qtd - 1;
+
+            console.log(item)
+          } else {
+            items.push(data);
+          }
+        });
+        items.push(item);
+        localStorage.setItem('produtos', JSON.stringify(items));
+        window.location.reload();
+
+      }
+    }
+
+    function aumentar(e) {
+      items = []
+      let item = {
+        id: e.parentElement.parentElement.children[0].textContent,
+        nome: e.parentElement.parentElement.children[1].textContent,
+        descricao: null,
+        preco: e.parentElement.parentElement.children[4].textContent,
+        imgUrl:null,
+        status:null,
+        avaliacao:null,
+        qtd: e.parentElement.children[1].value
+      };
+      if (item.qtd == 0) {
+        JSON.parse(localStorage.getItem('produtos')).map(data => {
+          if (data.id != e.parentElement.parentElement.children[0].textContent) {
+
+            items.push(data);
+
+          }
+        });
+        localStorage.setItem('produtos', JSON.stringify(items));
+        window.location.reload();
+      } else {
+        console.log(item)
+        const localItems = JSON.parse(localStorage.getItem("produtos"));
+        localItems.map(data => {
+          if (item.id == data.id) {
+            item.id = data.id
+            item.descricao = data.descricao
+            item.imgUrl = data.imgUrl
+            item.status = data.status
+            item.avaliacao = data.avaliacao
+            item.qtd = data.qtd + 1;
+
+            console.log(item)
+          } else {
+            items.push(data);
+          }
+        });
+        items.push(item);
+        localStorage.setItem('produtos', JSON.stringify(items));
+        window.location.reload();
+
+      }
+    }
+  </script>
+</body>
+
+</html>
