@@ -12,7 +12,102 @@
 </head>
 
 <body class="content-center  grid grid-cols-1" >
-  <div class="card bordered content-center w-96 m-auto">
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex justify-between">
+            <div class="flex space-x-7">
+                <div>
+                    <!-- Website Logo -->
+                    <a href="/" class="flex items-center py-4 px-2">
+                        <img src="logo3.png" alt="Logo" class="h-16 w-16 mr-2">
+                    </a>
+                </div>
+                <!-- Primary Navbar items -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/"
+                        class="py-4 px-2 text-black border-b-4 rounded border-black font-semibold hover:bg-red-500 hover:text-white transition duration-300">Home</a>
+                </div>
+            </div>
+
+            <div class="flex space-x-7">
+                <div>
+                    <!-- Website Logo -->
+                    <a href="/" class="flex items-center py-4 px-2">
+                        <span class="font-semibold text-black text-6xl" id="Principal">Immobiler</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Secondary Navbar items -->
+            <div class="hidden md:flex items-center space-x-3 ">
+                <a href="#"
+                    class="py-2 px-2 font-medium text-black rounded hover:bg-red-500 hover:text-white transition duration-300" id="botaologar"><svg
+                        xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg></a>
+                <a href="/carrinho.html"
+                    class="py-2 px-2 font-medium text-black rounded hover:bg-red-400 hover:text-white transition duration-300"><svg
+                        xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg></a>
+            </div>
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center">
+                <button class="outline-none mobile-menu-button">
+                    <svg class=" w-6 h-6 text-gray-500 hover:text-red-500 " x-show="!showMenu" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- logout menu -->
+        <div class="hidden loggout-menu max-w-6xl m-auto bg-grey-800">
+            <ul class="">
+                <li class="active"><a href="#"
+                        class="block text-sm px-2 py-4 hover:bg-gray-700  hover:text-white text-gray-800 bg-white font-semibold">Minha conta</a></li>
+                        <li class="active"><a href="#"
+                            class="block text-sm px-2 hover:bg-gray-700 hover:text-white py-4 text-gray-800 bg-white font-semibold" >Logout</a></li>
+            </ul>
+        </div>
+
+
+    <!-- mobile menu -->
+    <div class="hidden mobile-menu">
+        <ul class="">
+            <li class="active"><a href="http://localhost:8082/clientedata.html"
+                    class="block text-sm px-2 py-4 text-white bg-red-500 font-semibold">Minha conta</a></li>
+        </ul>
+    </div>
+    <script>
+    const btn = document.querySelector("button.mobile-menu-button");
+        const menu = document.querySelector(".mobile-menu");
+
+        const loggoutMenu = document.getElementById("user-icon");
+        const loggoutDiv = document.querySelector(".loggout-menu");
+
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+        });
+
+        
+        function comprar(id){
+        
+
+            localStorage.setItem('productId', id)
+
+            window.location = "comprar.html?produtoId=" + id;
+        }
+    </script>
+</nav>
+
+  <div class="card bordered content-center w-96 m-auto mt-10">
     <figure style="margin-top: -30px">
       <img id="fotoss"
         src="https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/1633183725392-c5d5034cb39d28936351f208c628e9aa.jpg?alt=media&token=5fb5a6f6-3fd4-44ee-83ca-a1a920130174">
@@ -33,9 +128,17 @@
         necessitatibus veritatis sed
         molestiae voluptates incidunt iure sapiente.</p>
 
-
-
-      <button class="btn btn-outline m-auto mt-7">Comprar</button>
+      <div class="hidden">
+        <span id="idBanco"></span>
+        <span id="nomeBanco"></span>
+        <span id="descricaoBanco"></span>
+        <span id="precoBanco"></span>
+        <span id="imgURLBanco"></span>
+        <span id="statusBanco"></span>
+        <span id="avaliacaoBanco"></span>
+        <span id="qtdBanco"></span>
+      </div>
+      <button class="btn btn-outline m-auto mt-7 attToCart">Comprar</button>
     </div>
     <figure>
       <div class="h-80 w-auto">
@@ -55,6 +158,7 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script src="DataTables/js/index.js"></script>
 <script>
 
   $(document).ready(function () {
@@ -80,6 +184,24 @@
         title.innerText = data.nome;
         description.innerText = data.descricao;
         avl.innerText = data.avaliacao;
+
+        const idBanco = document.getElementById("idBanco");
+        const nomeBanco = document.getElementById("nomeBanco");
+        const descricaoBanco = document.getElementById("descricaoBanco");
+        const precoBanco = document.getElementById("precoBanco");
+        const imgURLBanco = document.getElementById("imgURLBanco");
+        const statusBanco = document.getElementById("statusBanco");
+        const avaliacaoBanco = document.getElementById("avaliacaoBanco");
+        const qtdBanco = document.getElementById("qtdBanco");
+
+        idBanco.textContent = data.id;
+        nomeBanco.textContent = data.nome;
+        descricaoBanco.textContent = data.descricao;
+        precoBanco.textContent = data.price;
+        imgURLBanco.textContent = data.imgUrl;
+        statusBanco.textContent = data.status;
+        avaliacaoBanco.textContent = data.avaliacao;
+        qtdBanco.textContent = data.qtd;
       },
       error: function () {
         alert("Fail!");
