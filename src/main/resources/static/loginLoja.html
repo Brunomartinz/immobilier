@@ -153,7 +153,11 @@
                 localStorage.setItem('email', email);
                 localStorage.setItem('id', id)
                 localStorage.setItem('token', confirmsenha);
-                document.location.href = "http://localhost:8082"
+                if (localStorage.getItem('carrinho') != null) {
+                  document.location.href = "http://localhost:8082/checkout.html"
+                } else {
+                  document.location.href = "http://localhost:8082"
+                }
               } else {
                 $("#msgusuario").text('senha incorreta');
                 console.log(loginpasswd)
@@ -280,9 +284,10 @@
                                 contentType: "application/json",
                                 dataType: 'json'
                               })
+                            } else {
+                              alert("Cadastro efetuado com sucesso!, logue com os dados");
+                              location.reload();
                             }
-
-
                           },
                           contentType: "application/json",
                           dataType: 'json'
