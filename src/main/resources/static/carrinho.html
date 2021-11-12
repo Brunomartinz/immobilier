@@ -19,7 +19,7 @@
       <div class="md:w-3/4 lg:w-3/4 bg-white px-10 py-10">
         <div class="flex justify-between border-b pb-8">
           <h1 class="font-semibold text-2xl">Seu carrinho</h1>
-          <h2 class="font-semibold text-2xl" id="itens-cart"></h2>
+          <h2 class="font-semibold text-2xl" id="itens-cart">0 item</h2>
         </div>
         <div class="flex justify-between mt-10 mb-5">
           <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Detalhes do produto</h3>
@@ -48,9 +48,17 @@
         <h1 class="font-semibold text-2xl border-b pb-8">Resumo do pedido</h1>
         <div class="flex justify-between mt-10 mb-5">
           <span class="font-semibold text-sm uppercase">Subtotal</span>
-          <span class="font-semibold text-sm" id="subtotal">590$</span>
+          <span class="font-semibold text-sm" id="subtotal">R$ 0,00</span>
         </div>
-        <div>
+        <div class="">
+          <label for="promo" class="font-semibold inline-block mb-3 text-sm uppercase">Buscar frete</label>
+          <div class="flex">
+            <input type="text" id="promo" placeholder="Digite o cep" class="p-2 text-sm w-full">
+            <button class="bg-indigo-500 hover:bg-indigo-600 px-5 text-sm text-white uppercase">Buscar</button>
+          </div>
+        </div>
+        <!-- é aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii -->
+        <div class="mt-5 hidden">
           <label class="font-medium inline-block mb-3 text-sm uppercase">Frete</label>
           <select class="block p-2 text-gray-600 w-full text-sm">
             <option>Standard shipping - $10.00</option>
@@ -59,7 +67,7 @@
         <div class="border-t mt-8">
           <div class="flex font-semibold justify-between py-6 text-sm uppercase">
             <span>Total</span>
-            <span id="total">$600</span>
+            <span id="total">R$ 0,00</span>
           </div>
           <button
             id="btn-checkout"
