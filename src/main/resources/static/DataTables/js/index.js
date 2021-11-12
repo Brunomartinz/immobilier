@@ -69,6 +69,7 @@ window.onload = function () {
 	}
 	spanSubtotal.innerHTML = 'R$ ' + totalGeral
 	spanTotal.innerHTML = 'R$ ' + totalGeral
+	localStorage.setItem('total', totalGeral)
 	cardBoxTable.innerHTML = tableData;
 }
 
