@@ -171,12 +171,14 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, data) {
-                    selectData += '<option value="' + data.id + '">' + data.logradouro + '</option>'
+                    if(data.status){
+                        selectData += '<option value="' + data.id + '">' + data.logradouro + '</option>'
+                    }
                 });
                 if (selectData != '') {
                     $("#select").append(selectData);
                 } else {
-                    $("#select").append('<option>Você não tem endereço cadastrado!</option>');
+                    $("#select").append('<option value="">Você não tem endereço cadastrado!</option>');
                 }
             },
             error: function () {
@@ -235,9 +237,19 @@
 
         let el = document.getElementById("btn-checkout");
         el.addEventListener("click", function () {
+            console.log('formaPagamento', formaPagamento)
             console.log('id', $("#select").val())
-            console.log('forma de pagamento', formaPagamento)
-            window.location.href = 'http://localhost:8082/meuPedido.html'
+            if (formaPagamento == '') {
+                alert('Escolha uma opção de pagamento!')
+                location.reload()
+            } else if($("#select").val() == null || $("#select").val() == ''){
+                alert('Selecione um endereço!')
+                location.reload()
+            }else {
+                localStorage.setItem('formaPagamento', formaPagamento)
+                localStorage.setItem('idEndereco', $("#select").val())
+                window.location.href = 'http://localhost:8082/meuPedido.html'
+            }
         }, false);
     </script>
 </body>
