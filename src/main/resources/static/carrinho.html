@@ -51,33 +51,65 @@
           <span class="font-semibold text-sm" id="subtotal">R$ 0,00</span>
         </div>
         <div class="">
-          <label for="promo" class="font-semibold inline-block mb-3 text-sm uppercase">Buscar frete</label>
+          <label for="cep" class="font-semibold inline-block mb-3 text-sm uppercase">Buscar frete</label>
           <div class="flex">
-            <input type="text" id="promo" placeholder="Digite o cep" class="p-2 text-sm w-full">
-            <button class="bg-indigo-500 hover:bg-indigo-600 px-5 text-sm text-white uppercase">Buscar</button>
+            <input type="text" id="cep" placeholder="Digite o cep" class="p-2 text-sm w-full">
+            <button class="bg-indigo-500 hover:bg-indigo-600 px-5 text-sm text-white uppercase"
+              id="BuscarFrete">Buscar</button>
           </div>
         </div>
         <!-- é aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii -->
-        <div class="mt-5 hidden">
+        <div class="mt-5" style="display: none;" id="divfrete">
           <label class="font-medium inline-block mb-3 text-sm uppercase">Frete</label>
-          <select class="block p-2 text-gray-600 w-full text-sm">
-            <option>Standard shipping - $10.00</option>
-          </select>
+          <div class="block">
+            <span class="text-gray-700"></span>
+            <div class="mt-2">
+              <div>
+                <label class="inline-flex items-center">
+                  <input type="radio" id="cep1" class="form-radio text-indigo-600" name="radiocep" value="1" checked>
+                  <span class="ml-2">Sedex</span>
+                  <span class="ml-2" id="prazosedex"></span>
+                  <span class="">Dias</span>
+                  <span class="ml-2">R$</span>
+                  <span class="ml-2" id="precosedex"></span>
+                </label>
+              </div>
+              <div>
+                <label class="inline-flex items-center">
+                  <input type="radio" id="cep2" class="form-radio text-green-500" name="radiocep" value="2">
+                  <span class="ml-2">Pac</span>
+                  <span class="ml-2" id="prazopac"></span>
+                  <span class="">Dias</span>
+                  <span class="ml-2">R$</span>
+                  <span class="ml-2" id="precopac"></span>
+                </label>
+              </div>
+              <div>
+                <label class="inline-flex items-center">
+                  <input type="radio" id="cep3" class="form-radio text-green-500" name="radiocep" value="3">
+                  <span class="ml-2">Jadlog</span>
+                  <span class="ml-2" id="prazojadlog"></span>
+                  <span class="">Dias</span>
+                  <span class="ml-2">R$</span>
+                  <span class="ml-2" id="precojadlog"></span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="border-t mt-8">
           <div class="flex font-semibold justify-between py-6 text-sm uppercase">
             <span>Total</span>
             <span id="total">R$ 0,00</span>
           </div>
-          <button
-            id="btn-checkout"
+          <button id="btn-checkout"
             class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Checkout</button>
         </div>
       </div>
 
     </div>
   </div>
-
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="DataTables/js/index.js"></script>
   <script>
     function Delete(e) {
@@ -99,9 +131,9 @@
         nome: e.parentElement.parentElement.children[1].textContent,
         descricao: null,
         preco: e.parentElement.parentElement.children[4].textContent,
-        imgUrl:null,
-        status:null,
-        avaliacao:null,
+        imgUrl: null,
+        status: null,
+        avaliacao: null,
         qtd: e.parentElement.children[1].value
       };
       if (item.qtd == 1) {
@@ -145,9 +177,9 @@
         nome: e.parentElement.parentElement.children[1].textContent,
         descricao: null,
         preco: e.parentElement.parentElement.children[4].textContent,
-        imgUrl:null,
-        status:null,
-        avaliacao:null,
+        imgUrl: null,
+        status: null,
+        avaliacao: null,
         qtd: e.parentElement.children[1].value
       };
       if (item.qtd == 0) {
@@ -185,7 +217,7 @@
     }
 
     let el = document.getElementById("btn-checkout");
-    el.addEventListener("click", function(){
+    el.addEventListener("click", function () {
       if (localStorage.getItem('email') == null) {
         localStorage.setItem('carrinho', true);
         window.location = 'http://localhost:8082/loginLoja.html'
@@ -194,6 +226,156 @@
       }
     }, false);
   </script>
+  <script>
+    $(document).ready(function () {
+
+      $("input:radio[name=radiocep]").change(function () {
+        console.log($('input:radio[name=radiocep]:checked').val())
+
+        if ($('input:radio[name=radiocep]:checked').val() == 1) {
+          localStorage.setItem('precofrete', $("#precosedex").text());
+          localStorage.setItem('prazofrete', $("#prazosedex").text());
+          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          $("#total").text(total)
+          
+        } else if ($('input:radio[name=radiocep]:checked').val() == 2) {
+          localStorage.setItem('precofrete', $("#precopac").text());
+          localStorage.setItem('prazofrete', $("#prazopac").text());
+          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          $("#total").text(total)
+        } else if ($('input:radio[name=radiocep]:checked').val() == 3) {
+          localStorage.setItem('precofrete', $("#precojadlog").text());
+          localStorage.setItem('prazofrete', $("#prazojadlog").text());
+          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          $("#total").text(total)
+
+        }
+
+      });
+      console.log($('input:radio[name=radiocep]:checked').val())
+    })
+
+  </script>
+  <script>
+    $(document).ready(function () {
+
+      $("#BuscarFrete").click(function () {
+        if ($("#cep").val() == "") {
+          console.log("cep invalido")
+        } else {
+          console.log("cep valido")
+
+
+
+          var cep = $("#cep").val().replace(/\D/g, '');
+
+          //Verifica se campo cep possui valor informado.
+          if (cep != "") {
+            console.log("validado")
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if (validacep.test(cep)) {
+
+              //Preenche os campos com "..." enquanto consulta webservice.
+
+              //Consulta o webservice viacep.com.br/
+              $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                if (!("erro" in dados)) {
+                  $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8082/frete/pac/` + $("#cep").val(),
+                    mimeType: "json",
+                    success: function (data) {
+                      console.log(data)
+
+                      $("#prazopac").text(data.tempo )
+                      $("#precopac").text(data.valor)
+
+
+                      $.ajax({
+                        type: "GET",
+                        url: `http://localhost:8082/frete/sedex/` + $("#cep").val(),
+                        mimeType: "json",
+                        success: function (data) {
+                          console.log(data)
+
+                          $("#prazosedex").text(data.tempo)
+                          $("#precosedex").text(data.valor)
+                          localStorage.setItem('precofrete', data.valor);
+                          localStorage.setItem('prazofrete', data.tempo);
+                          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+                          $("#total").text(total)
+
+                          $.ajax({
+                            type: "GET",
+                            url: `http://localhost:8082/frete/jadlog/` + $("#cep").val(),
+                            mimeType: "json",
+                            success: function (data) {
+                              console.log(data)
+                              
+                              $("#prazojadlog").text(data.tempo)
+                              $("#precojadlog").text(data.valor)
+                            },
+                            error: function () {
+                              alert("Fail!");
+                            },
+                          });
+
+                        },
+                        error: function () {
+                          alert("Fail!");
+                        },
+                      });
+
+
+
+                      $('#divfrete').show();
+                    },
+                    error: function () {
+                      alert("Fail!");
+                    },
+                  });
+                } //end if.
+                else {
+                  //CEP pesquisado não foi encontrado.
+                  alert("CEP não encontrado.");
+                }
+              });
+
+
+
+
+
+
+
+
+            } //end if.
+            else {
+              //cep é inválido.
+              alert("Formato de CEP inválido.");
+            }
+          } //end if.
+          else {
+            //cep sem valor, limpa formulário.
+
+          }
+
+
+
+
+
+        }
+
+
+
+      });
+    })
+  </script>
+
 </body>
 
 </html>
