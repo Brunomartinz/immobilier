@@ -50,7 +50,7 @@
           <span class="font-semibold text-sm uppercase">Subtotal</span>
           <span class="font-semibold text-sm" id="subtotal">R$ 0,00</span>
         </div>
-        <div class="">
+        <div class="" id="buscarfrete">
           <label for="cep" class="font-semibold inline-block mb-3 text-sm uppercase">Buscar frete</label>
           <div class="flex">
             <input type="text" id="cep" placeholder="Digite o cep" class="p-2 text-sm w-full">
@@ -262,17 +262,76 @@
   </script>
   <script>
     $(document).ready(function () {
-      if(localStorage.getItem('precofrete')!= null){
+      if(localStorage.getItem('precofrete')!= null){  
+        $("#buscarfrete").hide();
         
+        $("#divfrete").show();
+
+
+        $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8082/frete/pac/` + localStorage.getItem('cepfrete'),
+                    mimeType: "json",
+                    success: function (data) {
+                      console.log(data)
+
+                      $("#prazopac").text(data.tempo )
+                      $("#precopac").text(data.valor)
+
+
+                      $.ajax({
+                        type: "GET",
+                        url: `http://localhost:8082/frete/sedex/` + localStorage.getItem('cepfrete'),
+                        mimeType: "json",
+                        success: function (data) {
+                          console.log(data)
+
+                          $("#prazosedex").text(data.tempo)
+                          $("#precosedex").text(data.valor)
+                          localStorage.setItem('precofrete', data.valor);
+                          localStorage.setItem('prazofrete', data.tempo);
+                          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+                          $("#total").text(total)
+
+                          $.ajax({
+                            type: "GET",
+                            url: `http://localhost:8082/frete/jadlog/` + localStorage.getItem('cepfrete'),
+                            mimeType: "json",
+                            success: function (data) {
+                              console.log(data)
+                              
+                              $("#prazojadlog").text(data.tempo)
+                              $("#precojadlog").text(data.valor)
+                            },
+                            error: function () {
+                              alert("Fail!");
+                            },
+                          });
+
+                        },
+                        error: function () {
+                          alert("Fail!");
+                        },
+                      });
+
+
+
+                      $('#divfrete').show();
+                    },
+                    error: function () {
+                      alert("Fail!");
+                    },
+                  });
+
         let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
           $("#total").text(total)
-      }
+      } else{
       $("#BuscarFrete").click(function () {
         if ($("#cep").val() == "") {
           console.log("cep invalido")
         } else {
           console.log("cep valido")
-
+              localStorage.setItem('cepfrete', $("#cep").val())
 
 
           var cep = $("#cep").val().replace(/\D/g, '');
@@ -380,7 +439,7 @@
 
 
 
-      });
+      });}
     })
   </script>
 
