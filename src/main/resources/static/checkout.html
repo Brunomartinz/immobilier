@@ -157,6 +157,7 @@
 
         let parcelas = document.getElementById('parcelas')
         let parcela = ''
+        
         let total = localStorage.getItem('total')
         for (let i = 1; i < 4; i++) {
             parcela +='<option>'+i+'x - R$ ' + Number(total / i).toFixed(2).replace('.', ',') + '</option>'

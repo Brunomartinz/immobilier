@@ -219,10 +219,13 @@
     let el = document.getElementById("btn-checkout");
     el.addEventListener("click", function () {
       if (localStorage.getItem('email') == null) {
+        
         localStorage.setItem('carrinho', true);
         window.location = 'http://localhost:8082/loginLoja.html'
       } else {
         window.location = 'http://localhost:8082/checkout.html'
+        let totalGeral = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+        localStorage.setItem('total',totalGeral)
       }
     }, false);
   </script>
@@ -237,12 +240,13 @@
           localStorage.setItem('prazofrete', $("#prazosedex").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
           $("#total").text(total)
-          
+
         } else if ($('input:radio[name=radiocep]:checked').val() == 2) {
           localStorage.setItem('precofrete', $("#precopac").text());
           localStorage.setItem('prazofrete', $("#prazopac").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
           $("#total").text(total)
+          
         } else if ($('input:radio[name=radiocep]:checked').val() == 3) {
           localStorage.setItem('precofrete', $("#precojadlog").text());
           localStorage.setItem('prazofrete', $("#prazojadlog").text());
