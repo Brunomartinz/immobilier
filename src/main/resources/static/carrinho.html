@@ -262,7 +262,11 @@
   </script>
   <script>
     $(document).ready(function () {
-
+      if(localStorage.getItem('precofrete')!= null){
+        
+        let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          $("#total").text(total)
+      }
       $("#BuscarFrete").click(function () {
         if ($("#cep").val() == "") {
           console.log("cep invalido")

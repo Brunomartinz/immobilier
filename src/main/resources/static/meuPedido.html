@@ -104,11 +104,13 @@
 
         let concluir = document.getElementById("concluir");
         concluir.addEventListener("click", function () {
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var prod = {
                 numero: Math.floor(Math.random() * 659536),
                 valorTotal: localStorage.getItem('total'),
                 status: 'aguardando pagamento',
-                data: 2020-01-08,
+                data: date,
             }
 
             $.ajax({
@@ -117,7 +119,7 @@
                 data: JSON.stringify(prod),
                 success: function (data) {
                     alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.');
-                    location.reload()
+                    document.location.href = "http://localhost:8082/meusPedidos.html"
                 },
                 error: function () {
                     alert("Erro ao inserir pedido!");
