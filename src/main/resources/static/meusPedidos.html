@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos</title>
+    <link rel="stylesheet" href="Tailwind.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="leading-loose max-w-5xl my-4 p-5 bg-white rounded shadow-xl mx-auto">
+        <h2 class="text-center text-2xl font-semibold">Pedidos</h2>
+        <div class="flex mt-5 mb-5">
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">Número</h3>
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Data</h3>
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Valor Total</h3>
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Status</h3>
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Detalhes</h3>
+        </div>
+        <div id="div-pedidos">
+            
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let pedidos = document.getElementById('div-pedidos')
+        let ped = ''
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8082/pedido",
+            mimeType: "json",
+            cache: false,
+            success: function (data) {
+                $.each(data, function (i, data) {
+                    ped += '<div class="flex items-center -mx-8 px-6 py-5"><span class="text-center w-1/5 font-semibold text-sm">' + data.numero + '</span><span class="text-center w-1/5 font-semibold text-sm">' + data.data + '</span><span class="text-center w-1/5 font-semibold text-sm">' + data.valorTotal + '</span><span class="text-center w-1/5 font-semibold text-sm">' + data.status + '</span><button class="text-center w-1/5 text-white font-light bg-gray-900 rounded">Detalhes</button></div>'
+                });
+                pedidos.innerHTML = ped
+            },
+            error: function () {
+                alert("Fail!");
+            },
+        });
+    </script>
+</body>
+
+</html>
