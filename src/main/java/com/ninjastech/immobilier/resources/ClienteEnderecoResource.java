@@ -37,6 +37,12 @@ public class ClienteEnderecoResource {
         List<ClienteEndereco> list = service.findByClienteEndereco(id);
         return ResponseEntity.ok().body(list);
     }
+    
+    @GetMapping(value = "/find/{id}")
+    public ResponseEntity<ClienteEndereco> enderecoById(@PathVariable String id) {
+        ClienteEndereco list = service.findById(Long.parseLong(id));
+        return ResponseEntity.ok().body(list);
+    }
 
     @PostMapping
     public ResponseEntity<ClienteEndereco> insert(@RequestBody ClienteEndereco obj) {
