@@ -263,7 +263,7 @@
   <script>
     $(document).ready(function () {
       if(localStorage.getItem('precofrete')!= null){  
-        $("#buscarfrete").hide();
+        $("#buscarfrete").show();
         
         $("#divfrete").show();
 
@@ -325,7 +325,7 @@
 
         let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
           $("#total").text(total)
-      } else{
+      } 
       $("#BuscarFrete").click(function () {
         if ($("#cep").val() == "") {
           console.log("cep invalido")
@@ -440,7 +440,7 @@
 
 
       });}
-    })
+    )
   </script>
 
 </body>
