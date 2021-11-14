@@ -289,7 +289,82 @@
     })
   </script>
   <script>
+    function delay(n) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, n * 1000);
+        });
+      }
     $(document).ready(function () {
+      function localizarpac() {
+      $.ajax({
+        async:false,
+        type: "GET",
+        url: `http://localhost:8082/frete/pac/` + $('#selectend').val(),
+        mimeType: "json",
+        success: function (data) {
+          console.log(data)
+          console.log("chegou1")
+          
+          $("#prazopac").text(data.tempo)
+          $("#precopac").text(data.valor)
+        },
+        error: function () {
+          alert("Fail!");
+        },
+      });
+    }
+    function localizarsedex() {
+    
+      $.ajax({
+        async:false,
+        type: "GET",
+        url: `http://localhost:8082/frete/sedex/` + $('#selectend').val(),
+        mimeType: "json",
+        success: function (data) {
+          console.log(data)
+          console.log("chegou2");
+          $("#prazosedex").text(data.tempo)
+          $("#precosedex").text(data.valor)
+          localStorage.setItem('precofrete', data.valor);
+          localStorage.setItem('prazofrete', data.tempo);
+          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          $("#total").text(total)
+
+
+        },
+        error: function () {
+          alert("Fail!");
+        },
+      });
+    }
+    function localizarjadlog() {
+      $.ajax({
+        async:false,
+        type: "GET",
+        url: `http://localhost:8082/frete/jadlog/` + $('#selectend').val(),
+        mimeType: "json",
+        success: function (data) {
+          console.log(data)
+          console.log("chegou3")
+
+          $("#prazojadlog").text(data.tempo)
+          $("#precojadlog").text(data.valor)
+        },
+        error: function () {
+          alert("Fail!");
+        },
+      });
+    }
+    async function myAsyncFunction() {
+      await delay(0.2);
+      localizarjadlog()
+      await delay(0.2);
+      localizarsedex()
+      await delay(0.2);
+      localizarpac()
+
+
+    }
       if (localStorage.getItem('email') != null) {
         console.log("logado")
 
@@ -298,59 +373,8 @@
         $("#divfrete").hide();
         $("#selecionarfrete").show();
         $("#divfrete").show();
-        $.ajax({
-          type: "GET",
-          url: `http://localhost:8082/frete/pac/` + $('#selectend').val(),
-          mimeType: "json",
-          success: function (data) {
-            console.log(data)
-            console.log("chegou1")
-            $("#prazopac").text(data.tempo)
-            $("#precopac").text(data.valor)
-
-            $.ajax({
-              type: "GET",
-              url: `http://localhost:8082/frete/sedex/` + $('#selectend').val(),
-              mimeType: "json",
-              success: function (data) {
-                console.log(data)
-                console.log("chegou2")
-                $("#prazosedex").text(data.tempo)
-                $("#precosedex").text(data.valor)
-                localStorage.setItem('precofrete', data.valor);
-                localStorage.setItem('prazofrete', data.tempo);
-                let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-                $("#total").text(total)
-                $.ajax({
-                  type: "GET",
-                  url: `http://localhost:8082/frete/jadlog/` + $('#selectend').val(),
-                  mimeType: "json",
-                  success: function (data) {
-                    console.log(data)
-                    console.log("chegou3")
-                    $("#prazojadlog").text(data.tempo)
-                    $("#precojadlog").text(data.valor)
-                  },
-                  error: function () {
-                    alert("Fail!");
-                  },
-                });
-
-              },
-              error: function () {
-                alert("Fail!");
-              },
-            });
-
-
-
-          },
-          error: function () {
-            alert("Fail!");
-          },
-        });
-
-
+     
+        myAsyncFunction();
 
         $('#selectend').change(function () {
 
