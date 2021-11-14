@@ -230,7 +230,7 @@
       qtdProdutos += 1
     })
     const qtdItens = document.getElementById('itens-cart')
-    if(qtdProdutos > 1) {
+    if (qtdProdutos > 1) {
       qtdItens.innerHTML = qtdProdutos + ' itens'
     } else {
       qtdItens.innerHTML = qtdProdutos + ' item'
@@ -247,10 +247,10 @@
           count += produto.qtd
         })
 
-        if (count < 5 ) {
+        if (count < 5) {
           alert('Você deve colocar no mínimo 5 produtos no carrinho para continuar')
           location.reload()
-        } else if(qtdProdutos < 3) {
+        } else if (qtdProdutos < 3) {
           alert('Você deve colocar no mínimo 3 produtos diferentes no carrinho para continuar')
           location.reload()
         } else {
@@ -353,7 +353,7 @@
 
 
         $('#selectend').change(function () {
-          
+
 
 
           $.ajax({
@@ -422,10 +422,10 @@
           success: function (data) {
             $.each(data, function (i, data) {
               if (data.status) {
-                
-                if(i<3){
+
+                if (i < 3) {
                   selectData += '<option value="' + data.cep + '">' + data.logradouro + '</option>'
-                  }
+                }
               }
             });
             if (selectData != '') {
