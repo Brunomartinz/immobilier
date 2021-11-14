@@ -58,7 +58,6 @@
               id="BuscarFrete">Buscar</button>
           </div>
         </div>
-        <!-- é aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii -->
         <div class="mt-5" style="display: none;" id="divfrete">
           <label class="font-medium inline-block mb-3 text-sm uppercase">Frete</label>
           <div class="block">
@@ -216,22 +215,44 @@
       }
     }
 
+    let qtdProdutos = 0
+    JSON.parse(localStorage.getItem('produtos')).map(item => {
+      qtdProdutos += 1
+    })
+    const qtdItens = document.getElementById('itens-cart')
+    if(qtdProdutos > 1) {
+      qtdItens.innerHTML = qtdProdutos + ' itens'
+    } else {
+      qtdItens.innerHTML = qtdProdutos + ' item'
+    }
+
     let el = document.getElementById("btn-checkout");
     el.addEventListener("click", function () {
       if (localStorage.getItem('email') == null) {
-        
         localStorage.setItem('carrinho', true);
         window.location = 'http://localhost:8082/loginLoja.html'
       } else {
-        window.location = 'http://localhost:8082/checkout.html'
-        let totalGeral = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-        localStorage.setItem('total',totalGeral)
+        let count = 0
+        JSON.parse(localStorage.getItem('produtos')).map(produto => {
+          count += produto.qtd
+        })
+
+        if (count < 5 ) {
+          alert('Você deve colocar no mínimo 5 produtos no carrinho para continuar')
+          location.reload()
+        } else if(qtdProdutos < 3) {
+          alert('Você deve colocar no mínimo 3 produtos diferentes no carrinho para continuar')
+          location.reload()
+        } else {
+          let totalGeral = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          localStorage.setItem('total', totalGeral)
+          window.location = 'http://localhost:8082/checkout.html'
+        }
       }
     }, false);
   </script>
   <script>
     $(document).ready(function () {
-
       $("input:radio[name=radiocep]").change(function () {
         console.log($('input:radio[name=radiocep]:checked').val())
 
@@ -246,93 +267,82 @@
           localStorage.setItem('prazofrete', $("#prazopac").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
           $("#total").text(total)
-          
+
         } else if ($('input:radio[name=radiocep]:checked').val() == 3) {
           localStorage.setItem('precofrete', $("#precojadlog").text());
           localStorage.setItem('prazofrete', $("#prazojadlog").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
           $("#total").text(total)
-
         }
-
       });
       console.log($('input:radio[name=radiocep]:checked').val())
     })
-
   </script>
   <script>
     $(document).ready(function () {
-      if(localStorage.getItem('precofrete')!= null){  
+      if (localStorage.getItem('precofrete') != null) {
         $("#buscarfrete").show();
-        
         $("#divfrete").show();
-
-
         $.ajax({
-                    type: "GET",
-                    url: `http://localhost:8082/frete/pac/` + localStorage.getItem('cepfrete'),
-                    mimeType: "json",
-                    success: function (data) {
-                      console.log(data)
+          type: "GET",
+          url: `http://localhost:8082/frete/pac/` + localStorage.getItem('cepfrete'),
+          mimeType: "json",
+          success: function (data) {
+            console.log(data)
+            $("#prazopac").text(data.tempo)
+            $("#precopac").text(data.valor)
 
-                      $("#prazopac").text(data.tempo )
-                      $("#precopac").text(data.valor)
+            $.ajax({
+              type: "GET",
+              url: `http://localhost:8082/frete/sedex/` + localStorage.getItem('cepfrete'),
+              mimeType: "json",
+              success: function (data) {
+                console.log(data)
 
+                $("#prazosedex").text(data.tempo)
+                $("#precosedex").text(data.valor)
+                localStorage.setItem('precofrete', data.valor);
+                localStorage.setItem('prazofrete', data.tempo);
+                let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+                $("#total").text(total)
 
-                      $.ajax({
-                        type: "GET",
-                        url: `http://localhost:8082/frete/sedex/` + localStorage.getItem('cepfrete'),
-                        mimeType: "json",
-                        success: function (data) {
-                          console.log(data)
+                $.ajax({
+                  type: "GET",
+                  url: `http://localhost:8082/frete/jadlog/` + localStorage.getItem('cepfrete'),
+                  mimeType: "json",
+                  success: function (data) {
+                    console.log(data)
 
-                          $("#prazosedex").text(data.tempo)
-                          $("#precosedex").text(data.valor)
-                          localStorage.setItem('precofrete', data.valor);
-                          localStorage.setItem('prazofrete', data.tempo);
-                          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-                          $("#total").text(total)
+                    $("#prazojadlog").text(data.tempo)
+                    $("#precojadlog").text(data.valor)
+                  },
+                  error: function () {
+                    alert("Fail!");
+                  },
+                });
 
-                          $.ajax({
-                            type: "GET",
-                            url: `http://localhost:8082/frete/jadlog/` + localStorage.getItem('cepfrete'),
-                            mimeType: "json",
-                            success: function (data) {
-                              console.log(data)
-                              
-                              $("#prazojadlog").text(data.tempo)
-                              $("#precojadlog").text(data.valor)
-                            },
-                            error: function () {
-                              alert("Fail!");
-                            },
-                          });
+              },
+              error: function () {
+                alert("Fail!");
+              },
+            });
 
-                        },
-                        error: function () {
-                          alert("Fail!");
-                        },
-                      });
-
-
-
-                      $('#divfrete').show();
-                    },
-                    error: function () {
-                      alert("Fail!");
-                    },
-                  });
+            $('#divfrete').show();
+          },
+          error: function () {
+            alert("Fail!");
+          },
+        });
 
         let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-          $("#total").text(total)
-      } 
+        $("#total").text(total)
+      }
       $("#BuscarFrete").click(function () {
         if ($("#cep").val() == "") {
           console.log("cep invalido")
         } else {
           console.log("cep valido")
-              localStorage.setItem('cepfrete', $("#cep").val())
-
+          localStorage.setItem('cepfrete', $("#cep").val())
 
           var cep = $("#cep").val().replace(/\D/g, '');
 
@@ -358,10 +368,8 @@
                     mimeType: "json",
                     success: function (data) {
                       console.log(data)
-
-                      $("#prazopac").text(data.tempo )
+                      $("#prazopac").text(data.tempo)
                       $("#precopac").text(data.valor)
-
 
                       $.ajax({
                         type: "GET",
@@ -383,7 +391,7 @@
                             mimeType: "json",
                             success: function (data) {
                               console.log(data)
-                              
+
                               $("#prazojadlog").text(data.tempo)
                               $("#precojadlog").text(data.valor)
                             },
@@ -398,8 +406,6 @@
                         },
                       });
 
-
-
                       $('#divfrete').show();
                     },
                     error: function () {
@@ -412,14 +418,6 @@
                   alert("CEP não encontrado.");
                 }
               });
-
-
-
-
-
-
-
-
             } //end if.
             else {
               //cep é inválido.
@@ -430,16 +428,9 @@
             //cep sem valor, limpa formulário.
 
           }
-
-
-
-
-
         }
-
-
-
-      });}
+      });
+    }
     )
   </script>
 
