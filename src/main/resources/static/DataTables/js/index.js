@@ -72,14 +72,3 @@ window.onload = function () {
 	localStorage.setItem('total', totalGeral)
 	cardBoxTable.innerHTML = tableData;
 }
-
-let qtdTeste = 0
-JSON.parse(localStorage.getItem('produtos')).map(item => {
-	qtdTeste += 1
-})
-const qtdItens = document.getElementById('itens-cart')
-if(qtdTeste > 1) {
-	qtdItens.innerHTML = qtdTeste + ' itens'
-} else {
-	qtdItens.innerHTML = qtdTeste + ' item'
-}

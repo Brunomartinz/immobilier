@@ -225,22 +225,44 @@
       }
     }
 
+    let qtdProdutos = 0
+    JSON.parse(localStorage.getItem('produtos')).map(item => {
+      qtdProdutos += 1
+    })
+    const qtdItens = document.getElementById('itens-cart')
+    if (qtdProdutos > 1) {
+      qtdItens.innerHTML = qtdProdutos + ' itens'
+    } else {
+      qtdItens.innerHTML = qtdProdutos + ' item'
+    }
+
     let el = document.getElementById("btn-checkout");
     el.addEventListener("click", function () {
       if (localStorage.getItem('email') == null) {
-
         localStorage.setItem('carrinho', true);
         window.location = 'http://localhost:8082/loginLoja.html'
       } else {
-        window.location = 'http://localhost:8082/checkout.html'
-        let totalGeral = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-        localStorage.setItem('total', totalGeral)
+        let count = 0
+        JSON.parse(localStorage.getItem('produtos')).map(produto => {
+          count += produto.qtd
+        })
+
+        if (count < 5) {
+          alert('Você deve colocar no mínimo 5 produtos no carrinho para continuar')
+          location.reload()
+        } else if (qtdProdutos < 3) {
+          alert('Você deve colocar no mínimo 3 produtos diferentes no carrinho para continuar')
+          location.reload()
+        } else {
+          let totalGeral = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          localStorage.setItem('total', totalGeral)
+          window.location = 'http://localhost:8082/checkout.html'
+        }
       }
     }, false);
   </script>
   <script>
     $(document).ready(function () {
-
       $("input:radio[name=radiocep]").change(function () {
         console.log($('input:radio[name=radiocep]:checked').val())
 
@@ -261,13 +283,10 @@
           localStorage.setItem('prazofrete', $("#prazojadlog").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
           $("#total").text(total)
-
         }
-
       });
       console.log($('input:radio[name=radiocep]:checked').val())
     })
-
   </script>
   <script>
     $(document).ready(function () {
@@ -279,8 +298,6 @@
         $("#divfrete").hide();
         $("#selecionarfrete").show();
         $("#divfrete").show();
-
-
         $.ajax({
           type: "GET",
           url: `http://localhost:8082/frete/pac/` + $('#selectend').val(),
@@ -336,7 +353,7 @@
 
 
         $('#selectend').change(function () {
-          
+
 
 
           $.ajax({
@@ -405,10 +422,10 @@
           success: function (data) {
             $.each(data, function (i, data) {
               if (data.status) {
-                
-                if(i<3){
+
+                if (i < 3) {
                   selectData += '<option value="' + data.cep + '">' + data.logradouro + '</option>'
-                  }
+                }
               }
             });
             if (selectData != '') {
@@ -495,7 +512,6 @@
           console.log("cep valido")
           localStorage.setItem('cepfrete', $("#cep").val())
 
-
           var cep = $("#cep").val().replace(/\D/g, '');
 
           //Verifica se campo cep possui valor informado.
@@ -520,10 +536,8 @@
                     mimeType: "json",
                     success: function (data) {
                       console.log(data)
-
                       $("#prazopac").text(data.tempo)
                       $("#precopac").text(data.valor)
-
 
                       $.ajax({
                         type: "GET",
@@ -560,8 +574,6 @@
                         },
                       });
 
-
-
                       $('#divfrete').show();
                     },
                     error: function () {
@@ -574,14 +586,6 @@
                   alert("CEP não encontrado.");
                 }
               });
-
-
-
-
-
-
-
-
             } //end if.
             else {
               //cep é inválido.
@@ -592,11 +596,6 @@
             //cep sem valor, limpa formulário.
 
           }
-
-
-
-
-
         }
 
 

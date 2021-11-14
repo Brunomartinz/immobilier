@@ -76,7 +76,7 @@
         let total = document.getElementById('span-total')
         let subtotal = document.getElementById('span-subtotal')
         let formaPagamento = document.getElementById('span-formaPagamento')
-        total.innerHTML = 'R$ ' + localStorage.getItem('total')
+        total.innerHTML = 'R$ ' + Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2)
         subtotal.innerHTML = 'R$ ' + localStorage.getItem('total')
         frete.innerHTML = 'R$ ' + localStorage.getItem('precofrete')
         formaPagamento.innerHTML = localStorage.getItem('formaPagamento')
@@ -104,13 +104,42 @@
 
         let concluir = document.getElementById("concluir");
         concluir.addEventListener("click", function () {
+            let existe = false
+            let randomNumero = Math.floor(Math.random() * 659536)
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8082/pedido",
+                mimeType: "json",
+                cache: false,
+                success: function (data) {
+                    $.each(data, function (i, data) {
+                        if (data.numero == String(randomNumero)) {
+                            existe = true
+                        }
+                    });
+                },
+                error: function () {
+                    alert("Fail!");
+                },
+            });
+
+
             var today = new Date();
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            var prod = {
-                numero: Math.floor(Math.random() * 659536),
-                valorTotal: localStorage.getItem('total'),
-                status: 'aguardando pagamento',
-                data: date,
+            if(existe) {
+                var prod = {
+                    numero: Math.floor(Math.random() * 659536),
+                    valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
+                    status: 'aguardando pagamento',
+                    data: date,
+                }
+            } else {
+                var prod = {
+                    numero: randomNumero,
+                    valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
+                    status: 'aguardando pagamento',
+                    data: date,
+                }
             }
 
             $.ajax({
@@ -118,7 +147,7 @@
                 url: "http://localhost:8082/pedido",
                 data: JSON.stringify(prod),
                 success: function (data) {
-                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.'+ " Valor" +data.valorTotal);
+                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.'+ " Valor " +data.valorTotal);
                     document.location.href = "http://localhost:8082/"
                 },
                 error: function () {
