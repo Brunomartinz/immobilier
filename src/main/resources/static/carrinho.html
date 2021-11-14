@@ -58,6 +58,16 @@
               id="BuscarFrete">Buscar</button>
           </div>
         </div>
+        <div class="" style="display: none;" id="selecionarfrete">
+          <label for="cep" class="font-semibold inline-block mb-3 text-sm uppercase">Selecionar o frete</label>
+          <div class="flex">
+            <select
+              class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              id="selectend">
+            </select>
+          </div>
+        </div>
+        <!-- é aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii -->
         <div class="mt-5" style="display: none;" id="divfrete">
           <label class="font-medium inline-block mb-3 text-sm uppercase">Frete</label>
           <div class="block">
@@ -280,39 +290,44 @@
   </script>
   <script>
     $(document).ready(function () {
-      if (localStorage.getItem('precofrete') != null) {
-        $("#buscarfrete").show();
+      if (localStorage.getItem('email') != null) {
+        console.log("logado")
+
+        $("#buscarfrete").hide();
+
+        $("#divfrete").hide();
+        $("#selecionarfrete").show();
         $("#divfrete").show();
         $.ajax({
           type: "GET",
-          url: `http://localhost:8082/frete/pac/` + localStorage.getItem('cepfrete'),
+          url: `http://localhost:8082/frete/pac/` + $('#selectend').val(),
           mimeType: "json",
           success: function (data) {
             console.log(data)
+            console.log("chegou1")
             $("#prazopac").text(data.tempo)
             $("#precopac").text(data.valor)
 
             $.ajax({
               type: "GET",
-              url: `http://localhost:8082/frete/sedex/` + localStorage.getItem('cepfrete'),
+              url: `http://localhost:8082/frete/sedex/` + $('#selectend').val(),
               mimeType: "json",
               success: function (data) {
                 console.log(data)
-
+                console.log("chegou2")
                 $("#prazosedex").text(data.tempo)
                 $("#precosedex").text(data.valor)
                 localStorage.setItem('precofrete', data.valor);
                 localStorage.setItem('prazofrete', data.tempo);
                 let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
                 $("#total").text(total)
-
                 $.ajax({
                   type: "GET",
-                  url: `http://localhost:8082/frete/jadlog/` + localStorage.getItem('cepfrete'),
+                  url: `http://localhost:8082/frete/jadlog/` + $('#selectend').val(),
                   mimeType: "json",
                   success: function (data) {
                     console.log(data)
-
+                    console.log("chegou3")
                     $("#prazojadlog").text(data.tempo)
                     $("#precojadlog").text(data.valor)
                   },
@@ -327,15 +342,168 @@
               },
             });
 
-            $('#divfrete').show();
+
+
           },
           error: function () {
             alert("Fail!");
           },
         });
 
-        let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-        $("#total").text(total)
+
+
+        $('#selectend').change(function () {
+          
+
+
+          $.ajax({
+            type: "GET",
+            url: `http://localhost:8082/frete/pac/` + $('#selectend').val(),
+            mimeType: "json",
+            success: function (data) {
+              console.log(data)
+              console.log("chegou1")
+              $("#prazopac").text(data.tempo)
+              $("#precopac").text(data.valor)
+
+              $.ajax({
+                type: "GET",
+                url: `http://localhost:8082/frete/sedex/` + $('#selectend').val(),
+                mimeType: "json",
+                success: function (data) {
+                  console.log(data)
+                  console.log("chegou2")
+                  $("#prazosedex").text(data.tempo)
+                  $("#precosedex").text(data.valor)
+                  localStorage.setItem('precofrete', data.valor);
+                  localStorage.setItem('prazofrete', data.tempo);
+                  let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+                  $("#total").text(total)
+                  $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8082/frete/jadlog/` + $('#selectend').val(),
+                    mimeType: "json",
+                    success: function (data) {
+                      console.log(data)
+                      console.log("chegou3")
+                      $("#prazojadlog").text(data.tempo)
+                      $("#precojadlog").text(data.valor)
+                    },
+                    error: function () {
+                      alert("Fail!");
+                    },
+                  });
+
+                },
+                error: function () {
+                  alert("Fail!");
+                },
+              });
+
+
+
+            },
+            error: function () {
+              alert("Fail!");
+            },
+          });
+
+
+
+
+        });
+
+        let selectData = '';
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:8082/endereco/" + localStorage.getItem('id'),
+          mimeType: "json",
+          cache: false,
+          success: function (data) {
+            $.each(data, function (i, data) {
+              if (data.status) {
+                
+                if(i<3){
+                  selectData += '<option value="' + data.cep + '">' + data.logradouro + '</option>'
+                  }
+              }
+            });
+            if (selectData != '') {
+              $("#selectend").append(selectData);
+            } else {
+              $("#selectend").append('<option value="">Você não tem endereço cadastrado!</option>');
+            }
+          },
+          error: function () {
+          },
+        });
+
+      } else {
+        if (localStorage.getItem('precofrete') != null) {
+          $("#buscarfrete").show();
+          $("#selecionarfrete").hide();
+          $("#divfrete").show();
+
+
+          $.ajax({
+            type: "GET",
+            url: `http://localhost:8082/frete/pac/` + localStorage.getItem('cepfrete'),
+            mimeType: "json",
+            success: function (data) {
+              console.log(data)
+
+              $("#prazopac").text(data.tempo)
+              $("#precopac").text(data.valor)
+
+
+              $.ajax({
+                type: "GET",
+                url: `http://localhost:8082/frete/sedex/` + localStorage.getItem('cepfrete'),
+                mimeType: "json",
+                success: function (data) {
+                  console.log(data)
+
+                  $("#prazosedex").text(data.tempo)
+                  $("#precosedex").text(data.valor)
+                  localStorage.setItem('precofrete', data.valor);
+                  localStorage.setItem('prazofrete', data.tempo);
+                  let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+                  $("#total").text(total)
+
+                  $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8082/frete/jadlog/` + localStorage.getItem('cepfrete'),
+                    mimeType: "json",
+                    success: function (data) {
+                      console.log(data)
+
+                      $("#prazojadlog").text(data.tempo)
+                      $("#precojadlog").text(data.valor)
+                    },
+                    error: function () {
+                      alert("Fail!");
+                    },
+                  });
+
+                },
+                error: function () {
+                  alert("Fail!");
+                },
+              });
+
+
+
+              $('#divfrete').show();
+            },
+            error: function () {
+              alert("Fail!");
+            },
+          });
+
+          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+          $("#total").text(total)
+        }
+
       }
       $("#BuscarFrete").click(function () {
         if ($("#cep").val() == "") {
@@ -429,6 +597,9 @@
 
           }
         }
+
+
+
       });
     }
     )
