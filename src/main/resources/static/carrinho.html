@@ -298,19 +298,19 @@
           localStorage.setItem('precofrete', $("#precosedex").text());
           localStorage.setItem('prazofrete', $("#prazosedex").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-          $("#total").text(total)
+          $("#total").text('R$ ' + total)
 
         } else if ($('input:radio[name=radiocep]:checked').val() == 2) {
           localStorage.setItem('precofrete', $("#precopac").text());
           localStorage.setItem('prazofrete', $("#prazopac").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-          $("#total").text(total)
+          $("#total").text('R$ ' + total)
 
         } else if ($('input:radio[name=radiocep]:checked').val() == 3) {
           localStorage.setItem('precofrete', $("#precojadlog").text());
           localStorage.setItem('prazofrete', $("#prazojadlog").text());
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-          $("#total").text(total)
+          $("#total").text('R$ ' + total)
         }
       });
       console.log($('input:radio[name=radiocep]:checked').val())
@@ -356,7 +356,7 @@
             localStorage.setItem('precofrete', data.valor);
             localStorage.setItem('prazofrete', data.tempo);
             let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-            $("#total").text(total)
+            $("#total").text('R$ ' + total)
 
 
           },
@@ -475,7 +475,7 @@
                   localStorage.setItem('precofrete', data.valor);
                   localStorage.setItem('prazofrete', data.tempo);
                   let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-                  $("#total").text(total)
+                  $("#total").text('R$ ' + total)
                   $.ajax({
                     type: "GET",
                     url: `http://localhost:8082/frete/jadlog/` + $('#selectend').val(),
@@ -542,7 +542,7 @@
                   localStorage.setItem('precofrete', data.valor);
                   localStorage.setItem('prazofrete', data.tempo);
                   let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-                  $("#total").text(total)
+                  $("#total").text('R$ ' + total)
 
                   $.ajax({
                     type: "GET",
@@ -575,7 +575,7 @@
           });
 
           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-          $("#total").text(total)
+          $("#total").text('R$ ' + total)
         }
 
       }
@@ -625,7 +625,7 @@
                           localStorage.setItem('precofrete', data.valor);
                           localStorage.setItem('prazofrete', data.tempo);
                           let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-                          $("#total").text(total)
+                          $("#total").text('R$ ' + total)
 
                           $.ajax({
                             type: "GET",
