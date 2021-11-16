@@ -14,14 +14,16 @@
             <h2 class="text-center text-2xl font-semibold">Endereço</h2>
             <div class="flex mt-3">
                 <div class="w-36 md:w-24 lg:w-44 flex items-center justify-center md:justify-start lg:justify-center">
-                    <img class="h-20" src="https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/geo-alt.svg?alt=media&token=5839e1dd-b3a4-46bc-ac25-3d5a74f09543" alt="img">
+                    <img class="h-20"
+                        src="https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/geo-alt.svg?alt=media&token=5839e1dd-b3a4-46bc-ac25-3d5a74f09543"
+                        alt="img">
                 </div>
                 <div id="div-endereco">
-                    
+
                 </div>
             </div>
         </div>
-    
+
         <div class="leading-loose p-5 mt-4 md:mt-0 bg-white rounded shadow-xl w-full">
             <h2 class="text-center text-2xl font-semibold">Valores</h2>
             <div class="p-1 flex justify-between">
@@ -57,19 +59,19 @@
     </div>
 
     <div class="leading-loose max-w-5xl my-4 p-5 bg-white rounded shadow-xl mx-auto flex">
-        <button class="w-full px-4 py-2 text-white font-light tracking-wider bg-gray-900 rounded mr-2"
-            type="button" id="concluir">Concluir compra</button>
-        <button class="w-full px-4 py-2 text-white font-light tracking-wider bg-gray-900 rounded mr-2"
-            type="button" id="voltar">Voltar</button>
+        <button class="w-full px-4 py-2 text-white font-light tracking-wider bg-gray-900 rounded mr-2" type="button"
+            id="concluir">Concluir compra</button>
+        <button class="w-full px-4 py-2 text-white font-light tracking-wider bg-gray-900 rounded mr-2" type="button"
+            id="voltar">Voltar</button>
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         let produtoData = ''
         JSON.parse(localStorage.getItem('produtos')).map(data => {
-			let total = Number(data.qtd) * Number(data.preco)
-			produtoData += '<div class="flex items-center -mx-8 px-6 py-5"><div class="flex w-2/5"><div class="w-20 ml-2"><img class="max-h-12" src="'+data.imgUrl+'" alt=""></div><div class="flex flex-col justify-between ml-4 flex-grow"><span class="font-bold text-sm">' + data.nome + '</span><span class="text-red-500 text-xs">Avaliação: ' + data.avaliacao + '</span></div></div><div class="flex justify-center w-1/5"><span>' + data.qtd + '</span></div><span class="text-center w-1/5 font-semibold text-sm">R$ ' + data.preco + '</span><span class="text-center w-1/5 font-semibold text-sm">R$ ' + total + '</span></div>'
-		});
+            let total = Number(data.qtd) * Number(data.preco)
+            produtoData += '<div class="flex items-center -mx-8 px-6 py-5"><div class="flex w-2/5"><div class="w-20 ml-2"><img class="max-h-12" src="' + data.imgUrl + '" alt=""></div><div class="flex flex-col justify-between ml-4 flex-grow"><span class="font-bold text-sm">' + data.nome + '</span><span class="text-red-500 text-xs">Avaliação: ' + data.avaliacao + '</span></div></div><div class="flex justify-center w-1/5"><span>' + data.qtd + '</span></div><span class="text-center w-1/5 font-semibold text-sm">R$ ' + data.preco + '</span><span class="text-center w-1/5 font-semibold text-sm">R$ ' + total + '</span></div>'
+        });
         let produtos = document.getElementById('div-produtos')
         produtos.innerHTML = produtoData
         let frete = document.getElementById('span-precofrete')
@@ -89,7 +91,7 @@
             mimeType: "json",
             cache: false,
             success: function (data) {
-                end += '<p>'+data.logradouro+' '+ data.numero +'</p><p>'+ data.bairro +' - ' + data.uf +'</p><p>' + data.cidade +'</p><p>' + data.cep +'</p>'
+                end += '<p>' + data.logradouro + ' ' + data.numero + '</p><p>' + data.bairro + ' - ' + data.uf + '</p><p>' + data.cidade + '</p><p>' + data.cep + '</p>'
                 endereco.innerHTML = end
             },
             error: function () {
@@ -106,7 +108,10 @@
         concluir.addEventListener("click", function () {
             let existe = false
             let randomNumero = Math.floor(Math.random() * 659536)
+            localStorage.setItem('carrinho', false);
+
             $.ajax({
+
                 type: "GET",
                 url: "http://localhost:8082/pedido",
                 mimeType: "json",
@@ -125,8 +130,8 @@
 
 
             var today = new Date();
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            if(existe) {
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            if (existe) {
                 var prod = {
                     numero: Math.floor(Math.random() * 659536),
                     valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
@@ -147,7 +152,17 @@
                 url: "http://localhost:8082/pedido",
                 data: JSON.stringify(prod),
                 success: function (data) {
-                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.'+ " Valor " +data.valorTotal);
+                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.' + " Valor " + data.valorTotal);
+
+                    localStorage.removeItem('produtos')
+                    localStorage.removeItem('prazofrete')
+                    localStorage.removeItem('idEndereco')
+                    localStorage.removeItem('temendereco')
+                    localStorage.removeItem('precofrete')
+                    localStorage.removeItem('total')
+                    localStorage.removeItem('carrinho')
+                    localStorage.removeItem('productid')
+                    localStorage.removeItem('formaPagamento')
                     document.location.href = "http://localhost:8082/"
                 },
                 error: function () {

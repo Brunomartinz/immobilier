@@ -127,9 +127,19 @@
         console.log(e.parentElement.parentElement.parentElement.children[0].innerHTML)
         if (data.id != e.parentElement.parentElement.parentElement.children[0].innerHTML) {
           items.push(data);
+          localStorage.removeItem('produtos')
+          localStorage.removeItem('prazofrete')
+          localStorage.removeItem('idEndereco')
+          localStorage.removeItem('temendereco')
+          localStorage.removeItem('precofrete')
+          localStorage.removeItem('total')
+          localStorage.removeItem('carrinho')
+          localStorage.removeItem('productid')
+          localStorage.removeItem('formaPagamento')
         }
       });
       localStorage.setItem('produtos', JSON.stringify(items));
+      localStorage.removeItem('produtos')
       window.location.reload();
     };
 
@@ -154,7 +164,9 @@
           }
         });
         localStorage.setItem('produtos', JSON.stringify(items));
-        window.location.reload();
+        console.log("reduzir")
+
+
       } else {
         console.log(item)
         const localItems = JSON.parse(localStorage.getItem("produtos"));
@@ -177,6 +189,20 @@
         window.location.reload();
 
       }
+
+      var carr = localStorage.getItem('produtos');
+      if (carr=="[]") {
+        localStorage.removeItem('produtos')
+                    localStorage.removeItem('prazofrete')
+                    localStorage.removeItem('idEndereco')
+                    localStorage.removeItem('temendereco')
+                    localStorage.removeItem('precofrete')
+                    localStorage.removeItem('total')
+                    localStorage.removeItem('carrinho')
+                    localStorage.removeItem('productid')
+                    localStorage.removeItem('formaPagamento')
+      }
+      window.location.reload();
     }
 
     function aumentar(e) {
@@ -263,6 +289,8 @@
   </script>
   <script>
     $(document).ready(function () {
+
+
       $("input:radio[name=radiocep]").change(function () {
         console.log($('input:radio[name=radiocep]:checked').val())
 
@@ -290,92 +318,137 @@
   </script>
   <script>
     function delay(n) {
-        return new Promise(function (resolve) {
-          setTimeout(resolve, n * 1000);
-        });
-      }
+      return new Promise(function (resolve) {
+        setTimeout(resolve, n * 1000);
+      });
+    }
     $(document).ready(function () {
       function localizarpac() {
-      $.ajax({
-        async:false,
-        type: "GET",
-        url: `http://localhost:8082/frete/pac/` + $('#selectend').val(),
-        mimeType: "json",
-        success: function (data) {
-          console.log(data)
-          console.log("chegou1")
-          
-          $("#prazopac").text(data.tempo)
-          $("#precopac").text(data.valor)
-        },
-        error: function () {
-          alert("Fail!");
-        },
-      });
-    }
-    function localizarsedex() {
-    
-      $.ajax({
-        async:false,
-        type: "GET",
-        url: `http://localhost:8082/frete/sedex/` + $('#selectend').val(),
-        mimeType: "json",
-        success: function (data) {
-          console.log(data)
-          console.log("chegou2");
-          $("#prazosedex").text(data.tempo)
-          $("#precosedex").text(data.valor)
-          localStorage.setItem('precofrete', data.valor);
-          localStorage.setItem('prazofrete', data.tempo);
-          let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
-          $("#total").text(total)
+        $.ajax({
+          async: false,
+          type: "GET",
+          url: `http://localhost:8082/frete/pac/` + $('#selectend').val(),
+          mimeType: "json",
+          success: function (data) {
+            console.log(data)
+            console.log("chegou1")
+
+            $("#prazopac").text(data.tempo)
+            $("#precopac").text(data.valor)
+          },
+          error: function () {
+            alert("Fail!");
+          },
+        });
+      }
+      function localizarsedex() {
+
+        $.ajax({
+          async: false,
+          type: "GET",
+          url: `http://localhost:8082/frete/sedex/` + $('#selectend').val(),
+          mimeType: "json",
+          success: function (data) {
+            console.log(data)
+            console.log("chegou2");
+            $("#prazosedex").text(data.tempo)
+            $("#precosedex").text(data.valor)
+            localStorage.setItem('precofrete', data.valor);
+            localStorage.setItem('prazofrete', data.tempo);
+            let total = Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))
+            $("#total").text(total)
 
 
-        },
-        error: function () {
-          alert("Fail!");
-        },
-      });
-    }
-    function localizarjadlog() {
-      $.ajax({
-        async:false,
-        type: "GET",
-        url: `http://localhost:8082/frete/jadlog/` + $('#selectend').val(),
-        mimeType: "json",
-        success: function (data) {
-          console.log(data)
-          console.log("chegou3")
+          },
+          error: function () {
+            alert("Fail!");
+          },
+        });
+      }
+      function localizarjadlog() {
+        $.ajax({
+          async: false,
+          type: "GET",
+          url: `http://localhost:8082/frete/jadlog/` + $('#selectend').val(),
+          mimeType: "json",
+          success: function (data) {
+            console.log(data)
+            console.log("chegou3")
 
-          $("#prazojadlog").text(data.tempo)
-          $("#precojadlog").text(data.valor)
-        },
-        error: function () {
-          alert("Fail!");
-        },
-      });
-    }
-    async function myAsyncFunction() {
-      await delay(0.2);
-      localizarjadlog()
-      await delay(0.2);
-      localizarsedex()
-      await delay(0.2);
-      localizarpac()
+            $("#prazojadlog").text(data.tempo)
+            $("#precojadlog").text(data.valor)
+          },
+          error: function () {
+            alert("Fail!");
+          },
+        });
+      }
+      async function myAsyncFunction() {
+        await delay(0.2);
+        localizarjadlog()
+        await delay(0.2);
+        localizarsedex()
+        await delay(0.2);
+        localizarpac()
 
 
-    }
+      }
       if (localStorage.getItem('email') != null) {
+
+
+        let selectData = '';
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:8082/endereco/" + localStorage.getItem('id'),
+          mimeType: "json",
+          cache: false,
+          success: function (data) {
+            $.each(data, function (i, data) {
+              if (data.status) {
+
+                if (i < 3) {
+                  selectData += '<option value="' + data.cep + '">' + data.logradouro + '</option>'
+                }
+              }
+            });
+            if (selectData != '') {
+              $("#selectend").append(selectData);
+              localStorage.setItem('temendereco', 8842);
+              $("#divfrete").hide();
+              $("#selecionarfrete").show();
+              $("#divfrete").show();
+
+              if (localStorage.getItem('produtos') == null) {
+                $("#divfrete").hide();
+
+              } else {
+
+
+                myAsyncFunction();
+
+              }
+
+
+            } else {
+              $("#selectend").append('<option value="">Você não tem endereço cadastrado!</option>');
+              localStorage.setItem('temendereco', 8849);
+            }
+          },
+          error: function () {
+          },
+        });
+
         console.log("logado")
 
         $("#buscarfrete").hide();
+        if (localStorage.getItem('temendereco') == 8842) {
 
-        $("#divfrete").hide();
-        $("#selecionarfrete").show();
-        $("#divfrete").show();
-     
-        myAsyncFunction();
 
+
+        } else {
+          $("#selecionarfrete").show();
+
+        }
         $('#selectend').change(function () {
 
 
@@ -437,30 +510,7 @@
 
         });
 
-        let selectData = '';
-        $.ajax({
-          type: "GET",
-          url: "http://localhost:8082/endereco/" + localStorage.getItem('id'),
-          mimeType: "json",
-          cache: false,
-          success: function (data) {
-            $.each(data, function (i, data) {
-              if (data.status) {
 
-                if (i < 3) {
-                  selectData += '<option value="' + data.cep + '">' + data.logradouro + '</option>'
-                }
-              }
-            });
-            if (selectData != '') {
-              $("#selectend").append(selectData);
-            } else {
-              $("#selectend").append('<option value="">Você não tem endereço cadastrado!</option>');
-            }
-          },
-          error: function () {
-          },
-        });
 
       } else {
         if (localStorage.getItem('precofrete') != null) {
