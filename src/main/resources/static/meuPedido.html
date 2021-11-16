@@ -91,7 +91,7 @@
             mimeType: "json",
             cache: false,
             success: function (data) {
-                end += '<p>' + data.logradouro + ' ' + data.numero + '</p><p>' + data.bairro + ' - ' + data.uf + '</p><p>' + data.cidade + '</p><p>' + data.cep + '</p>'
+                end += '<p>' + data.logradouro + ', ' + data.numero + '</p><p>' + data.bairro + ' - ' + data.uf + '</p><p>' + data.cidade + '</p><p>' + data.cep + '</p>'
                 endereco.innerHTML = end
             },
             error: function () {
@@ -152,7 +152,7 @@
                 url: "http://localhost:8082/pedido",
                 data: JSON.stringify(prod),
                 success: function (data) {
-                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.' + " Valor " + data.valorTotal);
+                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.' + " Valor R$ " + data.valorTotal);
 
                     localStorage.removeItem('produtos')
                     localStorage.removeItem('prazofrete')
@@ -162,6 +162,7 @@
                     localStorage.removeItem('total')
                     localStorage.removeItem('carrinho')
                     localStorage.removeItem('productid')
+                    localStorage.removeItem('cepfrete')
                     localStorage.removeItem('formaPagamento')
                     document.location.href = "http://localhost:8082/"
                 },
