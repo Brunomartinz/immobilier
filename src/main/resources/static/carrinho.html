@@ -127,19 +127,23 @@
         console.log(e.parentElement.parentElement.parentElement.children[0].innerHTML)
         if (data.id != e.parentElement.parentElement.parentElement.children[0].innerHTML) {
           items.push(data);
-          localStorage.removeItem('produtos')
-          localStorage.removeItem('prazofrete')
-          localStorage.removeItem('idEndereco')
-          localStorage.removeItem('temendereco')
-          localStorage.removeItem('precofrete')
-          localStorage.removeItem('total')
-          localStorage.removeItem('carrinho')
-          localStorage.removeItem('productid')
-          localStorage.removeItem('formaPagamento')
+          
         }
+
       });
       localStorage.setItem('produtos', JSON.stringify(items));
-      localStorage.removeItem('produtos')
+      var carr = localStorage.getItem('produtos');
+      if (carr=="[]") {
+        localStorage.removeItem('produtos')
+                    localStorage.removeItem('prazofrete')
+                    localStorage.removeItem('idEndereco')
+                    localStorage.removeItem('temendereco')
+                    localStorage.removeItem('precofrete')
+                    localStorage.removeItem('total')
+                    localStorage.removeItem('carrinho')
+                    localStorage.removeItem('productid')
+                    localStorage.removeItem('formaPagamento')
+      }
       window.location.reload();
     };
 
@@ -253,7 +257,7 @@
 
     let qtdProdutos = 0
     JSON.parse(localStorage.getItem('produtos')).map(item => {
-      qtdProdutos += 1
+      qtdProdutos += item.qtd
     })
     const qtdItens = document.getElementById('itens-cart')
     if (qtdProdutos > 1) {
