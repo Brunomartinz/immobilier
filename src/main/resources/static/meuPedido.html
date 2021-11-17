@@ -79,7 +79,7 @@
         let subtotal = document.getElementById('span-subtotal')
         let formaPagamento = document.getElementById('span-formaPagamento')
         total.innerHTML = 'R$ ' + Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2)
-        subtotal.innerHTML = 'R$ ' + localStorage.getItem('total')
+        subtotal.innerHTML = 'R$ ' + Number(localStorage.getItem('total')).toFixed(2)
         frete.innerHTML = 'R$ ' + localStorage.getItem('precofrete')
         formaPagamento.innerHTML = localStorage.getItem('formaPagamento')
 
