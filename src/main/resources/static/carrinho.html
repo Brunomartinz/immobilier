@@ -273,14 +273,16 @@
         window.location = 'http://localhost:8082/loginLoja.html'
       } else {
         let count = 0
+        let countleght=0
         JSON.parse(localStorage.getItem('produtos')).map(produto => {
           count += produto.qtd
+          countleght += 1
         })
 
         if (count < 5) {
           alert('Você deve colocar no mínimo 5 produtos no carrinho para continuar')
           location.reload()
-        } else if (qtdProdutos < 3) {
+        } else if (countleght < 3) {
           alert('Você deve colocar no mínimo 3 produtos diferentes no carrinho para continuar')
           location.reload()
         } else {
@@ -294,7 +296,7 @@
   <script>
     $(document).ready(function () {
 
-
+      
       $("input:radio[name=radiocep]").change(function () {
         console.log($('input:radio[name=radiocep]:checked').val())
 
