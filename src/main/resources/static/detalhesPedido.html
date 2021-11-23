@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Pedido</title>
+    <link rel="stylesheet" href="Tailwind.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="md:flex max-w-5xl mx-auto mt-4">
+        <div class="leading-loose p-5 bg-white rounded shadow-xl w-full md:mr-4">
+            <h2 class="text-center text-2xl font-semibold">Endereço</h2>
+            <div class="flex mt-3">
+                <div class="w-36 md:w-24 lg:w-44 flex items-center justify-center md:justify-start lg:justify-center">
+                    <img class="h-20"
+                        src="https://firebasestorage.googleapis.com/v0/b/pi4senac-221bd.appspot.com/o/geo-alt.svg?alt=media&token=5839e1dd-b3a4-46bc-ac25-3d5a74f09543"
+                        alt="img">
+                </div>
+                <div id="div-endereco">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="leading-loose p-5 mt-4 md:mt-0 bg-white rounded shadow-xl w-full">
+            <h2 class="text-center text-2xl font-semibold">Valores</h2>
+            <div class="p-1 flex justify-between">
+                <span>Forma de Pagamento</span>
+                <span id="span-formaPagamento"></span>
+            </div>
+            <div class="p-1 flex justify-between">
+                <span>Subtotal</span>
+                <span id="span-subtotal"></span>
+            </div>
+            <div class="p-1 flex justify-between">
+                <span>Frete</span>
+                <span id="span-precofrete">R$ 298,84</span>
+            </div>
+            <div class="p-1 bg-blue-100 flex justify-between">
+                <span>Total</span>
+                <span id="span-total"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="leading-loose max-w-5xl my-4 p-5 bg-white rounded shadow-xl mx-auto">
+        <h2 class="text-center text-2xl font-semibold">Produtos</h2>
+        <div class="flex mt-5 mb-5">
+            <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Detalhes</h3>
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantidade</h3>
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Preço</h3>
+            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+        </div>
+        <div id="div-produtos">
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let produtoData = ''
+        JSON.parse(localStorage.getItem('produtos')).map(data => {
+            let total = Number(data.qtd) * Number(data.preco)
+            produtoData += '<div class="flex items-center -mx-8 px-6 py-5"><div class="flex w-2/5"><div class="w-20 ml-2"><img class="max-h-12" src="' + data.imgUrl + '" alt=""></div><div class="flex flex-col justify-between ml-4 flex-grow"><span class="font-bold text-sm">' + data.nome + '</span><span class="text-red-500 text-xs">Avaliação: ' + data.avaliacao + '</span></div></div><div class="flex justify-center w-1/5"><span>' + data.qtd + '</span></div><span class="text-center w-1/5 font-semibold text-sm">R$ ' + data.preco + '</span><span class="text-center w-1/5 font-semibold text-sm">R$ ' + total + '</span></div>'
+        });
+        let produtos = document.getElementById('div-produtos')
+        produtos.innerHTML = produtoData
+        let frete = document.getElementById('span-precofrete')
+        let total = document.getElementById('span-total')
+        let subtotal = document.getElementById('span-subtotal')
+        let formaPagamento = document.getElementById('span-formaPagamento')
+        total.innerHTML = 'R$ ' + Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2)
+        subtotal.innerHTML = 'R$ ' + Number(localStorage.getItem('total')).toFixed(2)
+        frete.innerHTML = 'R$ ' + localStorage.getItem('precofrete')
+        formaPagamento.innerHTML = localStorage.getItem('formaPagamento')
+
+        let endereco = document.getElementById('div-endereco')
+        let end = ''
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8082/endereco/find/" + localStorage.getItem('idEndereco'),
+            mimeType: "json",
+            cache: false,
+            success: function (data) {
+                end += '<p>' + data.logradouro + ', ' + data.numero + '</p><p>' + data.bairro + ' - ' + data.uf + '</p><p>' + data.cidade + '</p><p>' + data.cep + '</p>'
+                endereco.innerHTML = end
+            },
+            error: function () {
+                alert("Fail!");
+            },
+        });
+
+        let voltar = document.getElementById("voltar");
+        voltar.addEventListener("click", function () {
+            window.location.href = 'http://localhost:8082/checkout.html'
+        }, false);
+
+        let concluir = document.getElementById("concluir");
+        concluir.addEventListener("click", function () {
+            let existe = false
+            let randomNumero = Math.floor(Math.random() * 659536)
+            localStorage.setItem('carrinho', false);
+
+            $.ajax({
+
+                type: "GET",
+                url: "http://localhost:8082/pedido",
+                mimeType: "json",
+                cache: false,
+                success: function (data) {
+                    $.each(data, function (i, data) {
+                        if (data.numero == String(randomNumero)) {
+                            existe = true
+                        }
+                    });
+                },
+                error: function () {
+                    alert("Fail!");
+                },
+            });
+
+
+            var today = new Date();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            if (existe) {
+                var prod = {
+                    numero: Math.floor(Math.random() * 659536),
+                    valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
+                    status: 'aguardando pagamento',
+                    data: date,
+                }
+            } else {
+                var prod = {
+                    numero: randomNumero,
+                    valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
+                    status: 'aguardando pagamento',
+                    data: date,
+                }
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "http://localhost:8082/pedido",
+                data: JSON.stringify(prod),
+                success: function (data) {
+                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.' + " Valor R$ " + data.valorTotal);
+
+                    localStorage.removeItem('produtos')
+                    localStorage.removeItem('prazofrete')
+                    localStorage.removeItem('idEndereco')
+                    localStorage.removeItem('temendereco')
+                    localStorage.removeItem('precofrete')
+                    localStorage.removeItem('total')
+                    localStorage.removeItem('carrinho')
+                    localStorage.removeItem('productid')
+                    localStorage.removeItem('cepfrete')
+                    localStorage.removeItem('formaPagamento')
+                    document.location.href = "http://localhost:8082/"
+                },
+                error: function () {
+                    alert("Erro ao inserir pedido!");
+                    location.reload()
+                },
+                contentType: "application/json",
+                dataType: 'json'
+            })
+        }, false);
+    </script>
+</body>
+
+</html>
