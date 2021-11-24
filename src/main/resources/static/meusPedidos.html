@@ -34,7 +34,7 @@
             cache: false,
             success: function (data) {
                 $.each(data, function (i, data) {
-                    ped += '<div class="flex items-center -mx-8 px-6 py-5"><span class="text-center w-1/5 font-semibold text-sm">' + data.numero + '</span><span class="text-center w-1/5 font-semibold text-sm">' + data.data + '</span><span class="text-center w-1/5 font-semibold text-sm">R$ ' + data.valorTotal + '</span><span class="text-center w-1/5 font-semibold text-sm">' + data.status + '</span><button class="text-center w-32 ml-8 text-white font-light bg-gray-900 rounded">Detalhes</button></div>'
+                    ped += '<div class="flex items-center -mx-8 px-6 py-5"><span class="text-center w-1/5 font-semibold text-sm">' + data.numero + '</span><span class="text-center w-1/5 font-semibold text-sm">' + data.data + '</span><span class="text-center w-1/5 font-semibold text-sm">R$ ' + data.valorTotal + '</span><span class="text-center w-1/5 font-semibold text-sm">' + data.status + '</span><button class="text-center w-32 ml-8 text-white font-light bg-gray-900 rounded" onclick="detalhePedido('+data.id+', '+data.frete+', '+data.formaPagamento+')">Detalhes</button></div>'
                 });
                 pedidos.innerHTML = ped
             },
@@ -42,6 +42,14 @@
                 alert("Fail!");
             },
         });
+
+        function detalhePedido(id, frete, formaPagamento) {
+            localStorage.setItem('idPedido', id)
+            localStorage.setItem('preteProdutoPedido', frete)
+            localStorage.setItem('formaPagamentoPedido', formaPagamento)
+            console.log(id, frete, formaPagamento)
+            window.location = "http://localhost:8082/detalhesPedido.html"
+        }
     </script>
 </body>
 

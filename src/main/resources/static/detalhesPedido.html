@@ -61,20 +61,35 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         let produtoData = ''
-        JSON.parse(localStorage.getItem('produtos')).map(data => {
-            let total = Number(data.qtd) * Number(data.preco)
-            produtoData += '<div class="flex items-center -mx-8 px-6 py-5"><div class="flex w-2/5"><div class="w-20 ml-2"><img class="max-h-12" src="' + data.imgUrl + '" alt=""></div><div class="flex flex-col justify-between ml-4 flex-grow"><span class="font-bold text-sm">' + data.nome + '</span><span class="text-red-500 text-xs">Avaliação: ' + data.avaliacao + '</span></div></div><div class="flex justify-center w-1/5"><span>' + data.qtd + '</span></div><span class="text-center w-1/5 font-semibold text-sm">R$ ' + data.preco + '</span><span class="text-center w-1/5 font-semibold text-sm">R$ ' + total + '</span></div>'
+        let totalGeral = 0
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8082/pedidoProduto/" + localStorage.getItem('idPedido'),
+            mimeType: "json",
+            cache: false,
+            success: function (data) {
+                $.each(data, function (i, data) {
+                    console.log(data)
+                    let total = Number(data.qtd) * Number(data.preco)
+                    produtoData += '<div class="flex items-center -mx-8 px-6 py-5"><div class="flex w-2/5"><div class="w-20 ml-2"><img class="max-h-12" src="' + data.imgUrl + '" alt=""></div><div class="flex flex-col justify-between ml-4 flex-grow"><span class="font-bold text-sm">' + data.nome + '</span><span class="text-red-500 text-xs">Avaliação: ' + data.avaliacao + '</span></div></div><div class="flex justify-center w-1/5"><span>' + data.qtd + '</span></div><span class="text-center w-1/5 font-semibold text-sm">R$ ' + data.preco + '</span><span class="text-center w-1/5 font-semibold text-sm">R$ ' + total + '</span></div>'
+                    totalGeral += Number(data.qtd) * Number(data.preco)
+                });
+                produtos.innerHTML = produtoData
+            },
+            error: function (error) {
+                alert("Fail no produto pedido!", error);
+            },
         });
+
         let produtos = document.getElementById('div-produtos')
-        produtos.innerHTML = produtoData
         let frete = document.getElementById('span-precofrete')
         let total = document.getElementById('span-total')
         let subtotal = document.getElementById('span-subtotal')
         let formaPagamento = document.getElementById('span-formaPagamento')
-        total.innerHTML = 'R$ ' + Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2)
+        total.innerHTML = 'R$ ' + totalGeral.toFixed(2).replace('.', ',')
         subtotal.innerHTML = 'R$ ' + Number(localStorage.getItem('total')).toFixed(2)
-        frete.innerHTML = 'R$ ' + localStorage.getItem('precofrete')
-        formaPagamento.innerHTML = localStorage.getItem('formaPagamento')
+        frete.innerHTML = 'R$ ' + localStorage.getItem('preteProdutoPedido')
+        formaPagamento.innerHTML = localStorage.getItem('formaPagamentoPedido')
 
         let endereco = document.getElementById('div-endereco')
         let end = ''
@@ -88,85 +103,9 @@
                 endereco.innerHTML = end
             },
             error: function () {
-                alert("Fail!");
+                alert("Fail no endereco!");
             },
         });
-
-        let voltar = document.getElementById("voltar");
-        voltar.addEventListener("click", function () {
-            window.location.href = 'http://localhost:8082/checkout.html'
-        }, false);
-
-        let concluir = document.getElementById("concluir");
-        concluir.addEventListener("click", function () {
-            let existe = false
-            let randomNumero = Math.floor(Math.random() * 659536)
-            localStorage.setItem('carrinho', false);
-
-            $.ajax({
-
-                type: "GET",
-                url: "http://localhost:8082/pedido",
-                mimeType: "json",
-                cache: false,
-                success: function (data) {
-                    $.each(data, function (i, data) {
-                        if (data.numero == String(randomNumero)) {
-                            existe = true
-                        }
-                    });
-                },
-                error: function () {
-                    alert("Fail!");
-                },
-            });
-
-
-            var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            if (existe) {
-                var prod = {
-                    numero: Math.floor(Math.random() * 659536),
-                    valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
-                    status: 'aguardando pagamento',
-                    data: date,
-                }
-            } else {
-                var prod = {
-                    numero: randomNumero,
-                    valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
-                    status: 'aguardando pagamento',
-                    data: date,
-                }
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: "http://localhost:8082/pedido",
-                data: JSON.stringify(prod),
-                success: function (data) {
-                    alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.' + " Valor R$ " + data.valorTotal);
-
-                    localStorage.removeItem('produtos')
-                    localStorage.removeItem('prazofrete')
-                    localStorage.removeItem('idEndereco')
-                    localStorage.removeItem('temendereco')
-                    localStorage.removeItem('precofrete')
-                    localStorage.removeItem('total')
-                    localStorage.removeItem('carrinho')
-                    localStorage.removeItem('productid')
-                    localStorage.removeItem('cepfrete')
-                    localStorage.removeItem('formaPagamento')
-                    document.location.href = "http://localhost:8082/"
-                },
-                error: function () {
-                    alert("Erro ao inserir pedido!");
-                    location.reload()
-                },
-                contentType: "application/json",
-                dataType: 'json'
-            })
-        }, false);
     </script>
 </body>
 
