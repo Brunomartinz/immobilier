@@ -15,7 +15,7 @@ public class Pedido {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     
     private String numero;
 
@@ -25,20 +25,36 @@ public class Pedido {
 
     private LocalDate data;
     
+    private String frete;
+    
+    private String formaPagamento;
+    
     public Pedido() {}
 
-    public Pedido(String numero, String valorTotal, String status, LocalDate data) {
+    public Pedido(String numero, String valorTotal, String status, LocalDate data, String frete, String formaPagamento) {
         this.numero = numero;
         this.valorTotal = valorTotal;
         this.status = status;
         this.data = data;
+        this.frete = frete;
+        this.formaPagamento = formaPagamento;
     }
 
-    public Long getId() {
+    public Pedido(long id, String numero, String valorTotal, String status, LocalDate data, String frete, String formaPagamento) {
+        this.id = id;
+        this.numero = numero;
+        this.valorTotal = valorTotal;
+        this.status = status;
+        this.data = data;
+        this.frete = frete;
+        this.formaPagamento = formaPagamento;
+    }
+    
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -72,5 +88,21 @@ public class Pedido {
 
     public void setData(LocalDate data) {
         this.data = data;
+    }
+
+    public String getFrete() {
+        return frete;
+    }
+
+    public void setFrete(String frete) {
+        this.frete = frete;
+    }
+
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 }

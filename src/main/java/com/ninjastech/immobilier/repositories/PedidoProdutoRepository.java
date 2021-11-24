@@ -1,8 +1,10 @@
 package com.ninjastech.immobilier.repositories;
 
-import com.ninjastech.immobilier.entities.Pedido;
+import com.ninjastech.immobilier.entities.PedidoProduto;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public interface PedidoRepository extends JpaRepository<Pedido,Long> {
+public interface PedidoProdutoRepository extends JpaRepository<PedidoProduto, Long> {
     
+    @Query("FROM PedidoProduto WHERE idPedido = ?1")
+    List<PedidoProduto> findByIdPedido(long idPedido);
 }
