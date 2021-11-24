@@ -137,6 +137,8 @@
                     valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
                     status: 'aguardando pagamento',
                     data: date,
+                    frete: localStorage.getItem('precofrete'),
+                    formaPagamento: localStorage.getItem('formaPagamento'),
                 }
             } else {
                 var prod = {
@@ -144,6 +146,8 @@
                     valorTotal: Number(Number(localStorage.getItem('total')) + Number(localStorage.getItem('precofrete'))).toFixed(2),
                     status: 'aguardando pagamento',
                     data: date,
+                    frete: localStorage.getItem('precofrete'),
+                    formaPagamento: localStorage.getItem('formaPagamento'),
                 }
             }
 
@@ -154,9 +158,35 @@
                 success: function (data) {
                     alert("Sucesso! Seu pedido - " + data.numero + ' foi registrado.' + " Valor R$ " + data.valorTotal);
 
+                    JSON.parse(localStorage.getItem('produtos')).map(item => {
+                        let produto = {
+                            nome: item.nome,
+                            avaliacao: item.avaliacao,
+                            descricao: item.descricao,
+                            imgUrl: item.imgUrl,
+                            preco: item.preco,
+                            qtd: item.qtd,
+                            idPedido: data.id,
+                        }
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "http://localhost:8082/pedidoProduto",
+                            data: JSON.stringify(produto),
+                            success: function (data) {
+                                console.log(data)
+                            },
+                            error: function () {
+                                alert("Erro ao inserir produto de pedido!");
+                                location.reload()
+                            },
+                            contentType: "application/json",
+                            dataType: 'json'
+                        })    
+                    })
+
                     localStorage.removeItem('produtos')
                     localStorage.removeItem('prazofrete')
-                    localStorage.removeItem('idEndereco')
                     localStorage.removeItem('temendereco')
                     localStorage.removeItem('precofrete')
                     localStorage.removeItem('total')
