@@ -1,7 +1,7 @@
 package com.ninjastech.immobilier.services;
 
-import com.ninjastech.immobilier.entities.Pedido;
-import com.ninjastech.immobilier.repositories.PedidoRepository;
+import com.ninjastech.immobilier.entities.PedidoProduto;
+import com.ninjastech.immobilier.repositories.PedidoProdutoRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,30 +11,23 @@ import org.springframework.stereotype.Service;
  *
  * @author wesley
  */
+
 @Service
-public class PedidoService {
+public class PedidoProdutoService {
 
     @Autowired
-    private PedidoRepository pedidoRepository;
+    private PedidoProdutoRepository pedidoProdutoRepository;
 
-    public List<Pedido> findAll() {
-        return pedidoRepository.findAll();
+    public List<PedidoProduto> findAll() {
+        return pedidoProdutoRepository.findAll();
     }
 
-    public Pedido findById(Long id) {
-        Optional<Pedido> obj = pedidoRepository.findById(id);
-        return obj.get();
+    public List<PedidoProduto> findById(Long id) {
+        List<PedidoProduto> pedidos = pedidoProdutoRepository.findByIdPedido(id);
+        return pedidos;
     }
 
-    public Pedido insertPedido(Pedido obj) {
-        return pedidoRepository.save(obj);
-    }
-
-    public void deletPedido(Pedido obj) {
-        pedidoRepository.deleteById(obj.getId());
-    }
-
-    public Pedido editPedido(Pedido obj) {
-        return pedidoRepository.save(obj);
+    public PedidoProduto insertPedido(PedidoProduto obj) {
+        return pedidoProdutoRepository.save(obj);
     }
 }
