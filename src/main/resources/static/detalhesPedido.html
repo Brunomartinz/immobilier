@@ -60,6 +60,55 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+
+    </script>
+    <script>
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8082/pedido/" + localStorage.getItem('idPedido'),
+            mimeType: "json",
+            cache: false,
+            success: function (data) {
+                console.log(data)
+                let frete = document.getElementById('span-precofrete')
+                let total = document.getElementById('span-total')
+                let subtotal = document.getElementById('span-subtotal')
+                let formaPagamento = document.getElementById('span-formaPagamento')
+                var idend = data.idEndereco
+
+                total.innerHTML = 'R$ ' + data.valorTotal
+                subtotal.innerHTML = 'R$ ' + Number(Number(data.valorTotal) - Number(data.frete)).toFixed(2)
+                frete.innerHTML = 'R$ ' + data.frete
+                formaPagamento.innerHTML = data.formaPagamento
+
+
+                
+
+                console.log(idend)
+                let endereco = document.getElementById('div-endereco')
+                let end = ''
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8082/endereco/find/" + idend,
+                    mimeType: "json",
+                    cache: false,
+                    success: function (data) {
+                        end += '<p>' + data.logradouro + ', ' + data.numero + '</p><p>' + data.bairro + ' - ' + data.uf + '</p><p>' + data.cidade + '</p><p>' + data.cep + '</p>'
+                        endereco.innerHTML = end
+                    },
+                    error: function () {
+                        alert("Fail no endereco!");
+                    },
+                });
+
+            },
+            error: function (error) {
+                alert("Fail no produto pedido!", error);
+            },
+        });
+        let produtos = document.getElementById('div-produtos')
+
         let produtoData = ''
         let totalGeral = 0
         $.ajax({
@@ -68,6 +117,7 @@
             mimeType: "json",
             cache: false,
             success: function (data) {
+
                 $.each(data, function (i, data) {
                     console.log(data)
                     let total = Number(data.qtd) * Number(data.preco)
@@ -81,31 +131,9 @@
             },
         });
 
-        let produtos = document.getElementById('div-produtos')
-        let frete = document.getElementById('span-precofrete')
-        let total = document.getElementById('span-total')
-        let subtotal = document.getElementById('span-subtotal')
-        let formaPagamento = document.getElementById('span-formaPagamento')
-        total.innerHTML = 'R$ ' + totalGeral.toFixed(2).replace('.', ',')
-        subtotal.innerHTML = 'R$ ' + Number(localStorage.getItem('total')).toFixed(2)
-        frete.innerHTML = 'R$ ' + localStorage.getItem('preteProdutoPedido')
-        formaPagamento.innerHTML = localStorage.getItem('formaPagamentoPedido')
 
-        let endereco = document.getElementById('div-endereco')
-        let end = ''
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8082/endereco/find/" + localStorage.getItem('idEndereco'),
-            mimeType: "json",
-            cache: false,
-            success: function (data) {
-                end += '<p>' + data.logradouro + ', ' + data.numero + '</p><p>' + data.bairro + ' - ' + data.uf + '</p><p>' + data.cidade + '</p><p>' + data.cep + '</p>'
-                endereco.innerHTML = end
-            },
-            error: function () {
-                alert("Fail no endereco!");
-            },
-        });
+
+
     </script>
 </body>
 

@@ -25,6 +25,10 @@ public class PedidoService {
         Optional<Pedido> obj = pedidoRepository.findById(id);
         return obj.get();
     }
+    public List<Pedido> findByIdCliente(int id) {
+
+        return pedidoRepository.findByCliente(id);
+    }
 
     public Pedido insertPedido(Pedido obj) {
         return pedidoRepository.save(obj);

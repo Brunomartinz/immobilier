@@ -35,6 +35,11 @@ public class PedidoResource {
         Pedido obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+    @GetMapping(value = "/cliente/{id}")
+    public ResponseEntity<List<Pedido>> findByIdCliente(@PathVariable int id) {
+        List<Pedido> list = service.findByIdCliente(id);
+        return ResponseEntity.ok().body(list);
+    }
 
     @PostMapping
     public ResponseEntity<Pedido> insert(@RequestBody Pedido obj) {

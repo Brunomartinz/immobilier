@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css" />
+    <link rel="stylesheet" href="Tailwind.css">
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-screen-lg mx-auto px-4 pb-4 pt-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <!-- Primary Navbar items -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="backoffice.html" class="
+                  bg-transparent
+                  hover:bg-gray-800
+                  text-gray-800
+                  font-semibold
+                  hover:text-white
+                  py-2
+                  px-4
+                  hover:border-transparent
+                  rounded
+                " id="office-link">Listar Produtos</a>
+                    </div>
+
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="users.html" class="
+                  bg-transparent
+                  hover:bg-gray-800
+                  text-gray-800
+                  font-semibold
+                  hover:text-white
+                  py-2
+                  px-4
+                  hover:border-transparent
+                  rounded
+                " id="users-link">Listar Usuários</a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="backofficepedidos.html" class="
+                    bg-transparent
+                    hover:bg-gray-800
+                    text-gray-800
+                    font-semibold
+                    hover:text-white
+                    py-2
+                    px-4
+                    hover:border-transparent
+                    rounded
+                  " id="users-link">Listar Pedidos</a>
+                    </div>
+                </div>
+
+                <!-- Secondary Navbar items -->
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="#" class="
+                py-2
+                px-2
+                font-medium
+                text-black
+                rounded
+                hover:bg-red-500 hover:text-white
+                transition
+                duration-300
+              " onclick="deslogar()">
+                        <img class="w-8"
+                            src="https://img.icons8.com/external-sbts2018-outline-sbts2018/58/000000/external-logout-social-media-basic-1-sbts2018-outline-sbts2018.png" />
+                    </a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button class="outline-none mobile-menu-button">
+                        <svg class="w-6 h-6 text-gray-500 hover:text-red-500" x-show="!showMenu" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- mobile menu -->
+        <div class="hidden mobile-menu">
+            <ul class="">
+                <li class="">
+                    <a href="backoffice.html" class="
+                block
+                text-sm
+                px-2
+                py-4
+                text-black
+                bg-gray-100
+                font-semibold
+              ">Listar Produtos</a>
+                </li>
+                <li class="">
+                    <a href="users.html" class="
+                block
+                text-sm
+                px-2
+                py-4
+                text-black
+                bg-gray-100
+                font-semibold
+              ">Listar Usuários</a>
+                </li>
+            </ul>
+        </div>
+        <script>
+            function deslogar() {
+                localStorage.clear();
+                document.location.href = "http://localhost:8082/loginpage.html"
+            }
+        </script>
+        <script>
+            const btn = document.querySelector("button.mobile-menu-button");
+            const menu = document.querySelector(".mobile-menu");
+
+            btn.addEventListener("click", () => {
+                menu.classList.toggle("hidden");
+            });
+
+            function comprar(id) {
+                localStorage.setItem("productId", id);
+
+                window.location = "comprar.html?produtoId=" + id;
+            }
+
+            $(document).ready(function () {
+                if (window.location.href.indexOf("backoffice") > -1) {
+                    let office = document.getElementById("office-link");
+                    office.classList.add("bg-gray-800", "text-white");
+                    office.classList.remove("text-gray-800");
+                } else {
+                    let userpage = document.getElementById("user-link");
+                    console.log(userpage);
+                }
+            });
+        </script>
+    </nav>
+
+    <div class="Principal">
+        <table id="example" class="display" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Numero</th>
+                    <th>Valor Total</th>
+                    <th>Status</th>
+                    <th>Frete</th>
+                    <th>Forma de pagamento</th>
+                    <th>Alterar</th>
+                    <th>Visualizar</th>
+                </tr>
+            </thead>
+
+            <tbody id="teste">
+                <script>
+                    $(document).ready(function () {
+                        if (localStorage.getItem("grupo") == "cliente") {
+                            document.location.href = "http://localhost:8082/loginpage.html";
+                        }
+
+                        if (localStorage.getItem("grupo") == "estoquista") {
+                            $("#adduser").hide();
+                        }
+
+                        if (localStorage.getItem("token") == null) {
+                            document.location.href = "http://localhost:8082/loginpage.html";
+                        }
+                        var stats;
+                        $.ajax({
+                            type: "GET",
+                            url: "http://localhost:8082/pedido",
+                            mimeType: "json",
+                            success: function (data) {
+                                $.each(data.reverse(), function (i, data) {
+                                    var id = data.id;
+                                    var numero = data.numero;
+                                    var valorTotal = data.valorTotal;
+                                    var status = data.status;
+                                    var frete = data.frete;
+                                    var formaPagamento = data.formaPagamento;
+                                    var body = "<tr>";
+                                    body += "<td>" + data.id + "</td>";
+                                    body += "<td>" + data.numero + "</td>";
+                                    body += "<td>" + data.valorTotal + "</td>";
+                                    body += "<td>" + data.status + " </td>"
+                                    body += "<td>" + data.frete + "</td>";
+                                    body += "<td>" + data.formaPagamento + "</td>";
+                                    body += "<td><button onclick='editar(" + data.id + ")'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'><path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/><path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/></svg></button></td>";
+                                    body += "<td> <button onclick='visualizar(" + data.id + ")'> <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' class='bi bi-eye' viewBox='0 0 16 16'><path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/><path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/> </svg></button></td>";
+                                    body += stats;
+                                    body += "</tr>";
+                                    $("#example tbody").append(body);
+                                });
+                                /*DataTables instantiation.*/
+
+                                $("#example").DataTable({
+                                    "order": [[0, "desc"]],
+                                    language: {
+                                        sProcessing: "Procesando...",
+                                        sLengthMenu: "Mostrar _MENU_ registros",
+                                        sZeroRecords: "Não foram encontrados resultados",
+                                        sEmptyTable: "tabela vazia",
+                                        sInfo:
+                                            "Mostrando registros de _START_ a _END_ de um total de _TOTAL_ registros",
+                                        sInfoEmpty:
+                                            "Mostrando registros de 0 al 0 de un total de 0 registros",
+                                        sInfoFiltered:
+                                            "(filtrado de um total de _MAX_ registros)",
+                                        sInfoPostFix: "",
+                                        sSearch: "Buscar:",
+                                        sUrl: "",
+                                        sInfoThousands: ",",
+                                        sLoadingRecords: "Carregando...",
+                                        oPaginate: {
+                                            sFirst: "Primero",
+                                            sLast: "Ultimo",
+                                            sNext: "Próximo",
+                                            sPrevious: "Anterior",
+                                        },
+                                        oAria: {
+                                            sSortAscending:
+                                                ": Activar para ordenar la columna de manera ascendente",
+                                            sSortDescending:
+                                                ": Activar para ordenar la columna de manera descendente",
+                                        },
+                                    },
+
+                                });
+
+                            },
+                            error: function () {
+                                alert("Fail!");
+                            },
+                        });
+                    });
+
+                    //passar url dinamica
+
+                    function teste(id) {
+                        console.log("oiii");
+
+                        localStorage.setItem("productId", id);
+
+                        window.location = "visualizeProduct.html?produtoId=" + id;
+                    }
+
+                    function editar(id) {
+
+                        var modal = document.getElementById("myModal");
+                        var span = document.getElementsByClassName("close")[0];
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                        }
+
+                        console.log("oiii");
+                        console.log(id)
+                        modal.style.display = "block";
+
+
+                        $.ajax({
+                            type: "GET",
+                            url: "http://localhost:8082/pedido/" + id,
+                            mimeType: "json",
+                            success: function (data) {
+                                console.log(data)
+                                var id = data.id;
+                                var numero = data.numero;
+                                var valorTotal = data.valorTotal;
+                                var status = data.status;
+                                var datas = data.data;
+                                var frete = data.frete;
+                                var formaPagamento = data.formaPagamento;
+                                var idcliente = data.idcliente
+                                var idEndereco = data.idEndereco
+
+                                $(document).ready(() => {
+                                    $("#Status").val(status);
+                                });
+                                $("#ids").val(id)
+                                $("#numero").val(numero)
+                                $("#valorTotal").val(valorTotal)
+                                $("#data").val(datas)
+                                $("#frete").val(frete)
+                                $("#formaPagamento").val(formaPagamento)
+                                $("#idcliente").val(idcliente)
+                                $("#idEndereco").val(idEndereco)
+
+                                /*DataTables instantiation.*/
+
+                            },
+                            error: function () {
+                                alert("Fail!");
+                            },
+                        });
+
+                    }
+                </script>
+
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Id</th>
+                    <th>Numero</th>
+                    <th>Valor Total</th>
+                    <th>Status</th>
+                    <th>Frete</th>
+                    <th>Forma de pagamento</th>
+                    <th>Alterar</th>
+                    <th>Visualizar</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form onsubmit="return false" id="formcadend">
+                <input type="text" placeholder="ids" disabled id="ids" />
+                <input type="text" placeholder="numero" disabled id="numero" />
+                <input type="text" placeholder="valorTotal" id="valorTotal" disabled />
+                <select id="Status">
+                    <option value="aguardando pagamento" selected>aguardando pagamento</option>
+                    <option value="pagamento rejeitado">pagamento rejeitado</option>
+                    <option value="pagamento com sucesso">pagamento com sucesso</option>
+                    <option value="aguardando retirada">aguardando retirada</option>
+                    <option value="em transito">em transito</option>
+                    <option value="entregue">entregue</option>
+                </select>
+                <input type="text" placeholder="data" id="data" disabled />
+                <input type="text" placeholder="frete" id="frete" disabled />
+                <input type="text" placeholder="formaPagamento" id="formaPagamento" disabled />
+                <input type="text" placeholder="idcliente" id="idcliente" />
+                <input type="text" placeholder="idEndereco" id="idEndereco"/>
+                <button id="cad">Atualizar</button>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+<script>
+    $(document).ready(function () {
+
+
+        $('#selectss').change(function () {
+            alert($(this).val());
+        });
+    });
+</script>
+<script>
+    function visualizar(id,) {
+        localStorage.setItem('idPedido', id)
+        console.log(id)
+        window.location = "http://localhost:8082/detalhesPedido.html"
+    }
+    $('#formcadend').submit(function (e) {
+        e.preventDefault();
+        $("#cad").attr("disabled", "disabled");
+        var id = $('#ids').val();
+        var numero = $('#numero').val();
+        var valorTotal = $('#valorTotal').val();
+        var status = $('#Status').val();
+        var data = $('#data').val();
+        var frete = $('#frete').val();
+        var formaPagamento = $('#formaPagamento').val()
+        var idcliente = $("#idcliente").val()
+        var idEndereco = $("#idEndereco").val()
+
+        var bodyfat = {
+            id: id,
+            numero: numero,
+            valorTotal: valorTotal,
+            status: status,
+            data: data,
+            frete: frete,
+            formaPagamento: formaPagamento,
+            idcliente: idcliente,
+            idEndereco: idEndereco
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost:8082/pedido",
+            data: JSON.stringify(bodyfat),
+            success: function (data) {
+                location.reload();
+            },
+            contentType: "application/json",
+            dataType: 'json'
+        })
+
+    })
+</script>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="functions.js"></script>
+<script type="text/javascript" src="DataTables/datatables.min.js"></script>
+
+</html>

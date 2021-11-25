@@ -29,18 +29,24 @@ public class Pedido {
     
     private String formaPagamento;
     
+    private int idcliente;
+    
+    private int idEndereco;
+    
     public Pedido() {}
 
-    public Pedido(String numero, String valorTotal, String status, LocalDate data, String frete, String formaPagamento) {
+    public Pedido(String numero, String valorTotal, String status, LocalDate data, String frete, String formaPagamento, int idcliente,int idEndreco ) {
         this.numero = numero;
         this.valorTotal = valorTotal;
         this.status = status;
         this.data = data;
         this.frete = frete;
         this.formaPagamento = formaPagamento;
+        this.idcliente = idcliente;
+        this.idEndereco = idEndreco;
     }
 
-    public Pedido(long id, String numero, String valorTotal, String status, LocalDate data, String frete, String formaPagamento) {
+    public Pedido(long id, String numero, String valorTotal, String status, LocalDate data, String frete, String formaPagamento,int idcliente,int idEndreco) {
         this.id = id;
         this.numero = numero;
         this.valorTotal = valorTotal;
@@ -48,6 +54,8 @@ public class Pedido {
         this.data = data;
         this.frete = frete;
         this.formaPagamento = formaPagamento;
+        this.idcliente = idcliente;
+        this.idEndereco = idEndreco;
     }
     
     public long getId() {
@@ -105,4 +113,21 @@ public class Pedido {
     public void setFormaPagamento(String formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    public int getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
+    }
+    
 }
