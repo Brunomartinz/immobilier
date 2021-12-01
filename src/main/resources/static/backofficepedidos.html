@@ -175,7 +175,7 @@
                             $("#adduser").hide();
                         }
 
-                        if (localStorage.getItem("token") == null) {
+                        if (localStorage.getItem("grupo") == null) {
                             document.location.href = "http://localhost:8082/loginpage.html";
                         }
                         var stats;
@@ -343,7 +343,7 @@
                 <input type="text" placeholder="frete" id="frete" disabled />
                 <input type="text" placeholder="formaPagamento" id="formaPagamento" disabled />
                 <input type="text" placeholder="idcliente" id="idcliente" />
-                <input type="text" placeholder="idEndereco" id="idEndereco"/>
+                <input type="text" placeholder="idEndereco" id="idEndereco" />
                 <button id="cad">Atualizar</button>
             </form>
 
